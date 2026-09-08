@@ -1,0 +1,6 @@
+{
+  "enabled": false,
+  "ga_id": "",
+  "notes": "Чтобы включить аналитику: укажите enabled=true и впишите GA4 id (например G-XXXXXXX). Скрипт gtag подключится автоматически, события CTA/направлений/кейсов/формы будут уходить в dataLayer.",
+  "events": ["cta_click", "direction_click", "case_open", "form_submit"]
+}

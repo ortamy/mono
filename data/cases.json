@@ -1,6 +1,78 @@
 [
-  { "slug": "alba", "client": "Alba Skin", "niche": "Уход за кожей", "year": 2026, "concept": true, "cover": "/public/cases/alba/s1.webp", "slides": ["/public/cases/alba/s1.webp", "/public/cases/alba/s2.webp", "/public/cases/alba/s3.webp", "/public/cases/alba/s4.webp", "/public/cases/alba/s5.webp", "/public/cases/alba/s6.webp", "/public/cases/alba/s7.webp", "/public/cases/alba/s8.webp"], "task": "Объяснить премиальность состава за 3 секунды скролла", "solution_notes": [ { "slide": 1, "note": "Хук: текстура крема макро + цифра эффекта" }, { "slide":  ь3, "note": "Доказательство: состав и сертификация" }, { "slide":  ь6, "note": "Сценарии: утро/вечер, рутина ухода" }, { "slide":  ь8, "note": "CTA: объём и цена за день применения" } ], "metrics": null, "test": null,"review": null },
-  { "slug": "nord", "client": "Nord Coffee", "niche": "Кофе и продукты", "year": 나타2026,”concept”: true,”cover”: “/public/cases/nord/s1.webp”, “slides”: [“/public/cases/nord/s1.webp”, “/public/cases/nord/s2.webp”, “/public/cases/nord/s3.webp”, “/public/cases/nord/s4.webp”, “/public/cases/nord/s5.webp”, “/public/cases/nord/s6.webp”, “/public/cases/nord/s7.webp”, “/public/cases/nord/s8.webp”], “task”: “Отстроиться от ценового демпинга в категории”, “solution_notes”: [ { “slide”:  ьь1,”note”: “Хук: сорт и обжарка вместо цены” }, { “slide”:  ьь2,”note”: “Боль: кофе без вкуса из масс-маркета” }, { “slide”:  ьь5,”note”: “Характеристики: дата обжарки, высота произрастания” }, { “slide”:  ьь8,”note”: “CTA: свежесть с гарантией даты” } ], “metrics”: null,”test”: null,”review”: null },
-  { “slug”: “forma”, “client”: “Forma Home”, “niche”: “Товары для дома”, “year”: present2026,”concept”: true,”cover”: “/public/cases/forma/s1.webp”, “slides”: [“/public/cases/forma/s1.webp”, “/public/cases/forma/s2.webp”, “/public/cases/forma/s3.webp”, “/public/cases/forma/s4.webp”, “/public/cases/forma/s5.webp”, “/public/cases/forma/s6.webp”, “/public/cases/forma/s7.webp”, “/public/cases/forma/s8.webp”], “task”: “Показать комплект и размеры без перегруза инфографикой”, “solution_notes”: [ { “slide”: present1,”note”: “Хук: порядок на кухне за 1 секунду” }, { “slide”: present4,”note”: “Материалы и безопасность” }, { “slide”: present5,”note”: “Размеры и вместимость схемой” }, { “slide”: present7,”note”: “Сравнение с обычными органайзерами” } ], “metrics”: null,”test”: null,”review”: null },
-  { “slug”: “ritual”, “client”: “Ritual”, “niche”: “Витамины и wellness”, “year”: покаж2026,”concept”: true,”cover”: “/public/cases/ritual/s1.webp”, “slides”: [“/public/cases/ritual/s1.webp”, “/public/cases/ritual/s2.webp”, “/public/cases/ritual/s3.webp”, “/public/cases/ritual/s4.webp”, “/public/cases/ritual/s5.webp”, “/public/cases/ritual/s6.webp”, “/public/cases/ritual/s7.webp”, “/public/cases/ritual/s8.webp”], “task”: “Продать эффект курса, а не банку”, “solution_notes”: [ { “slide”: покаж1,”note”: “Хук: результат курса через 30 дней” }, { “slide”: покаж3,”note”: “Преимущества: дозировки без воды” }, { “slide”: покаж6,”note”: “Сценарии: приём по расписанию” }, { “slide”: покаж8,”note”: “CTA: цена курса против цены дня” } ], “metrics”: null,”test”: null,”review”: null }
+  {
+    "slug": "alba",
+    "direction": "ecommerce",
+    "client": "Alba Skin",
+    "niche": "Уход за кожей",
+    "year": 2026,
+    "concept": true,
+    "task": "Объяснить премиальность состава за 3 секунды скролла",
+    "summary": "Концепция карточки: от хука с текстурой крема к доказательству состава, сценариям ухода и CTA с ценой за день применения.",
+    "cover": "",
+    "metrics": null,
+    "review": null,
+    "solutions": [
+      "Хук: текстура крема макро + цифра эффекта",
+      "Доказательство: состав и сертификация",
+      "Сценарии: утро/вечер, рутина ухода",
+      "CTA: объём и цена за день применения"
+    ]
+  },
+  {
+    "slug": "nord",
+    "direction": "ecommerce",
+    "client": "Nord Coffee",
+    "niche": "Кофе и продукты",
+    "year": 2026,
+    "concept": true,
+    "task": "Отстроиться от ценового демпинга в категории",
+    "summary": "Концепция карточки: сорт и обжарка вместо цены, боль кофе без вкуса, характеристики свежести и CTA с гарантией даты.",
+    "cover": "",
+    "metrics": null,
+    "review": null,
+    "solutions": [
+      "Хук: сорт и обжарка вместо цены",
+      "Боль: кофе без вкуса из масс-маркета",
+      "Характеристики: дата обжарки, высота произрастания",
+      "CTA: свежесть с гарантией даты"
+    ]
+  },
+  {
+    "slug": "forma",
+    "direction": "ecommerce",
+    "client": "Forma Home",
+    "niche": "Товары для дома",
+    "year": 2026,
+    "concept": true,
+    "task": "Показать комплект и размеры без перегруза инфографикой",
+    "summary": "Концепция карточки: порядок за секунду, материалы и безопасность, схема размеров и сравнение с обычными органайзерами.",
+    "cover": "",
+    "metrics": null,
+    "review": null,
+    "solutions": [
+      "Хук: порядок на кухне за 1 секунду",
+      "Материалы и безопасность",
+      "Размеры и вместимость схемой",
+      "Сравнение с обычными органайзерами"
+    ]
+  },
+  {
+    "slug": "ritual",
+    "direction": "ecommerce",
+    "client": "Ritual",
+    "niche": "Витамины и wellness",
+    "year": 2026,
+    "concept": true,
+    "task": "Продать эффект курса, а не банку",
+    "summary": "Концепция карточки: результат через 30 дней, дозировки без воды, сценарии приёма и CTA с ценой курса против цены дня.",
+    "cover": "",
+    "metrics": null,
+    "review": null,
+    "solutions": [
+      "Хук: результат курса через 30 дней",
+      "Преимущества: дозировки без воды",
+      "Сценарии: приём по расписанию",
+      "CTA: цена курса против цены дня"
+    ]
+  }
 ]

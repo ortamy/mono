@@ -1,0 +1,7 @@
+{
+  "provider": "telegram",
+  "telegram_chat_id": "",
+  "email_to": "",
+  "form_title": "Заявка на аудит",
+  "notes": "provider: telegram | web3forms | off. Telegram: создайте бота у @BotFather и передайте токен в сeкрет NEXT_PUBLIC_TELEGRAM_BOT_TOKEN (Settings → Secrets → Actions), в telegram_chat_id укажите ваш числовой chat id. Web3Forms: заведите ключ на web3forms.com и передайте его в секрет NEXT_PUBLIC_WEB3FORMS_KEY."
+}
