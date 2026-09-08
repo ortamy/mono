@@ -19,7 +19,7 @@ export default function SiteFooter() {
         </nav>
       </div>
       <div className="site-footer-bottom">
-        <span>© 2024 — mono.</span>
+        <span>© mono.</span>
         <a href="https://t.me/ortamy" target="_blank" rel="noreferrer">Telegram ↗</a>
       </div>
     </footer>

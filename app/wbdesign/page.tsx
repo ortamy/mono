@@ -33,7 +33,7 @@ export default function Home() {
     <section className="section about"><div className="about-shape reveal">W<span>.</span></div><div className="about-copy reveal"><p className="eyebrow">/ Обо мне</p><h2>Дизайн — это<br /><em>не украшение.</em></h2><p>Я помогаю брендам выглядеть уверенно и продавать больше. Соединяю насмотренность, маркетинг и внимание к деталям, чтобы каждая карточка решала свою задачу.</p><div className="tags"><span>Figma</span><span>Маркетплейсы</span><span>Инфографика</span><span>Нейросети</span></div></div></section>
 
     <section id="contacts" className="contact section-line"><div className="contact-main reveal"><p className="eyebrow">/ Начнём?</p><h2>Давайте сделаем<br /><em>ваш продукт сильнее.</em></h2><p>Расскажите о задаче — отвечу в течение рабочего дня.</p><a className="button button-light" href="#contacts">Обсудить проект <Arrow /></a></div><div className="contact-links reveal"><a href="https://t.me/ortamy" target="_blank">Telegram <Arrow /></a></div></section>
-    <footer><a className="logo" href="#top">mono<span>.</span></a><span>© 2024 — дизайн карточек WB / Ozon</span><a href="#top">Наверх ↑</a></footer>
+    <footer><a className="logo" href="#top">mono<span>.</span></a><span>© дизайн карточек WB / Ozon</span><a href="#top">Наверх ↑</a></footer>
   </main>;
 }
 
