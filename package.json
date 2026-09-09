@@ -1,12 +1,13 @@
 {
-  "name": "wbdesign-portfolio",
+  "name": "mono-site",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "set ESLINT_USE_FLAT_CONFIG=true&& eslint .",
+    "typecheck": "tsc --noEmit",
     "wbgen": "tsx wbgen/src/cli.ts",
     "wbgen:render": "tsx wbgen/src/cli.ts render --all",
     "wbgen:typecheck": "tsc -p wbgen/tsconfig.json"
@@ -18,7 +19,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^13.2.0",
     "lucide-react": "^1.42.0",
-    "next": "14.2.5",
+    "next": "^16.3.4",
     "opentype.js": "^2.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -30,7 +31,9 @@
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.19",
-    "postcss": "8.4.40",
+    "eslint": "8.57.1",
+    "eslint-config-next": "^16.3.4",
+    "postcss": "8.5.28",
     "tailwindcss": "3.4.7",
     "tsx": "^4.23.13",
     "typescript": "5.5.4"

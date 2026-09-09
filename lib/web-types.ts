@@ -75,6 +75,8 @@ export interface CalculatorConfig {
   fields: CalculatorField[];
   output_template: string;
   disclaimer: string;
+  /** Цена пакета «Рост», на котором считается окупаемость. */
+  growth_price: number;
 }
 
 export interface ProcessStep {
@@ -82,4 +84,29 @@ export interface ProcessStep {
   title: string;
   term: string;
   artifact: string;
+}
+
+/* ===== Контент страницы /mono (карточки маркетплейсов) ===== */
+
+export interface MonoService {
+  num: string;
+  title: string;
+  desc: string;
+}
+
+export interface MonoPackage {
+  id: string;
+  name: string;
+  price: string;
+  desc: string;
+  features: string[];
+  cta: string;
+  featured: boolean;
+}
+
+export interface MonoPricingContent {
+  positioning: Positioning;
+  anchor: string;
+  packages: MonoPackage[];
+  note: string;
 }

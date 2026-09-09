@@ -8,7 +8,7 @@ const DIRECTIONS = [
     tag: 'E-commerce',
     title: 'Карточки WB / Ozon',
     desc: 'Обложки, воронки и визуал, который повышает CTR и конверсию.',
-    href: '/wbdesign',
+    href: '/mono',
   },
   {
     num: '02',
@@ -38,7 +38,7 @@ export default function Home() {
           <h1>Дизайн,<br /><span>который продаёт</span></h1>
           <p className="hero-subtitle">Карточки, сайты, брендинг.</p>
           <div className="hero-actions wide">
-            <a className="button button-light" href="/wbdesign">Смотреть карточки <span className="arrow">↗</span></a>
+            <a className="button button-light" href="/mono">Смотреть карточки <span className="arrow">↗</span></a>
             <a className="button button-ghost" href="/contact">Обсудить проект <span className="arrow">↗</span></a>
           </div>
         </div>

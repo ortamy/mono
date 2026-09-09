@@ -1,13 +1,5 @@
 import Link from 'next/link';
-
-const LINKS = [
-  { label: 'Главная', href: '/' },
-  { label: 'E-commerce', href: '/wbdesign' },
-  { label: 'Web', href: '/web' },
-  { label: 'Brand', href: '/brand' },
-  { label: 'Обо мне', href: '/about' },
-  { label: 'Контакты', href: '/contact' },
-];
+import { NAV } from '@/lib/nav';
 
 export default function SiteFooter() {
   return (
@@ -15,11 +7,12 @@ export default function SiteFooter() {
       <div className="site-footer-top">
         <Link href="/" className="site-logo">mono<span>.</span></Link>
         <nav aria-label="Навигация в футере">
-          {LINKS.map((l) => <Link key={l.href} href={l.href}>{l.label}</Link>)}
+          {NAV.map((l) => <Link key={l.href} href={l.href}>{l.label}</Link>)}
+          <Link href="/privacy">Политика конфиденциальности</Link>
         </nav>
       </div>
       <div className="site-footer-bottom">
-        <span>© mono.</span>
+        <span>© mono. Все права защищены.</span>
         <a href="https://t.me/ortamy" target="_blank" rel="noreferrer">Telegram ↗</a>
       </div>
     </footer>

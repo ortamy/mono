@@ -1,7 +1,42 @@
 {
   "provider": "telegram",
   "telegram_chat_id": "",
-  "email_to": "",
-  "form_title": "Заявка на аудит",
-  "notes": "provider: telegram | web3forms | off. Telegram: создайте бота у @BotFather и передайте токен в сeкрет NEXT_PUBLIC_TELEGRAM_BOT_TOKEN (Settings → Secrets → Actions), в telegram_chat_id укажите ваш числовой chat id. Web3Forms: заведите ключ на web3forms.com и передайте его в секрет NEXT_PUBLIC_WEB3FORMS_KEY."
+  "telegram_handle": "ortamy",
+  "form_title": "Заявка с сайта mono — Web",
+  "direction_note": "Направление: Web · Предоплата 50%",
+  "submit_label": "Отправить заявку",
+  "privacy_label": "Согласен на обработку персональных данных",
+  "privacy_href": "/privacy",
+  "qualification": {
+    "threshold": "<200k",
+    "message": "Ваш оборот пока ниже порога наших основных пакетов. Предлагаю пакет «Быстрый старт» от 25 000 ₽ или партнёрский вариант. Напишите, обсудим.",
+    "back_label": "У меня другой оборот"
+  },
+  "messages": {
+    "sending": "Отправляем...",
+    "success_title": "Заявка отправлена",
+    "success_text": "Свяжусь с вами в течение рабочего дня.",
+    "error_title": "Не получилось отправить форму",
+    "error_text": "Похоже, канал отправки не настроен. Заявка уже собрана — нажмите кнопку, и она откроется готовой в Telegram.",
+    "fallback_cta": "Отправить в Telegram"
+  },
+  "fields": [
+    { "id": "name", "label": "Имя", "type": "text", "required": true, "autocomplete": "name" },
+    { "id": "telegram", "label": "Telegram", "type": "text", "required": true, "placeholder": "@username", "autocomplete": "off" },
+    {
+      "id": "turnover",
+      "label": "Оборот бизнеса",
+      "type": "select",
+      "required": true,
+      "options": [
+        { "value": "<200k", "label": "< 200k ₽/мес" },
+        { "value": "200-500k", "label": "200–500k ₽/мес" },
+        { "value": "500k-3M", "label": "500k–3M ₽/мес" },
+        { "value": "3M+", "label": "3M+ ₽/мес" }
+      ]
+    },
+    { "id": "goal", "label": "Цель по выручке на год", "type": "text", "placeholder": "Например, 5M ₽" },
+    { "id": "site", "label": "Ссылка на текущий сайт", "type": "url", "placeholder": "https://..." }
+  ],
+  "notes": "Отправка: provider=telegram требует секрет NEXT_PUBLIC_TELEGRAM_BOT_TOKEN (бот из @BotFather) и числовой telegram_chat_id. provider=web3forms требует NEXT_PUBLIC_WEB3FORMS_KEY. Без настроенного канала форма показывает сборщик данных с кнопкой «Открыть в Telegram» — лид не теряется."
 }

@@ -5,15 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-
-const NAV = [
-  { label: 'Главная', href: '/', end: true },
-  { label: 'E-commerce', href: '/wbdesign' },
-  { label: 'Web', href: '/web' },
-  { label: 'Brand', href: '/brand' },
-  { label: 'Обо мне', href: '/about' },
-  { label: 'Контакты', href: '/contact' },
-];
+import { NAV } from '@/lib/nav';
 
 export default function SiteHeader() {
   const pathname = usePathname();

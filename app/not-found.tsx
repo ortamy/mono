@@ -1,0 +1,2 @@
+import Link from 'next/link'; import SiteHeader from '@/components/site-header'; import SiteFooter from '@/components/site-footer';
+export default function NotFound() { return <main id="main-content"><SiteHeader /><section className="not-found"><p className="eyebrow">/ 404</p><h1>Страница<br /><span>не найдена.</span></h1><p className="page-sub">Возможно, ссылка устарела или адрес введён с ошибкой.</p><Link className="button button-light" href="/">На главную <span className="arrow">↗</span></Link></section><SiteFooter /></main>; }

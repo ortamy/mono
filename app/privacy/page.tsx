@@ -1,0 +1,4 @@
+import type { Metadata } from 'next';
+import SiteHeader from '@/components/site-header'; import SiteFooter from '@/components/site-footer'; import { loadDataJSON } from '@/lib/content'; import { buildMetadata } from '@/lib/meta'; import type { PrivacyConfig } from '@/lib/data-types';
+export const metadata: Metadata = buildMetadata({ title: 'Политика конфиденциальности', description: 'Политика обработки персональных данных mono.', path: '/privacy' });
+export default function PrivacyPage() { const policy = loadDataJSON<PrivacyConfig>('policy.json'); return <main id="main-content"><SiteHeader /><article className="legal-page"><p className="eyebrow">/ LEGAL</p><h1>{policy.title}</h1><p className="page-sub">{policy.intro}</p><p className="legal-updated">Обновлено: {policy.updated}</p>{policy.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2><p>{section.body}</p></section>)}</article><SiteFooter /></main>; }

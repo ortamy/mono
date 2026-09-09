@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import Reveal from '@/components/reveal';
 import type { FAQItem } from '@/lib/web-types';
+import { track } from '@/lib/track';
 
-export default function FAQ({ items }: { items: FAQItem[] }) {
+export default function FAQ({ items, analyticsEnabled = false }: { items: FAQItem[]; analyticsEnabled?: boolean }) {
   const [open, setOpen] = useState<number>(0);
 
   return (
@@ -24,7 +25,7 @@ export default function FAQ({ items }: { items: FAQItem[] }) {
                 aria-expanded={open === i}
                 aria-controls={`faq-a-${i}`}
                 id={`faq-q-${i}`}
-                onClick={() => setOpen(open === i ? -1 : i)}
+                onClick={() => { setOpen(open === i ? -1 : i); if (open !== i) track(analyticsEnabled, 'faq_open', { question: item.q }); }}
               >
                 <span>{item.q}</span>
                 <span className="faq-icon" aria-hidden="true">{open === i ? '−' : '+'}</span>
