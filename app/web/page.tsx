@@ -1,50 +1,57 @@
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
-import Reveal from '@/components/reveal';
 import PageHero from '@/components/page-hero';
-
-const SERVICES = [
-  { num: '01', title: 'Лендинги', desc: 'Продающие одностраничники, собранные под конкретную задачу и аудиторию.' },
-  { num: '02', title: 'Корпоративные сайты', desc: 'Многостраничные сайты с понятной структурой и сильной подачей продукта.' },
-  { num: '03', title: 'Интернет-магазины', desc: 'Витрины и каталоги, где легко найти, сравнить и купить.' },
-  { num: '04', title: 'Интерфейсы', desc: 'Прототипы и UI для сервисов, приложений и внутренних продуктов.' },
-];
+import Qualification from '@/components/web/qualification';
+import Packages from '@/components/web/packages';
+import Calculator from '@/components/web/calculator';
+import FAQ from '@/components/web/faq';
+import Process from '@/components/web/process';
+import Guarantees from '@/components/web/guarantees';
+import Cases from '@/components/web/cases';
+import WebForm from '@/components/web/web-form';
+import { loadJSON } from '@/lib/content';
+import type {
+  PricingContent,
+  FAQItem,
+  Guarantee,
+  Case,
+  CalculatorConfig,
+  ProcessStep,
+} from '@/lib/web-types';
 
 export default function WebPage() {
+  const pricing = loadJSON<PricingContent>('web/web_pricing.json');
+  const faq = loadJSON<FAQItem[]>('web/web_faq.json');
+  const guarantees = loadJSON<Guarantee[]>('web/web_guarantees.json');
+  const cases = loadJSON<Case[]>('web/web_cases.json');
+  const calculator = loadJSON<CalculatorConfig>('web/web_calculator.json');
+  const process = loadJSON<ProcessStep[]>('web/web_process.json');
+
   return (
     <main>
       <SiteHeader />
       <PageHero
-        eyebrow="/ Web"
-        title={<>Сайты,<br /><span>которые работают</span></>}
-        sub="Лендинги, витрины и интерфейсы — дизайн, который помогает бизнесу расти."
-        cta={{ href: '/contact', label: 'Обсудить проект', primary: true }}
+        eyebrow={pricing.positioning.eyebrow}
+        title={
+          <>
+            {pricing.positioning.h1[0]}<br />
+            <span>{pricing.positioning.h1[1]}</span>
+          </>
+        }
+        sub={pricing.positioning.sub}
+        anchor={pricing.anchor}
+        cta={{ href: '#calculator', label: 'Подобрать пакет', primary: true }}
+        secondaryCta={{ href: '#cases', label: 'Смотреть кейсы' }}
       />
 
-      <section className="page-cards">
-        <Reveal>
-          <div className="section-heading">
-            <p className="eyebrow">/ Что я делаю</p>
-            <h2>Форма,<br /><em>которая решает задачи.</em></h2>
-          </div>
-        </Reveal>
-        <div className="card-grid">
-          {SERVICES.map((s) => (
-            <Reveal key={s.num}>
-              <div className="mini-card">
-                <span className="card-number">{s.num}</span>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="cta-strip">
-        <Reveal><h2>Нужен сайт?</h2></Reveal>
-        <Reveal><a className="button button-light" href="/contact">Обсудить проект <span className="arrow">↗</span></a></Reveal>
-      </section>
+      <Qualification data={pricing.qualification} />
+      <Packages packages={pricing.packages} priceDrivers={pricing.price_drivers} />
+      <Calculator config={calculator} />
+      <Process steps={process} />
+      <Guarantees items={guarantees} />
+      <FAQ items={faq} />
+      <Cases cases={cases} />
+      <WebForm />
 
       <SiteFooter />
     </main>
