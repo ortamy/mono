@@ -1,0 +1,121 @@
+{
+  "product": "ring-emerald",
+  "niche": "jewelry",
+  "pass": true,
+  "slides": [
+    {
+      "slide": "ring-emerald-square-cover",
+      "slideType": "cover",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-cover",
+      "slideType": "cover",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-square-pain",
+      "slideType": "pain",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-pain",
+      "slideType": "pain",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-square-benefits",
+      "slideType": "benefits",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-benefits",
+      "slideType": "benefits",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-square-quality",
+      "slideType": "quality",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-quality",
+      "slideType": "quality",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-square-specs",
+      "slideType": "specs",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-specs",
+      "slideType": "specs",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-square-scenario",
+      "slideType": "scenario",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-scenario",
+      "slideType": "scenario",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-square-proof",
+      "slideType": "proof",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-proof",
+      "slideType": "proof",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-square-cta",
+      "slideType": "cta",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ring-emerald-vertical-cta",
+      "slideType": "cta",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    }
+  ],
+  "contentIssues": [],
+  "warnings": []
+}

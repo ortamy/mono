@@ -164,8 +164,8 @@ function specsTemplate(ctx: Ctx): void {
 function scenarioTemplate(ctx: Ctx): void {
   const M = m(ctx);
   const cw = ctx.W - M * 2;
-  // фото во весь слайд, подпись — на чистой полосе фона снизу
-  const strip = ctx.tk.sub * 2.2 + ctx.tk.gapLg;
+  // фото во весь слайд, подпись — на чистой полосе фона снизу (с учётом полей)
+  const strip = ctx.tk.margin + ctx.tk.label * 2.2 + ctx.tk.sub * 2.0;
   photoFrame(ctx, { x: 0, y: 0, w: ctx.W, h: ctx.H - strip }, 'scenario', { radius: 0 });
   const label = slideLabel(ctx, 'labelScenario');
   const labelY = ctx.H - strip + ctx.tk.gapSm + ctx.tk.label;

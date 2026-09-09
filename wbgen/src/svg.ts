@@ -2,6 +2,7 @@
 // (текстовые боксы, фото-зоны, смысловые единицы) для авто-QA после рендера.
 
 import { measureText, type FontStyle } from './fonts';
+import type { SlideType } from './types';
 
 export type TextRole =
   | 'heading'
@@ -68,7 +69,7 @@ export class SlideCanvas {
 
   constructor(
     readonly slideId: string,
-    readonly slideType: string,
+    readonly slideType: SlideType,
     readonly W: number,
     readonly H: number,
   ) {}

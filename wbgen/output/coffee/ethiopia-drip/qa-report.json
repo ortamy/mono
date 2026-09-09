@@ -1,0 +1,121 @@
+{
+  "product": "ethiopia-drip",
+  "niche": "coffee",
+  "pass": true,
+  "slides": [
+    {
+      "slide": "ethiopia-drip-square-cover",
+      "slideType": "cover",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-cover",
+      "slideType": "cover",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-square-pain",
+      "slideType": "pain",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-pain",
+      "slideType": "pain",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-square-benefits",
+      "slideType": "benefits",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-benefits",
+      "slideType": "benefits",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-square-quality",
+      "slideType": "quality",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-quality",
+      "slideType": "quality",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-square-specs",
+      "slideType": "specs",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-specs",
+      "slideType": "specs",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-square-scenario",
+      "slideType": "scenario",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-scenario",
+      "slideType": "scenario",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-square-proof",
+      "slideType": "proof",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-proof",
+      "slideType": "proof",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-square-cta",
+      "slideType": "cta",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "ethiopia-drip-vertical-cta",
+      "slideType": "cta",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    }
+  ],
+  "contentIssues": [],
+  "warnings": []
+}

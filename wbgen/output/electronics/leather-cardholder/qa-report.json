@@ -1,0 +1,121 @@
+{
+  "product": "leather-cardholder",
+  "niche": "electronics",
+  "pass": true,
+  "slides": [
+    {
+      "slide": "leather-cardholder-square-cover",
+      "slideType": "cover",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-cover",
+      "slideType": "cover",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-square-pain",
+      "slideType": "pain",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-pain",
+      "slideType": "pain",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-square-benefits",
+      "slideType": "benefits",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-benefits",
+      "slideType": "benefits",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-square-quality",
+      "slideType": "quality",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-quality",
+      "slideType": "quality",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-square-specs",
+      "slideType": "specs",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-specs",
+      "slideType": "specs",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-square-scenario",
+      "slideType": "scenario",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-scenario",
+      "slideType": "scenario",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-square-proof",
+      "slideType": "proof",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-proof",
+      "slideType": "proof",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-square-cta",
+      "slideType": "cta",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "leather-cardholder-vertical-cta",
+      "slideType": "cta",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    }
+  ],
+  "contentIssues": [],
+  "warnings": []
+}

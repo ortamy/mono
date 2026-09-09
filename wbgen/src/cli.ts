@@ -10,6 +10,7 @@ import path from 'node:path';
 import { loadNiches, loadProducts } from './configs';
 import { renderSlide } from './render';
 import { contactSheetPng, contactSheetSvg } from './contact-sheet';
+import { qaProduct, type QaProductReport } from './qa';
 import { FORMATS, SLIDE_ORDER, type FormatId, type ProductContent, type NicheConfig } from './types';
 import type { SlideCanvas } from './svg';
 
@@ -37,9 +38,13 @@ export interface RenderResult {
   outDir: string;
   canvases: Record<FormatId, SlideCanvas[]>;
   files: string[];
+  qa: QaProductReport;
+  /** полный комплект собран (контактный лист записан) */
+  complete: boolean;
 }
 
-/** Рендерит комплект одного товара: 8 слайдов × 2 пропорции + контактный лист. */
+/** Рендерит комплект одного товара: 8 слайдов × 2 пропорции + QA + контактный лист.
+ * При провале QA: отчёт записан, контактный лист и превью не собираются (остановка комплекта). */
 export function renderProduct(
   product: ProductContent,
   niches: Map<string, NicheConfig>,
@@ -63,10 +68,17 @@ export function renderProduct(
     }
   }
 
-  const sheet = contactSheetSvg(product.title, niche.title, canvases);
-  fs.writeFileSync(path.join(outDir, 'contact-sheet.png'), contactSheetPng(sheet));
+  // авто-QA: провал -> отчёт и остановка комплекта
+  const qa = qaProduct(product, niche, canvases);
+  fs.writeFileSync(path.join(outDir, 'qa-report.json'), JSON.stringify(qa, null, 2));
+  let complete = false;
+  if (qa.pass) {
+    const sheet = contactSheetSvg(product.title, niche.title, canvases);
+    fs.writeFileSync(path.join(outDir, 'contact-sheet.png'), contactSheetPng(sheet));
+    complete = true;
+  }
 
-  return { product, niche, outDir, canvases, files };
+  return { product, niche, outDir, canvases, files, qa, complete };
 }
 
 function list(): void {
@@ -97,14 +109,27 @@ function render(args: Args): number {
       return 1;
     }
   }
+  let failed = false;
   for (const t of targets) {
     const res = renderProduct(t, niches);
     const rel = path.relative(process.cwd(), res.outDir);
+    if (!res.qa.pass) {
+      failed = true;
+      console.error(`✗ ${t.niche}/${t.id}: QA провален — комплект остановлен, отчёт: ${path.join(rel, 'qa-report.json')}`);
+      for (const s of res.qa.slides.filter((x) => !x.pass)) {
+        for (const i of s.issues) console.error(`    [${s.format}] ${s.slideType}: ${i.check} — ${i.message}`);
+      }
+      for (const i of res.qa.contentIssues) console.error(`    [контент] ${i.check} — ${i.message}`);
+      continue;
+    }
+    const warn = res.qa.warnings.length
+      ? ` (предупреждения: ${res.qa.warnings.map((w) => w.message).join('; ')})`
+      : '';
     console.log(
-      `✓ ${t.niche}/${t.id}: ${res.files.length} слайдов (${FORMATS.square.w}×${FORMATS.square.h}, ${FORMATS.vertical.w}×${FORMATS.vertical.h}) + contact-sheet.png → ${rel}`,
+      `✓ ${t.niche}/${t.id}: ${res.files.length} слайдов (${FORMATS.square.w}×${FORMATS.square.h}, ${FORMATS.vertical.w}×${FORMATS.vertical.h}), QA: ${res.qa.slides.length} проверок пройдено, + contact-sheet.png → ${rel}${warn}`,
     );
   }
-  return 0;
+  return failed ? 1 : 0;
 }
 
 async function main(): Promise<number> {

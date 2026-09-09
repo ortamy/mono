@@ -1,0 +1,121 @@
+{
+  "product": "towel-waffle",
+  "niche": "home",
+  "pass": true,
+  "slides": [
+    {
+      "slide": "towel-waffle-square-cover",
+      "slideType": "cover",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-cover",
+      "slideType": "cover",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-square-pain",
+      "slideType": "pain",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-pain",
+      "slideType": "pain",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-square-benefits",
+      "slideType": "benefits",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-benefits",
+      "slideType": "benefits",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-square-quality",
+      "slideType": "quality",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-quality",
+      "slideType": "quality",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-square-specs",
+      "slideType": "specs",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-specs",
+      "slideType": "specs",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-square-scenario",
+      "slideType": "scenario",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-scenario",
+      "slideType": "scenario",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-square-proof",
+      "slideType": "proof",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-proof",
+      "slideType": "proof",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-square-cta",
+      "slideType": "cta",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "towel-waffle-vertical-cta",
+      "slideType": "cta",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    }
+  ],
+  "contentIssues": [],
+  "warnings": []
+}
