@@ -52,10 +52,16 @@ export interface TextOpts {
   lineHeight?: number;
 }
 
+export interface PhotoRect extends Rect {
+  /** цвет подложки зоны, если это демо-плейсхолдер (сплошной цвет) */
+  bg: string | null;
+  placeholder: boolean;
+}
+
 export class SlideCanvas {
   readonly parts: string[] = [];
   readonly texts: TextBox[] = [];
-  readonly photoRects: Rect[] = [];
+  readonly photoRects: PhotoRect[] = [];
   readonly meanings: string[] = [];
 
   constructor(
@@ -102,7 +108,7 @@ export class SlideCanvas {
     return { width };
   }
 
-  registerPhoto(rect: Rect): void {
+  registerPhoto(rect: PhotoRect): void {
     this.photoRects.push(rect);
   }
 
