@@ -1,0 +1,121 @@
+{
+  "product": "candle-amber",
+  "niche": "gifts",
+  "pass": true,
+  "slides": [
+    {
+      "slide": "candle-amber-square-cover",
+      "slideType": "cover",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-cover",
+      "slideType": "cover",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-square-pain",
+      "slideType": "pain",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-pain",
+      "slideType": "pain",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-square-benefits",
+      "slideType": "benefits",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-benefits",
+      "slideType": "benefits",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-square-quality",
+      "slideType": "quality",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-quality",
+      "slideType": "quality",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-square-specs",
+      "slideType": "specs",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-specs",
+      "slideType": "specs",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-square-scenario",
+      "slideType": "scenario",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-scenario",
+      "slideType": "scenario",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-square-proof",
+      "slideType": "proof",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-proof",
+      "slideType": "proof",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-square-cta",
+      "slideType": "cta",
+      "format": "square",
+      "pass": true,
+      "issues": []
+    },
+    {
+      "slide": "candle-amber-vertical-cta",
+      "slideType": "cta",
+      "format": "vertical",
+      "pass": true,
+      "issues": []
+    }
+  ],
+  "contentIssues": [],
+  "warnings": []
+}

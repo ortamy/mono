@@ -1,0 +1,52 @@
+{
+  "id": "gifts",
+  "title": "Подарки и свечи",
+  "description": "Тёплый молочный фон с лёгкой терракотой; спокойный подарочный тон, акцент на аромате и ритуале.",
+  "palette": {
+    "background": "#F6F1EA",
+    "ink": "#2E2A26",
+    "muted": "#6E675C",
+    "accent": "#A6543C",
+    "photoBg": "#EAE2D3"
+  },
+  "typography": {
+    "primary": "Inter",
+    "accent": null,
+    "headlineFont": "primary",
+    "quoteFont": "primary",
+    "capsTrackingEm": 0.18
+  },
+  "photo": {
+    "style": "warm-macro",
+    "note": "Свеча крупным планом при тёплом свете; фитиль и расплавленный верх как фокус"
+  },
+  "voice": {
+    "tone": "Тёплый подарочный, без пафоса: аромат, время горения, состав воска",
+    "hookMax": 45,
+    "subMax": 90,
+    "bulletMax": 40,
+    "badgeMax": 12,
+    "rowValueMax": 30,
+    "quoteMax": 160,
+    "noExclaims": true,
+    "bannedWords": ["уникальный", "уникальная", "уникальное", "высокое качество", "высокого качества", "лучший", "идеальный", "инновационный", "магический", "волшебный"]
+  },
+  "labels": {
+    "labelPain": "Задача",
+    "labelBenefits": "Преимущества",
+    "labelQuality": "Состав",
+    "labelSpecs": "Характеристики",
+    "labelScenario": "Ритуал",
+    "labelProof": "Сравнение",
+    "labelCta": "Заказ",
+    "scent": "Аромат",
+    "burnTime": "Время горения",
+    "wax": "Воск",
+    "volume": "Объём",
+    "wick": "Фитиль",
+    "packaging": "Упаковка"
+  },
+  "requirements": [
+    { "slide": "specs", "specRowKeys": ["scent", "burnTime"] }
+  ]
+}
