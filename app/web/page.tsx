@@ -32,6 +32,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function WebPage() {
   const pricing = loadJSON<PricingContent>('web/web_pricing.json');
   const faq = loadJSON<FAQItem[]>('web/web_faq.json');
