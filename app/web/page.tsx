@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import PageHero from '@/components/page-hero';
@@ -18,6 +19,18 @@ import type {
   CalculatorConfig,
   ProcessStep,
 } from '@/lib/web-types';
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
+export const metadata: Metadata = {
+  title: 'Сайты и лендинги с результатом в заявках — mono · от 25 000 ₽',
+  description: 'Система привлечения клиентов с измеримым результатом. 3 пакета, ROI-калькулятор, гарантия срока и метрик. Окупаемость от 1 месяца.',
+  openGraph: {
+    title: 'Сайты и лендинги с результатом в заявках — mono',
+    description: 'Не просто дизайн и вёрстка. Система привлечения клиентов с измеримым результатом. От 25 000 ₽.',
+    images: [{ url: `${basePath}/og-web.png`, width: 1200, height: 630 }],
+  },
+};
 
 export default function WebPage() {
   const pricing = loadJSON<PricingContent>('web/web_pricing.json');
