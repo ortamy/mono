@@ -31,14 +31,35 @@ function registry(): Map<string, Font> {
   cache = new Map();
   for (const file of allFontFiles()) {
     const font = parse(fs.readFileSync(file).buffer as ArrayBuffer);
-    cache.set(key({ family: font.names.fontFamily.en, weight: weightOf(font) }), font);
+    cache.set(key(fontMeta(path.basename(file))), font);
   }
   return cache;
 }
 
-function weightOf(font: Font): number {
-  const os2 = (font as unknown as { tables: { os2?: { usWeightClass?: number } } }).tables;
-  return os2?.os2?.usWeightClass ?? 400;
+/** Семейство и вес определяем по имени файла (Inter-Medium.otf → Inter/500). */
+function fontMeta(basename: string): FontStyle {
+  const stem = basename.replace(/\.(otf|ttf)$/i, '');
+  const weightWords: Record<string, number> = {
+    Thin: 100,
+    ExtraLight: 200,
+    Light: 300,
+    Regular: 400,
+    Medium: 500,
+    SemiBold: 600,
+    Bold: 700,
+    ExtraBold: 800,
+    Black: 900,
+  };
+  let weight = 400;
+  let family = stem;
+  for (const [word, w] of Object.entries(weightWords)) {
+    if (stem.endsWith(`-${word}`)) {
+      weight = w;
+      family = stem.slice(0, -word.length - 1);
+      break;
+    }
+  }
+  return { family, weight };
 }
 
 const key = (s: FontStyle) => `${s.family}:${s.weight}`;

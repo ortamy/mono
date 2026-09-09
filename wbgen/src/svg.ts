@@ -63,6 +63,8 @@ export class SlideCanvas {
   readonly texts: TextBox[] = [];
   readonly photoRects: PhotoRect[] = [];
   readonly meanings: string[] = [];
+  /** тексты, которые не влезли в лимит строк и были обрезаны вёрсткой */
+  readonly truncations: { slide: string; text: string; maxLines: number }[] = [];
 
   constructor(
     readonly slideId: string,

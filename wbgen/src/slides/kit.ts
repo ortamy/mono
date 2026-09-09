@@ -134,7 +134,12 @@ export function bodyText(
 ): { bottom: number; lines: string[] } {
   const size = opts.size ?? ctx.tk.sub;
   const style: FontStyle = { family: 'Inter', weight: opts.weight ?? 400 };
-  const lines = wrapText(text, style, size, 0, maxW).slice(0, opts.maxLines ?? 3);
+  const maxLines = opts.maxLines ?? 3;
+  const allLines = wrapText(text, style, size, 0, maxW);
+  if (allLines.length > maxLines) {
+    ctx.canvas.truncations.push({ slide: ctx.canvas.slideId, text, maxLines });
+  }
+  const lines = allLines.slice(0, maxLines);
   const baseline0 = y + size * 0.78;
   lines.forEach((line, i) => {
     ctx.canvas.text({
@@ -152,12 +157,19 @@ export function bodyText(
 }
 
 /** Нумерованный список: индекс-цифра акцентом + строка, hairline-разделители. */
-export function bulletRows(ctx: Ctx, x: number, y: number, w: number, items: string[]): number {
+export function bulletRows(
+  ctx: Ctx,
+  x: number,
+  y: number,
+  w: number,
+  items: string[],
+  startIndex = 0,
+): number {
   const tk = ctx.tk;
   let cy = y;
   const indexStyle: FontStyle = { family: 'Inter', weight: 600 };
   items.forEach((item, i) => {
-    const indexText = `0${i + 1}`;
+    const indexText = `0${startIndex + i + 1}`.slice(-2);
     const indexW = measureText(indexText, indexStyle, tk.indexNumeral, trackingFor(ctx.theme, tk.indexNumeral));
     const textX = x + indexW + tk.gapMd;
     const res = bodyText(ctx, textX, cy, x + w - textX, item, {
@@ -238,7 +250,7 @@ export function photoFrame(
 ): void {
   const { canvas, theme, product, tk } = ctx;
   const radius = opts.radius ?? tk.radius;
-  const clipId = `ph-${slot}-${Math.round(rect.x)}-${Math.round(rect.y)}-${Math.round(rect.w)}x${Math.round(rect.h)}`;
+  const clipId = `${ctx.canvas.slideId}-${slot}-${Math.round(rect.x)}-${Math.round(rect.y)}`;
   canvas.raw(
     `<rect x="${rect.x}" y="${rect.y}" width="${rect.w}" height="${rect.h}" rx="${radius}" fill="${theme.colors.photoBg}"/>`,
   );

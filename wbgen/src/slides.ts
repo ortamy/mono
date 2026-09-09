@@ -121,7 +121,8 @@ function benefitsTemplate(ctx: Ctx): void {
   const avail = ctx.H - M * 2 - (start - M);
   const rowH = avail / Math.max(1, items.length);
   items.forEach((item, i) => {
-    bulletRows(ctx, M, start + i * rowH, cw, [item]);
+    bulletRows(ctx, M, start + i * rowH, cw, [item], i);
+    if (i < items.length - 1) hairline(ctx, M, start + (i + 1) * rowH - ctx.tk.gapMd * 0.75, cw);
   });
   items.forEach((_, i) => ctx.canvas.addMeaning(`bullet-${i}`));
 }
@@ -261,9 +262,13 @@ function drawCompare(
 function drawQuote(ctx: Ctx, x: number, y: number, w: number): void {
   const tk = ctx.tk;
   const quote = ctx.content.quote ?? '';
-  const lines = wrapText(quote, ctx.theme.quote, tk.quote, 0, w).slice(0, 4);
+  const lines = wrapText(quote, ctx.theme.quote, tk.quote, 0, w);
+  if (lines.length > 4) {
+    ctx.canvas.truncations.push({ slide: ctx.canvas.slideId, text: quote, maxLines: 4 });
+  }
+  const visible = lines.slice(0, 4);
   const baseline0 = y + tk.quote;
-  lines.forEach((line, i) => {
+  visible.forEach((line, i) => {
     ctx.canvas.text({
       text: line,
       x,
@@ -276,7 +281,7 @@ function drawQuote(ctx: Ctx, x: number, y: number, w: number): void {
     });
   });
   if (ctx.content.source) {
-    capsLabel(ctx, x, baseline0 + (lines.length - 1) * tk.quote * 1.3 + tk.gapLg, ctx.content.source);
+    capsLabel(ctx, x, baseline0 + (visible.length - 1) * tk.quote * 1.3 + tk.gapLg, ctx.content.source);
   }
 }
 
@@ -287,10 +292,10 @@ function ctaTemplate(ctx: Ctx): void {
   const cw = ctx.W - M * 2;
   const vertical = ctx.H > ctx.W;
   if (ctx.product.title) capsLabel(ctx, M, M + ctx.tk.label, ctx.product.title);
-  const ctaTop = vertical ? ctx.H * 0.4 : ctx.H * 0.36;
-  headline(ctx, M, ctaTop, cw, 2, { text: ctx.content.cta ?? '' });
+  const ctaTop = vertical ? ctx.H * 0.38 : ctx.H * 0.34;
+  const head = headline(ctx, M, ctaTop, cw, 2, { text: ctx.content.cta ?? '' });
   if (ctx.content.sub) {
-    bodyText(ctx, M, ctaTop + ctx.tk.cta * 2.6, cw, ctx.content.sub, { maxLines: 2 });
+    bodyText(ctx, M, head.bottom + ctx.tk.gapLg, cw, ctx.content.sub, { maxLines: 2 });
   }
   ctaArrow(ctx, M, ctx.H - M - ctx.tk.gapSm, cw * 0.42);
   ctx.canvas.addMeaning('cta-line');
