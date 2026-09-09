@@ -11,6 +11,7 @@ import { loadNiches, loadProducts } from './configs';
 import { renderSlide } from './render';
 import { contactSheetPng, contactSheetSvg } from './contact-sheet';
 import { qaProduct, type QaProductReport } from './qa';
+import { writePreview } from './preview';
 import { FORMATS, SLIDE_ORDER, type FormatId, type ProductContent, type NicheConfig } from './types';
 import type { SlideCanvas } from './svg';
 
@@ -75,6 +76,7 @@ export function renderProduct(
   if (qa.pass) {
     const sheet = contactSheetSvg(product.title, niche.title, canvases);
     fs.writeFileSync(path.join(outDir, 'contact-sheet.png'), contactSheetPng(sheet));
+    writePreview(outDir, product, niche, qa, files);
     complete = true;
   }
 
