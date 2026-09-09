@@ -1,0 +1,52 @@
+{
+  "id": "electronics",
+  "title": "Аксессуары и электроника",
+  "description": "Светло-серый фон, графитовые чернила, один сигнальный акцент; строгая геометрия.",
+  "palette": {
+    "background": "#EDEFF1",
+    "ink": "#22262A",
+    "muted": "#5F6670",
+    "accent": "#B23A20",
+    "photoBg": "#E2E4E6"
+  },
+  "typography": {
+    "primary": "Inter",
+    "accent": null,
+    "headlineFont": "primary",
+    "quoteFont": "primary",
+    "capsTrackingEm": 0.18
+  },
+  "photo": {
+    "style": "strict-geometry",
+    "note": "Товар по центру, строгие ракурсы, ровный свет, без ракурсов «от руки»"
+  },
+  "voice": {
+    "tone": "Инженерный и сухой: материалы, совместимость, автономность — измеримое вместо эпитетов",
+    "hookMax": 45,
+    "subMax": 90,
+    "bulletMax": 40,
+    "badgeMax": 12,
+    "rowValueMax": 30,
+    "quoteMax": 160,
+    "noExclaims": true,
+    "bannedWords": ["уникальный", "уникальная", "уникальное", "высокое качество", "высокого качества", "лучший", "идеальный", "инновационный", "премиальный", "стильный"]
+  },
+  "labels": {
+    "labelPain": "Задача",
+    "labelBenefits": "Преимущества",
+    "labelQuality": "Материалы",
+    "labelSpecs": "Характеристики",
+    "labelScenario": "В деле",
+    "labelProof": "Сравнение",
+    "labelCta": "Заказ",
+    "material": "Материалы",
+    "compatibility": "Совместимость",
+    "battery": "Автономность",
+    "ports": "Разъёмы",
+    "weight": "Вес",
+    "dimensions": "Габариты"
+  },
+  "requirements": [
+    { "slide": "specs", "specRowKeys": ["material", "compatibility"] }
+  ]
+}

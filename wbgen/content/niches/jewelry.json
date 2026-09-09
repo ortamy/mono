@@ -1,0 +1,54 @@
+{
+  "id": "jewelry",
+  "title": "Ювелирные изделия",
+  "description": "Сдержанно-премиальный минимализм: тёплый молочный фон, шампань-акцент, сериф в заголовках, макро-фото с мягким бликом.",
+  "palette": {
+    "background": "#F6F1E9",
+    "ink": "#2A2723",
+    "muted": "#6E675A",
+    "accent": "#82662D",
+    "photoBg": "#EAE2D4"
+  },
+  "typography": {
+    "primary": "Inter",
+    "accent": "Prata",
+    "headlineFont": "accent",
+    "quoteFont": "accent",
+    "capsTrackingEm": 0.18
+  },
+  "photo": {
+    "style": "macro-soft",
+    "note": "Макро с мягким бликом, товар на однотонном фоне, мягкая тень допустима"
+  },
+  "voice": {
+    "tone": "Сдержанно-премиальный, без восклицаний: факты и цифры вместо прилагательных",
+    "hookMax": 45,
+    "subMax": 90,
+    "bulletMax": 40,
+    "badgeMax": 12,
+    "rowValueMax": 30,
+    "quoteMax": 160,
+    "noExclaims": true,
+    "bannedWords": ["уникальный", "уникальная", "уникальное", "высокое качество", "высокого качества", "лучший", "идеальный", "премиум-качество", "инновационный", "роскошный"]
+  },
+  "labels": {
+    "labelPain": "Задача",
+    "labelBenefits": "Преимущества",
+    "labelQuality": "Материалы",
+    "labelSpecs": "Характеристики",
+    "labelScenario": "В жизни",
+    "labelProof": "Сравнение",
+    "labelCta": "Заказ",
+    "metal": "Металл и проба",
+    "stone": "Камень",
+    "carat": "Каратность",
+    "sizes": "Размерный ряд",
+    "weight": "Вес",
+    "coating": "Покрытие",
+    "collection": "Коллекция"
+  },
+  "requirements": [
+    { "slide": "specs", "specRowKeys": ["metal", "stone"] },
+    { "slide": "quality", "specRowKeys": ["metal"] }
+  ]
+}

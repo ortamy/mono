@@ -1,0 +1,52 @@
+{
+  "id": "home",
+  "title": "Дом и текстиль",
+  "description": "Песочно-грейж фон, тёплый серый акцент; уютное макро фактуры, спокойный бытовой тон.",
+  "palette": {
+    "background": "#E9E4DB",
+    "ink": "#33302A",
+    "muted": "#6B675D",
+    "accent": "#6A5F51",
+    "photoBg": "#DCD6CA"
+  },
+  "typography": {
+    "primary": "Inter",
+    "accent": null,
+    "headlineFont": "primary",
+    "quoteFont": "primary",
+    "capsTrackingEm": 0.16
+  },
+  "photo": {
+    "style": "texture-macro",
+    "note": "Макро фактуры ткани при дневном свете, без стилизации под студию"
+  },
+  "voice": {
+    "tone": "Уютный бытовой, по-домашнему конкретный: состав, размер, уход",
+    "hookMax": 45,
+    "subMax": 90,
+    "bulletMax": 40,
+    "badgeMax": 12,
+    "rowValueMax": 30,
+    "quoteMax": 160,
+    "noExclaims": true,
+    "bannedWords": ["уникальный", "уникальная", "уникальное", "высокое качество", "высокого качества", "лучший", "идеальный", "инновационный", "европейское качество"]
+  },
+  "labels": {
+    "labelPain": "Задача",
+    "labelBenefits": "Преимущества",
+    "labelQuality": "Материал",
+    "labelSpecs": "Характеристики",
+    "labelScenario": "Дома",
+    "labelProof": "Сравнение",
+    "labelCta": "Заказ",
+    "fabric": "Состав ткани",
+    "dimensions": "Размеры",
+    "care": "Уход",
+    "density": "Плотность",
+    "weight": "Вес",
+    "colors": "Цвета"
+  },
+  "requirements": [
+    { "slide": "specs", "specRowKeys": ["fabric", "dimensions", "care"] }
+  ]
+}

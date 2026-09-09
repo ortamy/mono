@@ -1,0 +1,52 @@
+{
+  "id": "coffee",
+  "title": "Кофе и продукты",
+  "description": "Глубокий зелёный фон, кремовый акцент; типографика упаковки как мотив, факты сорта и обжарки.",
+  "palette": {
+    "background": "#1E2A22",
+    "ink": "#EFE9DC",
+    "muted": "#A9B2A6",
+    "accent": "#D8BC8F",
+    "photoBg": "#24322A"
+  },
+  "typography": {
+    "primary": "Inter",
+    "accent": null,
+    "headlineFont": "primary",
+    "quoteFont": "primary",
+    "capsTrackingEm": 0.18
+  },
+  "photo": {
+    "style": "package-typographic",
+    "note": "Крафт-упаковка крупным планом; допустима типографика на упаковке как мотив"
+  },
+  "voice": {
+    "tone": "Дружелюбный спешелти-тон без снобизма: сорт, обжарка, дата, вкус — nouns вместо прилагательных",
+    "hookMax": 45,
+    "subMax": 90,
+    "bulletMax": 40,
+    "badgeMax": 12,
+    "rowValueMax": 30,
+    "quoteMax": 160,
+    "noExclaims": true,
+    "bannedWords": ["уникальный", "уникальная", "уникальное", "высокое качество", "высокого качества", "лучший", "идеальный", "премиальный", "инновационный", "настоящий кофе"]
+  },
+  "labels": {
+    "labelPain": "Задача",
+    "labelBenefits": "Вкус",
+    "labelQuality": "Обжарка",
+    "labelSpecs": "Характеристики",
+    "labelScenario": "Заваривание",
+    "labelProof": "Сравнение",
+    "labelCta": "Заказ",
+    "origin": "Сорт и происхождение",
+    "roast": "Обжарка",
+    "roastDate": "Дата обжарки",
+    "weight": "Вес",
+    "taste": "Вкус",
+    "method": "Способ заваривания"
+  },
+  "requirements": [
+    { "slide": "specs", "specRowKeys": ["origin", "roast", "roastDate", "weight"] }
+  ]
+}

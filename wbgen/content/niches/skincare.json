@@ -1,0 +1,52 @@
+{
+  "id": "skincare",
+  "title": "Уход и косметика",
+  "description": "Молочный фон, шалфейный акцент, гротеск, много воздуха; текстуры и мазки — очень дозированно.",
+  "palette": {
+    "background": "#F7F3EC",
+    "ink": "#2A2F28",
+    "muted": "#6C6A61",
+    "accent": "#5F7048",
+    "photoBg": "#EDE7DC"
+  },
+  "typography": {
+    "primary": "Inter",
+    "accent": null,
+    "headlineFont": "primary",
+    "quoteFont": "primary",
+    "capsTrackingEm": 0.16
+  },
+  "photo": {
+    "style": "clean-flat",
+    "note": "Флакон на однотонном фоне; текстурные мазки — не более одного элемента"
+  },
+  "voice": {
+    "tone": "Спокойный экспертный, без обещаний диагнозов и «чудо-эффектов»; активы и дозировки вместо эпитетов",
+    "hookMax": 45,
+    "subMax": 90,
+    "bulletMax": 40,
+    "badgeMax": 12,
+    "rowValueMax": 30,
+    "quoteMax": 160,
+    "noExclaims": true,
+    "bannedWords": ["уникальный", "уникальная", "уникальное", "высокое качество", "высокого качества", "лучший", "идеальный", "омолаживающий", "чудо", "инновационный", "аптечный"]
+  },
+  "labels": {
+    "labelPain": "Задача",
+    "labelBenefits": "Актив",
+    "labelQuality": "Состав",
+    "labelSpecs": "Характеристики",
+    "labelScenario": "Ритуал",
+    "labelProof": "Сравнение",
+    "labelCta": "Заказ",
+    "ingredients": "Активные ингредиенты",
+    "volume": "Объём",
+    "skinType": "Тип кожи",
+    "texture": "Текстура",
+    "usage": "Применение",
+    "purpose": "Назначение"
+  },
+  "requirements": [
+    { "slide": "specs", "specRowKeys": ["ingredients", "volume"] }
+  ]
+}
