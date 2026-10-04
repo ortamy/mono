@@ -19,9 +19,22 @@ export default function WebForm({ config, analyticsEnabled = false }: { config: 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); if (!consent) return; setStatus('sending');
     try {
-      if (config.provider === 'telegram') { const token = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN; if (!token || !config.telegram_chat_id) throw new Error('Telegram provider is not configured'); const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ chat_id: config.telegram_chat_id, text: message }) }); if (!response.ok) throw new Error('Telegram rejected the request'); }
-      else if (config.provider === 'web3forms') { const key = process.env.NEXT_PUBLIC_WEB3FORMS_KEY; if (!key) throw new Error('Web3Forms provider is not configured'); const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ access_key: key, subject: config.form_title, ...values }) }); if (!response.ok) throw new Error('Web3Forms rejected the request'); }
-      else throw new Error('Form provider is disabled');
+      // Отправка идёт через /api/lead, а не напрямую в Telegram: бот-токен
+      // не должен попадать в клиентский бандл. Поля страницы /web отличаются
+      // от лендинга, поэтому они упаковываются в общий формат заявки.
+      const response = await fetch('/api/lead/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: values.name ?? '',
+          phone: values.telegram ?? values.phone ?? '',
+          telegram: values.telegram ?? '',
+          turnover: values.turnover ?? '',
+          marketplaces: [],
+          product: values.goal ?? values.site ?? '',
+        }),
+      });
+      if (!response.ok) throw new Error('lead api rejected the request');
       setStatus('sent'); track(analyticsEnabled, 'form_submit', { turnover: values.turnover || 'unknown' });
     } catch { setStatus('error'); }
   }

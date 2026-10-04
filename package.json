@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "set ESLINT_USE_FLAT_CONFIG=true&& eslint .",
     "typecheck": "tsc --noEmit",
+    "test": "tsx tests/api-lead.test.mts",
     "wbgen": "tsx wbgen/src/cli.ts",
     "wbgen:render": "tsx wbgen/src/cli.ts render --all",
     "wbgen:typecheck": "tsc -p wbgen/tsconfig.json"
@@ -15,6 +16,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.23",
     "@resvg/resvg-js": "^2.6.2",
+    "@supabase/supabase-js": "^2.117.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^13.2.0",
@@ -23,7 +25,9 @@
     "opentype.js": "^2.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "tailwind-merge": "^3.6.0"
+    "recharts": "^3.10.1",
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "20.14.12",

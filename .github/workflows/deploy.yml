@@ -1,59 +1,40 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (ОТКЛЮЧЕНО)
+
+# ⚠️ Этот воркфлоу больше не может деплоить сайт.
+#
+# Причина: из next.config.mjs убран output: 'export', потому что app/api/lead
+# держит серверные секреты (токен Telegram бота, ключ Supabase) и требует
+# server-рантайма. GitHub Pages отдаёт только статические файлы и не умеет
+# исполнять Node — сборка больше не попадает в ./out, и upload-pages-artifact
+# завершался бы ошибкой.
+#
+# Что сделать вместо этого:
+#   1. Задеплоить на хостинг с server-рантаймом (Vercel / Render / Railway /
+#      Fly.io) — тогда app/api/lead заработает, а токен бота перестанет быть
+#      виден в бандле.
+#   2. Задать там переменные окружения из .env.example.
+#   3. Выполнить SQL из supabase/landing_leads.sql в Supabase.
+#
+# Если нужно вернуться к статике — удалите app/api/lead, верните
+# output: 'export' в next.config.mjs и восстановите этот файл из истории.
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Один деплой за раз: если в main улетают несколько пушей — отменяем предыдущий.
+    paths-ignore:
+      - '**/*.md'
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  blocked:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      # Отдаёт base_path (/имя-репозитория) и origin (https://user.github.io)
-      - name: Configure GitHub Pages
-        id: pages
-        uses: actions/configure-pages@v5
-
-      - name: Build static export
-        env:
-          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-        run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Explain why deployment stopped
+        run: |
+          echo "::error::Деплой на GitHub Pages отключён: сайт переведён в server-режим ради /api/lead."
+          echo "Подробности — в начале .github/workflows/deploy.yml"
+          exit 1
