@@ -213,3 +213,13 @@ h1,h2 { letter-spacing:-2.5px; line-height:1.03; margin:0; font-size:clamp(38px,
   .qualification-grid,.process-grid,.guarantees-grid { grid-template-columns:repeat(2,1fr); }
   .packages-grid,.calc-form,.cases-grid { grid-template-columns:1fr; }
 }
+
+/* ===== Landing: range slider =====
+/* Tailwind preflight strips the native appearance, so track/thumb/focus ring
+   are declared explicitly. Track fill (black to progress) is an inline
+   gradient on the element, set by the component from slider progress. */
+.calc-slider { -webkit-appearance:none; appearance:none; height:4px; border-radius:999px; outline:none; cursor:pointer; }
+.calc-slider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:50%; background:#fff; border:2px solid #0A0A0A; cursor:pointer; }
+.calc-slider::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:#fff; border:2px solid #0A0A0A; cursor:pointer; }
+.calc-slider:focus-visible::-webkit-slider-thumb { outline:2px solid #0A0A0A; outline-offset:2px; }
+.calc-slider:focus-visible::-moz-range-thumb { outline:2px solid #0A0A0A; outline-offset:2px; }

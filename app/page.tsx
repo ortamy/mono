@@ -7,7 +7,7 @@ import {
 import ShopHeader from '@/components/shop/shop-header';
 import ShopFooter from '@/components/shop/shop-footer';
 import StoreMock from '@/components/shop/store-mock';
-import SavingsCalculator from '@/components/shop/savings-calculator';
+import SavingsCalculator from '@/components/landing/SavingsCalculator';
 import LeadForm from '@/components/shop/lead-form';
 import ShopFaq from '@/components/shop/shop-faq';
 import StickyCta from '@/components/shop/sticky-cta';
