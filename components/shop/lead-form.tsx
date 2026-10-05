@@ -9,6 +9,7 @@
 
 import { useState } from 'react';
 import { TURNOVER_BANDS } from '@/lib/turnover';
+import { GOALS, trackGoal } from '@/lib/metrika';
 
 const HANDLE = 'mono_studio';
 
@@ -58,6 +59,9 @@ export default function LeadForm() {
         return;
       }
       setStatus('sent');
+      // Цель ставим только после подтверждённого 200 от /api/lead, иначе в
+      // статистику попадут отказы и перезагрузки страницы.
+      trackGoal(GOALS.leadSubmit, { turnover: turnover || 'unknown' });
     } catch {
       setStatus('error');
       setErrorText('Ошибка. Попробуйте ещё раз или напишите в Telegram.');

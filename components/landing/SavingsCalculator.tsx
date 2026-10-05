@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { GOALS, trackGoal } from '@/lib/metrika';
 
 /**
  * Калькулятор экономии на комиссиях маркетплейсов.
@@ -30,6 +31,17 @@ const money = (value: number) => `${Math.round(value).toLocaleString('ru-RU').re
 export default function SavingsCalculator() {
   const [turnover, setTurnover] = useState(TURNOVER.initial);
   const [platform, setPlatform] = useState<Platform>('both');
+
+  // Цель «калькулятор использован» ставится один раз за сессию: иначе перебор
+  // id элемента на каждом шаге ползунка засорял бы отчёт.
+  const tracked = useRef(false);
+  const onTurnoverChange = (value: number) => {
+    setTurnover(value);
+    if (!tracked.current) {
+      tracked.current = true;
+      trackGoal(GOALS.calculatorUsed, { turnover: value });
+    }
+  };
 
   const { perMonth, perYear, months } = useMemo(() => {
     const monthly = turnover * PLATFORMS[platform].commission;
@@ -72,7 +84,7 @@ export default function SavingsCalculator() {
         max={TURNOVER.max}
         step={TURNOVER.step}
         value={turnover}
-        onChange={(e) => setTurnover(Number(e.target.value))}
+        onChange={(e) => onTurnoverChange(Number(e.target.value))}
         style={{ background: track }}
         aria-valuetext={money(turnover)}
         aria-label="Оборот на маркетплейсах в месяц"

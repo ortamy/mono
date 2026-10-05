@@ -1,3 +1,5 @@
+import TrackedCtaLink from '@/components/shop/tracked-cta-link';
+
 /**
  * CTA в середине страницы — после блока ИИ-фич, где посетитель уже понял,
  * что продукт умеет то, чего нет на маркетплейсе, и ещё не дошёл к цене.
@@ -17,12 +19,12 @@ export default function MidCta() {
           <p className="mt-3 text-[15px] leading-[1.6] text-[#A3A3A3]">
             Оставьте заявку — пришлём расчёт экономии за 1 день.
           </p>
-          <a
+          <TrackedCtaLink
             href="#request"
             className="mt-6 inline-flex h-12 items-center justify-center rounded-[8px] bg-white px-6 text-[15px] font-semibold text-[#0A0A0A] transition-colors hover:bg-[#E5E5E5]"
           >
             Получить расчёт →
-          </a>
+          </TrackedCtaLink>
         </div>
       </div>
     </section>

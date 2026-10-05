@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { pageUrl, assetUrl } from '@/lib/site';
 
-const OG_IMAGE = '/og.svg';
+// Картинка генерируется роутом /api/og (satori), а не лежит файлом: одна
+// картинка на все страницы, всегда в актуальном стиле лендинга.
+const OG_IMAGE = '/api/og/';
 
 export interface PageMeta {
   title: string;
@@ -27,7 +29,7 @@ export function buildMetadata({ title, description, path = '/' }: PageMeta): Met
       type: 'website',
       url,
       siteName: 'mono.',
-      images: [{ url: image, width: 1200, height: 630, alt: 'mono. — дизайн, который продаёт' }],
+      images: [{ url: image, width: 1200, height: 630, alt: 'mono. — кастомные интернет-магазины с ИИ' }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -38,7 +40,11 @@ export function buildMetadata({ title, description, path = '/' }: PageMeta): Met
   };
 }
 
-/** Шаблон заголовков для страниц, где нужно суффиксальное «| mono». */
-export const SITE_TITLE_DEFAULT = 'mono. — дизайн, который продаёт';
+/**
+ * Значения по умолчанию для страниц, которые не задают свои (app/about и т.д.).
+ * Описание отражает текущее позиционирование — магазины «под ключ», а не
+ * дизайн-услуги, поэтому текст обновлён вместе с репозиторионированием.
+ */
+export const SITE_TITLE_DEFAULT = 'mono. — кастомные интернет-магазины без комиссий';
 export const SITE_DESCRIPTION_DEFAULT =
-  'Карточки WB / Ozon, сайты и брендинг. Дизайн, который повышает CTR и конверсию.';
+  'Кастомные интернет-магазины с ИИ-автоматизацией. 0% комиссий маркетплейсов, запуск за 21 день, окупаемость 2–4 месяца.';
