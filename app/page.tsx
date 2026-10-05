@@ -11,6 +11,10 @@ import SavingsCalculator from '@/components/landing/SavingsCalculator';
 import LeadForm from '@/components/shop/lead-form';
 import ShopFaq from '@/components/shop/shop-faq';
 import StickyCta from '@/components/shop/sticky-cta';
+import Cases from '@/components/shop/cases';
+import Testimonials from '@/components/shop/testimonials';
+import MidCta from '@/components/shop/mid-cta';
+import About from '@/components/shop/about';
 import { buildMetadata } from '@/lib/meta';
 
 export const metadata: Metadata = buildMetadata({
@@ -61,12 +65,6 @@ const AI_FEATURES = [
   { icon: FileText, title: 'Автогенерация описаний', desc: 'Описания для тысяч товаров за часы.' },
   { icon: TrendingUp, title: 'Прогноз спроса', desc: 'Что закупить и когда — по истории продаж.' },
   { icon: Radar, title: 'Анализ конкурентов', desc: 'Мониторинг цен и акций на площадках.' },
-];
-
-const CASES = [
-  { niche: 'Косметика ручной работы', was: 'WB, оборот 800k ₽/мес, комиссия 28%', now: 'Свой магазин, оборот 1.2M ₽/мес', result: '224k ₽/мес', resultLabel: 'экономия только на комиссии' },
-  { niche: 'Товары для дома', was: 'Ozon, комиссия 22%', now: 'Свой магазин + интеграция с 1С', result: '×3', resultLabel: 'повторные покупки' },
-  { niche: 'Спортивное питание', was: '3 маркетплейса, комиссии 30%', now: 'Свой магазин, 0% комиссий', result: '×2', resultLabel: 'чистая прибыль' },
 ];
 
 const PLANS = [
@@ -217,7 +215,29 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 4. КАК ЭТО РАБОТАЕТ */}
+        {/* 4. ИИ-ФИШКИ */}
+        <section className="border-b border-agentos-line">
+          <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
+            <SectionHead label="/ Внутри" title="Что уже встроено в магазин" lead="ИИ-слой входит в каждый пакет — не как отдельная услуга." />
+
+            <div className="mt-12 grid gap-px overflow-hidden rounded-agentos border border-agentos-line bg-agentos-line sm:grid-cols-2 lg:grid-cols-3">
+              {AI_FEATURES.map((f) => (
+                <article key={f.title} className="bg-agentos-card p-6 sm:p-7">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-control border border-agentos-line text-agentos-ink" aria-hidden="true">
+                    <f.icon size={16} strokeWidth={1.5} />
+                  </span>
+                  <h3 className="mt-5 text-[15px] font-semibold tracking-[-0.3px] text-agentos-ink">{f.title}</h3>
+                  <p className="mt-2 text-[14px] leading-[1.6] text-agentos-muted">{f.desc}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 5. MID CTA */}
+        <MidCta />
+
+        {/* 6. КАК ЭТО РАБОТАЕТ */}
         <section className="border-b border-agentos-line bg-agentos-card">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead label="/ Процесс" title="Как это работает" lead="Три этапа, 21 день, один результат — работающий канал продаж." />
@@ -240,56 +260,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 5. ИИ-ФИШКИ */}
-        <section className="border-b border-agentos-line">
-          <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
-            <SectionHead label="/ Внутри" title="Что уже встроено в магазин" lead="ИИ-слой входит в каждый пакет — не как отдельная услуга." />
+        {/* 7. КЕЙСЫ */}
+        <Cases />
 
-            <div className="mt-12 grid gap-px overflow-hidden rounded-agentos border border-agentos-line bg-agentos-line sm:grid-cols-2 lg:grid-cols-3">
-              {AI_FEATURES.map((f) => (
-                <article key={f.title} className="bg-agentos-card p-6 sm:p-7">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-control border border-agentos-line text-agentos-ink" aria-hidden="true">
-                    <f.icon size={16} strokeWidth={1.5} />
-                  </span>
-                  <h3 className="mt-5 text-[15px] font-semibold tracking-[-0.3px] text-agentos-ink">{f.title}</h3>
-                  <p className="mt-2 text-[14px] leading-[1.6] text-agentos-muted">{f.desc}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* 8. ОТЗЫВЫ */}
+        <Testimonials />
 
-{/* 6. КЕЙСЫ */}
-        <section id="cases" className="border-b border-agentos-line bg-agentos-card">
-          <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
-            <SectionHead label="/ Кейсы" title="Селлеры, которые уже ушли с маркетплейсов" />
-
-            <div className="mt-12 grid gap-4 lg:grid-cols-3">
-              {CASES.map((c) => (
-                <article key={c.niche} className="flex flex-col rounded-agentos border border-agentos-line bg-agentos-bg p-6 sm:p-7">
-                  <p className="text-[11px] uppercase tracking-[0.08em] text-agentos-faint">{c.niche}</p>
-
-                  <dl className="mt-6 space-y-3 text-[13px] leading-[1.5]">
-                    <div>
-                      <dt className="text-agentos-faint">Было</dt>
-                      <dd className="mt-1 text-agentos-muted">{c.was}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-agentos-faint">Стало</dt>
-                      <dd className="mt-1 text-agentos-ink">{c.now}</dd>
-                    </div>
-                  </dl>
-
-                  <div className="mt-auto border-t border-agentos-line pt-6">
-                    <p className="text-[26px] font-semibold tracking-[-1px] text-agentos-ink tabular-nums">{c.result}</p>
-                    <p className="mt-1 text-[12px] text-agentos-muted">{c.resultLabel}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-{/* 7. ТАРИФЫ */}
+{/* 9. ТАРИФЫ */}
         <section id="pricing" className="border-b border-agentos-line">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead label="/ Тарифы" title="Три пакета" lead="Цена фиксируется после аудита. Всё включено: разработка, интеграции, запуск." />
@@ -333,7 +310,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 8. FAQ */}
+        {/* 10. FAQ */}
         <section id="faq" className="border-b border-agentos-line bg-agentos-card">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead label="/ FAQ" title="Частые вопросы" />
@@ -343,7 +320,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 9. CTA */}
+        {/* 11. О СТУДИИ */}
+        <About />
+
+        {/* 12. CTA */}
         <section id="request" className="border-b border-agentos-line">
           <div className="mx-auto grid max-w-[1160px] gap-10 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <div>
