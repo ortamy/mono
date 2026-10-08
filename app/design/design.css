@@ -1,0 +1,154 @@
+/*
+ * Стили портфолио на /design.
+ *
+ * Импортируются только из app/design/layout.tsx, поэтому главная mono и
+ * остальные разделы сайта не видят ни одной строки отсюда — globals.css
+ * не менялся.
+ *
+ * Две темы интерфейса: белая (по умолчанию) и чёрная. Тема переключается
+ * атрибутом data-theme на .design-scope (см. components/design/design-shell.tsx)
+ * и хранится в localStorage. Все цвета — через CSS-переменные.
+ */
+
+.design-scope {
+  /* Белая тема */
+  --d-bg: #ffffff;
+  --d-surface: #fafafa;
+  --d-card: #ffffff;
+  --d-soft: #f5f5f5;
+  --d-line: #e5e5e5;
+  --d-ink: #0a0a0a;
+  --d-muted: #737373;
+  --d-faint: #a3a3a3;
+  --d-inv-bg: #0a0a0a;
+  --d-inv-ink: #ffffff;
+
+  background: var(--d-bg);
+  color: var(--d-ink);
+}
+
+.design-scope[data-theme='dark'] {
+  /* Чёрная тема */
+  --d-bg: #0a0a0a;
+  --d-surface: #111113;
+  --d-card: #141416;
+  --d-soft: #1a1a1d;
+  --d-line: #27272a;
+  --d-ink: #fafafa;
+  --d-muted: #a1a1aa;
+  --d-faint: #71717a;
+  --d-inv-bg: #fafafa;
+  --d-inv-ink: #0a0a0a;
+}
+
+/* Утилиты под тему: Tailwind не выводит тип для border-[var(--x)],
+   поэтому границы и заливки описываем здесь, а раскладку оставляем Tailwind. */
+.d-card {
+  background: var(--d-card);
+  border: 1px solid var(--d-line);
+  border-radius: 12px;
+}
+
+.d-surface { background: var(--d-surface); }
+.d-soft { background: var(--d-soft); }
+.d-muted { color: var(--d-muted); }
+.d-faint { color: var(--d-faint); }
+.d-line { border-color: var(--d-line); }
+
+.d-hover-line { transition: border-color 0.2s; }
+.d-hover-line:hover { border-color: var(--d-ink); }
+
+.d-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: opacity 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.d-btn-primary { background: var(--d-inv-bg); color: var(--d-inv-ink); }
+.d-btn-primary:hover { opacity: 0.85; }
+.d-btn-ghost { border: 1px solid var(--d-line); color: var(--d-ink); }
+.d-btn-ghost:hover { background: var(--d-soft); }
+
+.d-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  background: var(--d-card);
+  border: 1px solid var(--d-line);
+  border-radius: 8px;
+  color: var(--d-ink);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+textarea.d-input {
+  height: auto;
+  min-height: 110px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.d-input::placeholder { color: var(--d-faint); }
+.d-input:focus { outline: none; border-color: var(--d-ink); }
+
+.d-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--d-ink);
+}
+
+/* Иконка-кнопка переключения темы. */
+.d-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--d-line);
+  border-radius: 8px;
+  color: var(--d-ink);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.d-icon-btn:hover { background: var(--d-soft); }
+
+/* Превью кейса и «экраны»: градиент + сетка-заглушка,
+   чтобы картинка читалась как макет, а не как пустой прямоугольник. */
+.d-preview { position: relative; overflow: hidden; }
+
+.d-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(128, 128, 128, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 128, 128, 0.18) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+/* Тулбар «браузера» на заглушках экранов. */
+.d-screen-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  background: var(--d-soft);
+  border-bottom: 1px solid var(--d-line);
+}
+
+.d-screen-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--d-faint);
+}
