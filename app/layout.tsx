@@ -4,6 +4,7 @@ import './globals.css';
 import { assetUrl, siteUrl } from '@/lib/site';
 import { SITE_DESCRIPTION_DEFAULT, SITE_TITLE_DEFAULT } from '@/lib/meta';
 import { METRIKA_ID, metrikaEnabled } from '@/lib/metrika';
+import DevAgentation from '@/components/dev/dev-agentation';
 
 const OG_IMAGE = '/api/og';
 
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <a className="skip-link" href="#main-content">Перейти к содержанию</a>
         {children}
+        <DevAgentation />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData }} />
         {metrikaEnabled && (
           <Script id="yandex-metrika" strategy="afterInteractive">
