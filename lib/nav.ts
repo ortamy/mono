@@ -7,7 +7,6 @@ export interface NavItem {
 
 export const NAV: NavItem[] = [
   { label: 'Главная', href: '/', end: true },
-  { label: 'Аудит', href: '/audit' },
   { label: 'E-commerce', href: '/mono' },
   { label: 'Web', href: '/web' },
   { label: 'Brand', href: '/brand' },
