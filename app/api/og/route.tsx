@@ -16,6 +16,12 @@ import { ImageResponse } from 'next/og';
 
 export const runtime = 'nodejs';
 
+// Картинка постоянная (никаких данных из запроса), поэтому помечаем роут
+// статическим: в статическом экспорте на GitHub Pages без этой директивы Next
+// валит сборку, а в серверном режиме роут кэшируется на этапе сборки вместо
+// повторного рендера на каждый запрос краулера.
+export const dynamic = 'force-static';
+
 export async function GET() {
   return new ImageResponse(
     (

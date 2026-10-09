@@ -3,7 +3,12 @@ import { pageUrl, assetUrl } from '@/lib/site';
 
 // Картинка генерируется роутом /api/og (satori), а не лежит файлом: одна
 // картинка на все страницы, всегда в актуальном стиле лендинга.
-const OG_IMAGE = '/api/og/';
+//
+// В статическом экспорте для GitHub Pages роута по этому адресу нет: Next
+// выкладывает обработчик файлом без расширения (out/api/og), а краулеры читают
+// Content-Type из расширения. Поэтому scripts/build-static.mjs кладёт ту же
+// картинку в /og.png и подставляет сюда NEXT_PUBLIC_OG_IMAGE.
+export const OG_IMAGE = process.env.NEXT_PUBLIC_OG_IMAGE || '/api/og/';
 
 export interface PageMeta {
   title: string;

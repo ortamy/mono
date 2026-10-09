@@ -113,6 +113,36 @@ npm run build    # сборка
 npm start        # продакшн
 ```
 
+## Деплой (GitHub Pages)
+
+Сайт публикуется статикой на GitHub Pages автоматически: пуш в `main` запускает
+`.github/workflows/deploy.yml`, который собирает `npm run build:static` и
+выкладывает каталог `out/` в Pages.
+
+```bash
+npm run build:static   # то же, что делает CI: статический экспорт в ./out
+```
+
+Что важно знать про статику:
+
+- `scripts/build-static.mjs` включает `output: 'export'` и после сборки
+  перекладывает OG-картинку: Next выкладывает роут `/api/og` файлом без
+  расширения (`out/api/og`), поэтому в метаданные уходит `/og.png`.
+- Серверных роутов в статике нет: `POST /api/lead` и `/api/design-lead` на
+  Pages не работают (Next помечает их как Dynamic и пропускает), форма сама
+  показывает запасной канал «Написать в Telegram». Чтобы лиды писались в
+  Supabase и Telegram, нужен хостинг с Node: обычная сборка (`npm run build` +
+  `npm start`) на Vercel / Render / Railway.
+- Роуты `robots.txt`, `sitemap.xml` и `/api/og` помечены
+  `export const dynamic = 'force-static'` — без этого `next build` с
+  `output: 'export'` падает на этапе сбора данных страниц.
+- Публичные адреса берутся из переменных сборки: `NEXT_PUBLIC_SITE_URL` — корень
+  сайта **вместе с подкаталогом деплоя** (для Pages это
+  `https://ortamy.github.io/mono`), `NEXT_PUBLIC_BASE_PATH` — тот же подкаталог
+  для маршрутизации Next. В метаданные подкаталог не подмешивается: подставляйте
+  его внутри `NEXT_PUBLIC_SITE_URL`, иначе получите `/mono/mono/...` в canonical
+  и OG-картинке.
+
 ## Аналитика (события)
 
 Если подключена аналитика, компоненты эмитят события:

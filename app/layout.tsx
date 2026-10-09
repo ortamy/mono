@@ -2,11 +2,9 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import { assetUrl, siteUrl } from '@/lib/site';
-import { SITE_DESCRIPTION_DEFAULT, SITE_TITLE_DEFAULT } from '@/lib/meta';
+import { OG_IMAGE, SITE_DESCRIPTION_DEFAULT, SITE_TITLE_DEFAULT } from '@/lib/meta';
 import { METRIKA_ID, metrikaEnabled } from '@/lib/metrika';
 import DevAgentation from '@/components/dev/dev-agentation';
-
-const OG_IMAGE = '/api/og';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
