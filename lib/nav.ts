@@ -11,6 +11,7 @@ export const NAV: NavItem[] = [
   { label: 'Web', href: '/web' },
   { label: 'Brand', href: '/brand' },
   { label: 'Аудит', href: '/audit' },
+  { label: 'AI-агенты', href: '/agents' },
   { label: 'Обо мне', href: '/about' },
   { label: 'Контакты', href: '/contact' },
 ];

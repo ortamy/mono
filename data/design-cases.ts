@@ -37,7 +37,8 @@ export type MockKind =
   | 'terminal' // Traq — консоль логов, метрики и графики
   | 'apiref' // Base — документация API и код-сэмплы
   | 'ledger' // Nordbank — счета и транзакции
-  | 'economics'; // Metrik — юнит-экономика, графики, воронка
+  | 'economics' // Metrik — юнит-экономика, графики, воронка
+  | 'chat'; // AI-агенты — диалог пользователя и ассистента
 
 export interface MockPalette {
   bg: string;

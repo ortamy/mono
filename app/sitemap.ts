@@ -21,6 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // /audit — лид-магнит с формой, поэтому приоритет выше остальных разделов:
     // это второй по важности вход на сайт после главной.
     { url: `${siteUrl}/audit/`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    // /agents — услуга по сборке AI-агентов: самостоятельный вход в портфолио,
+    // в отличие от /design страница индексируется.
+    { url: `${siteUrl}/agents/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/web/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/mono/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/brand/`, lastModified, changeFrequency: 'monthly', priority: 0.6 },

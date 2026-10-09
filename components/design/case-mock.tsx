@@ -925,6 +925,56 @@ function Economics({ s, p, items, values }: { s: DesignScreen; p: MockPalette; i
   );
 }
 
+/**
+ * Чат: диалог пользователя и AI-агента. Слева — реплики (чётные от
+ * пользователя, нечётные — от агента), справа — панель контекста: из каких
+ * данных агент строит ответ.
+ */
+function Chat({ s, p, items, values }: { s: DesignScreen; p: MockPalette; items: string[]; values: string[] }) {
+  const messages = items.slice(0, 4);
+  const context = values.slice(0, 4);
+  return (
+    <g>
+      <Nav p={p} brand={s.brand ?? 'agent'} cta="Открыть" links={s.links} />
+      <text x={48} y={98} fill={p.ink} fontSize={20} fontWeight={700}>{fitText(s.headline, 560, 20, true)}</text>
+      <text x={48} y={122} fill={p.muted} fontSize={12}>{fitText(s.sub ?? '', 560, 12)}</text>
+      {/* Окно диалога. */}
+      <rect x={48} y={150} width={440} height={252} rx={12} fill={p.panel} stroke={p.line} />
+      <text x={68} y={178} fill={p.muted} fontSize={10} letterSpacing={1}>ДИАЛОГ</text>
+      <circle cx={462} cy={174} r={4} fill={p.accent} />
+      <text x={452} y={178} fill={p.muted} fontSize={10} textAnchor="end">агент онлайн</text>
+      {messages.map((text, i) => {
+        const fromAgent = i % 2 === 1;
+        const w = Math.min(300, textWidth(text, 11) + 26);
+        const x = fromAgent ? 480 - w : 64;
+        const y = 196 + i * 36;
+        return (
+          <g key={`${text}-${i}`}>
+            <rect x={x} y={y} width={w} height={28} rx={10} fill={fromAgent ? p.accent : p.bg} stroke={fromAgent ? 'none' : p.line} />
+            <text x={x + 13} y={y + 18} fill={fromAgent ? p.accentInk : p.ink} fontSize={11}>{fitText(text, w - 26, 11)}</text>
+          </g>
+        );
+      })}
+      {/* Поле ввода и кнопка. */}
+      <rect x={64} y={352} width={304} height={34} rx={8} fill={p.bg} stroke={p.line} />
+      <text x={78} y={373} fill={p.muted} fontSize={11}>{fitText(s.cta ?? 'Сообщение…', 276, 11)}</text>
+      <Btn x={376} y={352} w={96} h={34} label="Отправить" p={p} fontSize={11} />
+      {/* Панель контекста: на чём агент строит ответ. */}
+      <rect x={504} y={150} width={168} height={252} rx={12} fill={p.panel} stroke={p.line} />
+      <text x={522} y={178} fill={p.muted} fontSize={10} letterSpacing={1}>КОНТЕКСТ АГЕНТА</text>
+      {context.map((row, i) => (
+        <g key={`${row}-${i}`}>
+          <circle cx={526} cy={202 + i * 32} r={3} fill={p.accent} />
+          <text x={538} y={206 + i * 32} fill={p.ink} fontSize={11}>{fitText(row, 114, 11)}</text>
+          {i < context.length - 1 ? <line x1={522} y1={218 + i * 32} x2={654} y2={218 + i * 32} stroke={p.line} /> : null}
+        </g>
+      ))}
+      <rect x={522} y={352} width={132} height={26} rx={13} fill="none" stroke={p.line} />
+      <text x={588} y={365} fill={p.muted} fontSize={10} textAnchor="middle" dominantBaseline="middle">{fitText(s.filters?.[0] ?? 'уверенность 0.94', 116, 10)}</text>
+    </g>
+  );
+}
+
 /** Рисует экран кейса по типу (kind) и палитре. */
 export default function CaseMock({ screen, palette }: { screen: DesignScreen; palette: MockPalette }) {
   const p = palette;
@@ -963,6 +1013,7 @@ export default function CaseMock({ screen, palette }: { screen: DesignScreen; pa
       {screen.kind === 'apiref' && <Apiref s={screen} p={p} items={items} />}
       {screen.kind === 'ledger' && <Ledger s={screen} p={p} items={items} values={values} />}
       {screen.kind === 'economics' && <Economics s={screen} p={p} items={items} values={values} />}
+      {screen.kind === 'chat' && <Chat s={screen} p={p} items={items} values={values} />}
     </svg>
   );
 }

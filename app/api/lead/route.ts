@@ -28,10 +28,11 @@ const schema = z.object({
   turnover: z.string().trim().min(1, 'Выберите оборот'),
   marketplaces: z.array(z.string().trim().max(50)).max(10).optional().default([]),
   product: z.string().trim().max(1000).optional().default(''),
-  // Откуда пришла заявка: лендинг главной или страница бесплатного UX-аудита.
-  // Поле необязательное с дефолтом 'landing' — старые клиенты и тесты не ломаются,
-  // а роут понимает, что аудит-лиду не нужен расчёт экономии маркетплейса.
-  source: z.enum(['landing', 'audit']).optional().default('landing'),
+  // Откуда пришла заявка: лендинг главной, страница бесплатного UX-аудита или
+  // страница сборки AI-агентов. Поле необязательное с дефолтом 'landing' —
+  // старые клиенты и тесты не ломаются, а роут понимает, что аудит- и
+  // agents-лиду не нужен расчёт экономии маркетплейса.
+  source: z.enum(['landing', 'audit', 'agents']).optional().default('landing'),
 });
 
 /** Мягкое ограничение частоты: один IP — не чаще 5 заявок в 10 минут. */
@@ -120,12 +121,19 @@ export async function POST(req: NextRequest) {
   const data = parsed.data;
   const savings = savingsForBand(data.turnover);
 
-  // Заявка с /audit — это запрос на разбор продукта, а не на расчёт экономии
-  // магазина: площадок у неё нет, и «потенциальная экономия маркетплейса» в
-  // уведомлении только путала бы. Поэтому состав сообщения зависит от source.
+  // Заявка с /audit — это запрос на разбор продукта, а заявка с /agents —
+  // запрос на AI-агента: площадок у них нет, и «потенциальная экономия
+  // маркетплейса» в уведомлении только путала бы. Поэтому заголовок и хвост
+  // сообщения зависят от source.
   const isAudit = data.source === 'audit';
+  const isAgents = data.source === 'agents';
+  const title = isAudit
+    ? '🎯 Заявка на бесплатный UX-аудит (/audit)'
+    : isAgents
+      ? '🤖 Заявка на AI-агента (/agents)'
+      : '🔥 Новая заявка с лендинга mono';
   const lines = [
-    `<b>${isAudit ? '🎯 Заявка на бесплатный UX-аудит (/audit)' : '🔥 Новая заявка с лендинга mono'}</b>`,
+    `<b>${title}</b>`,
     '',
     `Имя: ${escapeHtml(data.name)}`,
     `Телефон: ${escapeHtml(data.phone)}`,
@@ -136,6 +144,8 @@ export async function POST(req: NextRequest) {
 
   if (isAudit) {
     lines.push(`Проект: ${data.product ? escapeHtml(data.product) : '—'}`);
+  } else if (isAgents) {
+    lines.push(`Задача: ${data.product ? escapeHtml(data.product) : '—'}`);
   } else {
     lines.push(
       `Маркетплейсы: ${data.marketplaces.length ? escapeHtml(data.marketplaces.join(', ')) : '—'}`,
@@ -158,9 +168,9 @@ export async function POST(req: NextRequest) {
       // таблице landing_leads, и без колонки их не разделить в дашборде.
       // Требует миграции supabase/migrations/001_add_source.sql.
       source: data.source,
-      // Для /audit экономия маркетплейса не считается — площадок у заявки нет,
-      // поэтому в БД пишется NULL, а не бессмысленное число.
-      calculated_savings: isAudit ? null : savings,
+      // Для /audit и /agents экономия маркетплейса не считается — площадок у
+      // заявки нет, поэтому в БД пишется NULL, а не бессмысленное число.
+      calculated_savings: isAudit || isAgents ? null : savings,
     }),
     sendToTelegram(lines.join('\n')),
   ]);

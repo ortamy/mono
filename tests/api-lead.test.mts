@@ -122,5 +122,19 @@ for (let i = 0; i < 6; i++) {
 }
 check('6th lead from same IP -> 429', rateStatus === 429, `got ${rateStatus}`);
 
+// 8. Заявка со страницы /agents: source: 'agents' — свой заголовок, без экономики маркетплейса
+const r4 = await POST(req(
+  { name: 'Мария', phone: '+79991112233', turnover: '1-3M', product: 'Агент поддержки', source: 'agents' },
+  { 'x-forwarded-for': '10.6.0.1' },
+));
+check('agents lead -> 200', r4.status === 200, `status=${r4.status}`);
+const agentsText = captured.telegram[captured.telegram.length - 1].text;
+check('agents lead marked in telegram', agentsText.includes('/agents'));
+check('agents lead keeps task', agentsText.includes('Агент поддержки'));
+check('agents lead has no marketplace savings', !agentsText.includes('Потенциальная экономия') && !agentsText.includes('Маркетплейсы'));
+const agentsRow = JSON.parse(captured.supabase[captured.supabase.length - 1].body);
+check('agents row: source=agents', agentsRow.source === 'agents', String(agentsRow.source));
+check('agents row: no marketplace savings', agentsRow.calculated_savings === null, String(agentsRow.calculated_savings));
+
 console.log(`\npass=${pass} fail=${fail}`);
 if (fail > 0) process.exitCode = 1;
