@@ -295,8 +295,9 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 | `SUPABASE_SERVICE_KEY` | **service_role** ключ (обходит RLS). НЕ anon. Только сервер. |
 | `TELEGRAM_BOT_TOKEN` | Токен бота от `@BotFather`. |
 | `TELEGRAM_CHAT_ID` | chat_id получателя (узнать через `getUpdates`). |
-| `NEXT_PUBLIC_SITE_URL` | Публичный URL сайта (дефолт `https://ortamy.github.io/mono`). |
-| `NEXT_PUBLIC_BASE_PATH` | Подкаталог, если сайт живёт не в корне (сейчас пусто). |
+| `NEXT_PUBLIC_SITE_URL` | Публичный корень сайта **вместе с подкаталогом деплоя** (дефолт `https://ortamy.github.io/mono`). В CI приходит из `configure-pages` (`base_url`). |
+| `NEXT_PUBLIC_BASE_PATH` | Подкаталог для маршрутизации Next (`/mono`); в CI — из `configure-pages` (`base_path`). В метаданные **не** подмешивается: подкаталог должен быть внутри `NEXT_PUBLIC_SITE_URL`, иначе в canonical/OG получается `/mono/mono/...`. |
+| `NEXT_PUBLIC_OG_IMAGE` | Путь OG-картинки для статического экспорта (`/og.png`). Ставит `scripts/build-static.mjs`; в серверной сборке не нужен — там картинку отдаёт роут `/api/og`. |
 | `NEXT_PUBLIC_METRIKA_ID` | ID Яндекс.Метрики (если пусто — счётчик не подключается). |
 
 ⚠️ Next.js читает env **на старте** — после правки `.env.local` перезапустите
@@ -311,6 +312,7 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 | Скрипт | Что делает |
 |---|---|
 | `npm run dev` | `next dev` — дев-сервер. |
+| `npm run build:static` | `node scripts/build-static.mjs` — статический экспорт в `./out`; его публикует GitHub Pages. |
 | `npm run build` | `next build` — прод-сборка (серверный режим, НЕ static export). |
 | `npm start` | `next start` — запуск прод-сборки (нужен Node-рантайм). |
 | `npm run lint` | `set ESLINT_USE_FLAT_CONFIG=true && eslint .` (flat-config). |
@@ -322,28 +324,43 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 
 ### `next.config.mjs`
 
-- **`output: 'export'` УБРАН** (был раньше для GitHub Pages). Причина — `app/api/lead`
-  держит серверные секреты и требует Node-рантайма. Сейчас это **обычная
-  серверная сборка Next**.
+- `output: 'export'` включается **только** флагом `STATIC_EXPORT=true` — его ставит
+  `scripts/build-static.mjs`, из которого собирается GitHub Pages. Обычный
+  `npm run build` остаётся серверным: `app/api/lead` держит секреты Supabase и
+  Telegram и требует Node-рантайма. Подробности — в «CI/CD и деплой» ниже.
 - `reactStrictMode: true`.
 - `trailingSlash: true` — все URL со слэшем (важно для API-вызовов: см. 4.3).
 - `images: { unoptimized: true, remotePatterns: [images.unsplash.com] }` —
   превью кейсов `/design` используют фото с Unsplash, хост разрешён.
 - `basePath` / `assetPrefix` — из `NEXT_PUBLIC_BASE_PATH` для публикации в
-  подкаталоге (для GitHub Pages ранее был `/mono`).
+  подкаталоге (на Pages это `/mono`). Отвечают только за маршрутизацию и ассеты;
+  абсолютные URL в метаданных собирает `lib/site.ts` из `NEXT_PUBLIC_SITE_URL`.
+- В статическом экспорте POST-роуты `app/api/*` Next помечает как Dynamic и не
+  выкладывает — выносить каталог не нужно, сборка не падает.
 
 ### CI/CD и деплой
 
-- ⚠️ **`.github/workflows/deploy.yml` отключён**: воркфлоу теперь намеренно
-  падает с понятной ошибкой (`exit 1`), потому что GitHub Pages не умеет
-  запускать Node-сервер, а `output: export` больше нет.
-- **Что делать для продакшена** (из комментария в самом файле):
-  1. задеплоить на хостинг с server-рантаймом (**Vercel / Render / Railway /
-     Fly.io**) — тогда `/api/lead` заработает, а токен бота не будет виден в бандле;
-  2. задать env из `.env.example`;
-  3. выполнить SQL из `supabase/landing_leads.sql` в Supabase.
-- Если придётся вернуться к статике — удалить `app/api/lead`, вернуть
-  `output: 'export'` в `next.config.mjs` и восстановить воркфлоу из истории.
+- **GitHub Pages — рабочий деплой.** `.github/workflows/deploy.yml` на каждый пуш
+  в `main` (кроме правок только `.md`) делает: `npm ci` → `configure-pages`
+  (`base_url` → `NEXT_PUBLIC_SITE_URL`, `base_path` → `NEXT_PUBLIC_BASE_PATH`) →
+  `npm run build:static` → `upload-pages-artifact ./out` → `deploy-pages`.
+  Сайт: https://ortamy.github.io/mono/ (репозиторий `ortamy/mono`, источник Pages —
+  GitHub Actions).
+- Особенности статического экспорта:
+  - серверных роутов нет: `POST /api/lead` и `/api/design-lead` не выкладываются.
+    Формы показывают запасную ссылку «Написать в Telegram», лиды в Supabase и
+    Telegram **не уходят**;
+  - метаданные-роуты (`app/robots.ts`, `app/sitemap.ts`, `app/api/og/route.tsx`)
+    помечены `export const dynamic = 'force-static'`: без этого `next build` с
+    `output: 'export'` падает на «Collecting page data», а в серверной сборке это
+    no-op — роуты и так статические;
+  - роут `/api/og` экспортируется файлом без расширения, поэтому
+    `scripts/build-static.mjs` перекладывает его в `out/og.png`, а в метаданные
+    подставляется `NEXT_PUBLIC_OG_IMAGE=/og.png`.
+- **Для продакшена с приёмом заявок** нужен хостинг с Node-рантаймом (**Vercel /
+  Render / Railway / Fly.io**): там собирается обычный `npm run build`, работает
+  `/api/lead`, а env из `.env.example` (Supabase + Telegram) не попадают в
+  клиентский бандл. SQL для таблицы лидов — `supabase/landing_leads.sql`.
 
 ---
 
@@ -365,8 +382,8 @@ typecheck сайта. Не добавляйте импорты между `wbgen
   `design.css` (scope `data-theme`) только для `/design`. Не смешивать scope-ы.
 - **Классы** объединяются через `cn()` (`lib/utils.ts`, clsx + tailwind-merge).
 - **Формы**: клиентский компонент → `fetch('/api/...')` **со слэшем в конце**.
-- **Структура веток/git:** основная ветка `main`. Последний коммит `e634558`
-  («feat: unique case previews»).
+- **Структура веток/git:** основная ветка `main`. Последний коммит `e153134`
+  («ci(pages): публикация статического экспорта на GitHub Pages»).
 
 ---
 
@@ -380,28 +397,35 @@ typecheck сайта. Не добавляйте импорты между `wbgen
    Нужно решить, публичен ли он.
 4. **Rate-limit `/api/lead` — in-memory** → на serverless нестабилен.
    Для прод-нагрузки нужен внешний стор.
-5. **Деплой отключён** (GitHub Pages больше не подходит). Нужен выбор платформы
-   с Node-рантаймом и перенос CI.
+5. ~~**Деплой отключён** (GitHub Pages больше не подходит).~~ ✅ Деплой на Pages
+   работает (раздел 9). Открытый вопрос — хостинг с Node-рантаймом, чтобы заявки
+   снова писались в Supabase и Telegram.
 6. **`web_cases.json` стартово пуст** — кейсы страницы `/web` ещё не наполнены.
 7. **`data/cases.json`** — концепты без реальных метрик (сознательно, чтобы не
    публиковать неподтверждённые цифры; см. комментарий в `components/shop/cases.tsx`).
 8. **Supabase-таблица только для лендинга** (`landing_leads`); заявки с
    `/design` в БД не сохраняются (только Telegram).
 9. **`dev.log`** не отслеживается git, но и **не в `.gitignore`** (status: `??`) —
+10. **`seo.og_image` в `data/site.json`** (`/og.svg`) не используется и такого
+    файла нет: OG-картинку отдаёт `/api/og` (сервер) или `/og.png` (статический
+    экспорт, см. `lib/meta.ts`). Либо удалить поле, либо связать с `OG_IMAGE`.
+11. **OG-картинка в статике рендерится на этапе сборки** (satori). Если раннер не
+    достанет шрифт для кириллицы, картинка отрисуется системным фолбэком, а в
+    логах будет `Failed to download dynamic font` — сборка при этом проходит.
    стоит добавить в `.gitignore`, чтобы лог `next dev` не попал в коммит.
 
 ---
 
 ## 12. Текущее состояние git
 
-- Ветка: `main`, последний коммит `e634558` («feat: unique case previews»).
-- **Незакоммиченные изменения** (`git status --short`):
-  - `M data/site.json` — изменён локально;
-  - `M lib/nav.ts` — изменён локально (навигация расходится с `site.json`, см. п.11.1–11.2);
-  - `?? HANDOFF.md` — этот документ (новый, создан в рамках задачи);
-  - `?? dev.log` — лог дев-сервера (не в `.gitignore`).
-- ⚠️ Перед работой сверьтесь с `git diff data/site.json lib/nav.ts`, чтобы понять,
-  что именно было изменено и не потерять незавершённые правки.
+- Ветка: `main`. Коммиты деплоя: `266407b` («fix(nav): убрать пункт «Аудит»») и
+  `e153134` («ci(pages): публикация статического экспорта на GitHub Pages»);
+  оба запушены, прогон «Deploy to GitHub Pages» зелёный.
+- **Незакоммиченными остаются правки параллельной задачи «редизайн /design»
+  (Фаза 0):** `components/design/**`, `data/design-cases.ts`, `data/site.json`,
+  `lib/nav.ts`, `HANDOFF.md`. В коммиты деплоя они не входили.
+- ⚠️ Перед следующим коммитом сверьтесь с `git status --short` и `git diff`, чтобы
+  не потерять незавершённые правки и не смешать их с другой задачей.
 
 ---
 
