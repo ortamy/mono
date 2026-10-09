@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 
-const HANDLE = 'mono_studio';
+const HANDLE = 'ortamy';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -94,9 +94,9 @@ export default function DesignContactForm() {
             className="d-input"
           >
             <option value="">Не определён</option>
-            <option value="до 100 000 ₽">до 100 000 ₽</option>
-            <option value="100–300 000 ₽">100–300 000 ₽</option>
-            <option value="300 000+ ₽">300 000+ ₽</option>
+            <option value="до 25 000 ₽">до 25 000 ₽</option>
+            <option value="25 000–60 000 ₽">25 000–60 000 ₽</option>
+            <option value="60 000+ ₽">60 000+ ₽</option>
           </select>
         </div>
 

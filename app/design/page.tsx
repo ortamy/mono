@@ -8,28 +8,28 @@ import DesignContactForm from '@/components/design/design-contact-form';
 const SERVICES = [
   {
     title: 'Лендинг',
-    price: 'от 60 000 ₽',
+    price: 'от 25 000 ₽',
     term: '7–10 дней',
     desc: 'Одностраничник под запуск продукта или рекламную кампанию.',
     points: ['Структура и прототип', 'Дизайн в Figma', 'Адаптив под мобильные'],
   },
   {
     title: 'Сайт / интернет-магазин',
-    price: 'от 150 000 ₽',
+    price: 'от 60 000 ₽',
     term: '3–5 недель',
     desc: 'Многостраничный сайт с каталогом, фильтрами и формами.',
     points: ['UX-исследование', 'Дизайн-система', 'Макеты всех состояний'],
   },
   {
     title: 'Мобильное приложение',
-    price: 'от 200 000 ₽',
+    price: 'от 100 000 ₽',
     term: '4–6 недель',
     desc: 'iOS и Android: от онбординга до основного сценария.',
     points: ['User-flow', 'UI в Figma', 'Передача разработчикам'],
   },
   {
     title: 'UX-аудит',
-    price: 'от 40 000 ₽',
+    price: 'от 15 000 ₽',
     term: '5 дней',
     desc: 'Разбор текущего продукта с конкретными рекомендациями.',
     points: ['Юзабилити-тесты', 'Отчёт с приоритетами', 'Поддержка после внедрения'],
@@ -37,9 +37,9 @@ const SERVICES = [
 ];
 
 const STATS = [
-  { value: '7 лет', label: 'в дизайне' },
-  { value: '60+', label: 'проектов' },
-  { value: '14', label: 'специалистов' },
+  { value: '2 года', label: 'в дизайне' },
+  { value: '10+', label: 'проектов' },
+  { value: '1', label: 'специалист' },
 ];
 
 const STEPS = [
@@ -102,8 +102,9 @@ export default function DesignPage() {
               </h2>
             </div>
             <p className="max-w-[380px] text-[14px] leading-[1.6] d-muted">
-              Шесть проектов из разных ниш: e-commerce, fintech, аналитика,
-              медицина, доставка и B2B.
+              Восемь проектов из разных ниш: e-commerce, fintech, аналитика,
+              медицина, доставка, B2B и исследования. У двух верхних есть
+              живой сайт — открывайте по ссылке.
             </p>
           </div>
 
@@ -121,6 +122,11 @@ export default function DesignPage() {
         <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Что делаю и сколько стоит
         </h2>
+        <p className="mt-3 max-w-[560px] text-[14px] leading-[1.6] d-muted">
+          Цены ниже — специальные для первых клиентов: делаю дешевле, чтобы
+          собрать новые кейсы. Смету и сроки фиксирую до старта, без доплат
+          по ходу.
+        </p>
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {SERVICES.map((s) => (
@@ -170,10 +176,8 @@ export default function DesignPage() {
           Продуктовый дизайн с фокусом на бизнес
         </h2>
         <p className="mt-5 text-[16px] leading-[1.65] d-muted">
-          7 лет проектирую интерфейсы для e-commerce, финтеха и SaaS. Работаю
-          через исследование и метрики, а не через «красиво»: каждый макет
-          решает конкретную задачу продукта. В работе — Figma и AI-инструменты
-          для ускорения исследований и генерации вариантов.
+          Проектирую интерфейсы для e-commerce, финтеха и SaaS. Работаю
+          через исследование и метрики, а не через красоту.
         </p>
         <div className="mt-8 grid grid-cols-3 gap-6 border-t border-[var(--d-line)] pt-8">
           {STATS.map((s) => (
@@ -199,11 +203,11 @@ export default function DesignPage() {
                 напрямую в Telegram — там быстрее.
               </p>
               <div className="mt-6 flex flex-col gap-3">
-                <a href="https://t.me/mono_studio" target="_blank" rel="noreferrer" className="d-btn d-btn-ghost w-full sm:w-auto">
-                  <Send size={15} strokeWidth={1.5} aria-hidden /> @mono_studio
+                <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-ghost w-full sm:w-auto">
+                  <Send size={15} strokeWidth={1.5} aria-hidden /> @ortamy
                 </a>
-                <a href="mailto:hello@mono.studio" className="text-[14px] d-muted transition-colors hover:text-[var(--d-ink)]">
-                  hello@mono.studio
+                <a href="mailto:hamaschiah@proton.me" className="text-[14px] d-muted transition-colors hover:text-[var(--d-ink)]">
+                  hamaschiah@proton.me
                 </a>
               </div>
             </div>

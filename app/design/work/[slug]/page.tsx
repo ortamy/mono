@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, Send } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Send } from 'lucide-react';
 import { DESIGN_CASES, getDesignCase } from '@/data/design-cases';
+import CaseMock from '@/components/design/case-mock';
 
 /**
  * Страница кейса портфолио: /design/work/[slug].
@@ -64,6 +65,16 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
           <span className="rounded-full border border-[var(--d-line)] px-3 py-1 text-[12px] d-muted">
             {item.category} · {item.year}
           </span>
+          {item.url ? (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-8 items-center gap-1.5 rounded-full border border-[var(--d-line)] px-3.5 text-[12px] text-[var(--d-ink)] transition-colors hover:bg-[var(--d-soft)]"
+            >
+              Открыть живой сайт <ArrowUpRight size={13} strokeWidth={1.5} aria-hidden />
+            </a>
+          ) : null}
         </div>
 
         <h1 className="mt-4 max-w-[760px] text-[clamp(28px,5vw,44px)] font-bold leading-[1.1] tracking-[-1.5px] text-[var(--d-ink)]">
@@ -72,14 +83,13 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
         <p className="mt-4 max-w-[620px] text-[16px] leading-[1.65] d-muted">{item.summary}</p>
       </header>
 
-      {/* Превью */}
+      {/* Превью — живой макет первого экрана. */}
       <div className="mx-auto mt-10 max-w-[1100px] px-5 sm:px-8">
-        <div
-          className="d-preview aspect-[16/9] rounded-xl border border-[var(--d-line)]"
-          style={{ background: item.gradient }}
-          role="img"
-          aria-label={`Превью проекта «${item.title}»`}
-        />
+        <div className="overflow-hidden rounded-xl border border-[var(--d-line)]">
+          <div className="relative aspect-[16/10]">
+            <CaseMock screen={item.screens[0]} palette={item.palette} />
+          </div>
+        </div>
       </div>
 
       {/* Метрики */}
@@ -132,7 +142,9 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
                 <span className="d-screen-dot" />
                 <span className="d-screen-dot" />
               </div>
-              <div className="d-preview aspect-[16/10]" style={{ background: screen.gradient }} />
+              <div className="relative aspect-[16/10]">
+                <CaseMock screen={screen} palette={item.palette} />
+              </div>
               <figcaption className="px-4 py-3 text-[13px] d-muted">{screen.title}</figcaption>
             </figure>
           ))}
@@ -151,9 +163,16 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
               {next.emoji} {next.title}
             </Link>
           </div>
-          <a href="/design/#contact" className="d-btn d-btn-primary">
-            <Send size={15} strokeWidth={1.5} aria-hidden /> Обсудить проект
-          </a>
+          <div className="flex flex-wrap items-center gap-3">
+            {item.url ? (
+              <a href={item.url} target="_blank" rel="noreferrer" className="d-btn d-btn-ghost">
+                Живой сайт <ArrowUpRight size={15} strokeWidth={1.5} aria-hidden />
+              </a>
+            ) : null}
+            <a href="/design/#contact" className="d-btn d-btn-primary">
+              <Send size={15} strokeWidth={1.5} aria-hidden /> Обсудить проект
+            </a>
+          </div>
         </div>
       </section>
     </article>

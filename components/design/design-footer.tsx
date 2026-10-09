@@ -14,8 +14,8 @@ const COLUMNS = [
   {
     title: 'Связь',
     links: [
-      { label: 'Telegram @mono_studio', href: 'https://t.me/mono_studio', external: true },
-      { label: 'hello@mono.studio', href: 'mailto:hello@mono.studio', external: true },
+      { label: 'Telegram @ortamy', href: 'https://t.me/ortamy', external: true },
+      { label: 'hamaschiah@proton.me', href: 'mailto:hamaschiah@proton.me', external: true },
     ],
   },
 ];
@@ -59,7 +59,7 @@ export default function DesignFooter() {
         <div className="mt-10 flex flex-col gap-2 border-t border-[var(--d-line)] pt-5 text-[12px] d-faint sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} UX/UI дизайнер. Все права защищены.</span>
           <div className="flex items-center gap-5">
-            <a href="https://t.me/mono_studio" target="_blank" rel="noreferrer" className="transition-colors hover:text-[var(--d-ink)]">Telegram</a>
+            <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="transition-colors hover:text-[var(--d-ink)]">Telegram</a>
             <Link href="/" className="transition-colors hover:text-[var(--d-ink)]">Сайт mono</Link>
           </div>
         </div>

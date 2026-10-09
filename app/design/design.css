@@ -121,21 +121,7 @@ textarea.d-input {
 
 .d-icon-btn:hover { background: var(--d-soft); }
 
-/* Превью кейса и «экраны»: градиент + сетка-заглушка,
-   чтобы картинка читалась как макет, а не как пустой прямоугольник. */
-.d-preview { position: relative; overflow: hidden; }
-
-.d-preview::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(128, 128, 128, 0.18) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(128, 128, 128, 0.18) 1px, transparent 1px);
-  background-size: 34px 34px;
-}
-
-/* Тулбар «браузера» на заглушках экранов. */
+/* Тулбар «браузера» над макетами экранов на странице кейса. */
 .d-screen-bar {
   display: flex;
   align-items: center;
