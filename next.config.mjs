@@ -24,6 +24,8 @@ const nextConfig = {
   // режиме оставляем как есть до отдельного решения.
   images: {
     unoptimized: true,
+    // Внутри превью кейсов на /design стоят фото с Unsplash — разрешаем хост.
+    remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
   },
 
   // Префикс путей для публикации в под-каталоге GitHub Pages (например /mono)

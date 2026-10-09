@@ -1,6 +1,8 @@
 import { ArrowRight, Send } from 'lucide-react';
 import { DESIGN_CASES } from '@/data/design-cases';
 import CaseCard from '@/components/design/case-card';
+import ClientLogos from '@/components/design/client-logos';
+import DesignTestimonials from '@/components/design/design-testimonials';
 import DesignContactForm from '@/components/design/design-contact-form';
 
 /* ---------- Данные секций ---------- */
@@ -61,15 +63,15 @@ export default function DesignPage() {
           Открыт для проектов — январь 2026
         </span>
 
-        <h1 className="mt-6 text-[clamp(36px,6vw,64px)] font-bold leading-[1.05] tracking-[-2px] text-[var(--d-ink)]">
-          UX/UI дизайнер
+        <h1 className="mt-6 text-[clamp(32px,5.2vw,56px)] font-bold leading-[1.06] tracking-[-1.8px] text-[var(--d-ink)]">
+          Увеличиваю конверсию сайтов
           <br />
-          <span className="d-faint">интерфейсов, которые продают</span>
+          <span className="d-faint">на 20–60% за 30 дней</span>
         </h1>
 
         <p className="mt-6 max-w-[560px] text-[16px] leading-[1.65] d-muted">
-          Дизайн сайтов и приложений. Figma, AI-инструменты. Превращаю сложные
-          продукты в понятные интерфейсы — от исследования до макета под разработку.
+          UX/UI дизайн для e-commerce, SaaS и финтеха. Проектирую интерфейсы,
+          которые продают.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
@@ -91,6 +93,8 @@ export default function DesignPage() {
         </dl>
       </section>
 
+      <ClientLogos />
+
       {/* РАБОТЫ */}
       <section id="work" className="d-surface border-y border-[var(--d-line)] scroll-mt-20">
         <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
@@ -102,9 +106,9 @@ export default function DesignPage() {
               </h2>
             </div>
             <p className="max-w-[380px] text-[14px] leading-[1.6] d-muted">
-              Восемь проектов из разных ниш: e-commerce, fintech, аналитика,
-              медицина, доставка, B2B и исследования. У двух верхних есть
-              живой сайт — открывайте по ссылке.
+              Шесть клиентских кейсов и два собственных проекта — у каждого
+              свой первый экран, палитра и логика. Дизайн можно потрогать:
+              каждое превью собрано как настоящий сайт.
             </p>
           </div>
 
@@ -115,6 +119,8 @@ export default function DesignPage() {
           </div>
         </div>
       </section>
+
+      <DesignTestimonials />
 
       {/* УСЛУГИ */}
       <section id="services" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">

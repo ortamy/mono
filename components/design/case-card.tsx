@@ -1,12 +1,10 @@
-/** Карточка кейса в сетке портфолио: живой макет экрана + метрики. */
+/** Карточка кейса в сетке портфолио: свёрстанный первый экран + метрики. */
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import type { DesignCase } from '@/data/design-cases';
-import CaseMock from './case-mock';
+import CaseScreenshot from './case-screenshot';
 
 export default function CaseCard({ item }: { item: DesignCase }) {
-  const preview = item.screens[0];
-
   return (
     <article className="d-card d-hover-line group relative overflow-hidden">
       {/* Растянутая ссылка на кейс: клик по карточке открывает детали. */}
@@ -16,10 +14,10 @@ export default function CaseCard({ item }: { item: DesignCase }) {
         aria-label={`${item.title} — открыть кейс`}
       />
 
-      {/* Превью — живой макет первого экрана проекта. */}
-      <div className="relative aspect-[16/10]">
-        <CaseMock screen={preview} palette={item.palette} />
-        <span className="absolute right-3 top-3 z-[2] rounded-full border border-[var(--d-line)] bg-[var(--d-card)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--d-ink)]">
+      {/* Превью — первый экран проекта, свёрстанный в мокапе браузера. */}
+      <div className="relative">
+        <CaseScreenshot item={item} />
+        <span className="pointer-events-none absolute bottom-3 right-3 z-[3] rounded-full border border-[var(--d-line)] bg-[var(--d-card)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--d-ink)]">
           {item.year}
         </span>
       </div>

@@ -122,7 +122,12 @@ function Grid({ s, p, items, values }: { s: DesignScreen; p: MockPalette; items:
 /** Карточка товара: крупное изображение и блок информации. */
 function Detail({ s, p, items, values }: { s: DesignScreen; p: MockPalette; items: string[]; values: string[] }) {
   const lines = splitLines(s.headline);
-  let chipX = 392;
+  const chips = items.slice(0, 2);
+  // Стартовые позиции чипов считаем заранее: мутировать переменную внутри
+  // .map() нельзя — это ломает правило react-hooks/immutability.
+  const chipStarts = chips.map((_, i) =>
+    392 + chips.slice(0, i).reduce((acc, t) => acc + 24 + t.length * 7.2 + 8, 0),
+  );
   return (
     <g>
       <Nav p={p} brand={s.brand ?? 'brand'} cta="В корзину" />
@@ -134,10 +139,9 @@ function Detail({ s, p, items, values }: { s: DesignScreen; p: MockPalette; item
       ))}
       <text x={392} y={126 + lines.length * 38 + 34} fill={p.accent} fontSize={26} fontWeight={700}>{values[0] ?? ''}</text>
       <text x={392} y={126 + lines.length * 38 + 62} fill={p.muted} fontSize={12}>{s.sub ?? ''}</text>
-      {items.slice(0, 2).map((it) => {
+      {chips.map((it, i) => {
         const cw = 24 + it.length * 7.2;
-        const x = chipX;
-        chipX += cw + 8;
+        const x = chipStarts[i];
         return (
           <g key={it}>
             <rect x={x} y={272} width={cw} height={26} rx={13} fill={p.panel} stroke={p.line} />

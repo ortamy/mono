@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight, Send } from 'lucide-react';
 import { DESIGN_CASES, getDesignCase } from '@/data/design-cases';
 import CaseMock from '@/components/design/case-mock';
+import CaseScreenshot from '@/components/design/case-screenshot';
+import { CASE_ICONS } from '@/components/design/case-icons';
 
 /**
  * Страница кейса портфолио: /design/work/[slug].
@@ -49,6 +51,9 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
   const index = DESIGN_CASES.findIndex((c) => c.slug === item.slug);
   const next = DESIGN_CASES[(index + 1) % DESIGN_CASES.length];
 
+  const CaseIcon = CASE_ICONS[item.preview];
+  const NextIcon = CASE_ICONS[next.preview];
+
   return (
     <article>
       {/* Верх: назад + мета */}
@@ -61,7 +66,9 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
         </Link>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <span className="text-[24px]" aria-hidden>{item.emoji}</span>
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+            <CaseIcon size={18} strokeWidth={1.6} />
+          </span>
           <span className="rounded-full border border-[var(--d-line)] px-3 py-1 text-[12px] d-muted">
             {item.category} · {item.year}
           </span>
@@ -83,13 +90,9 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
         <p className="mt-4 max-w-[620px] text-[16px] leading-[1.65] d-muted">{item.summary}</p>
       </header>
 
-      {/* Превью — живой макет первого экрана. */}
+      {/* Превью — свёрстанный первый экран проекта. */}
       <div className="mx-auto mt-10 max-w-[1100px] px-5 sm:px-8">
-        <div className="overflow-hidden rounded-xl border border-[var(--d-line)]">
-          <div className="relative aspect-[16/10]">
-            <CaseMock screen={item.screens[0]} palette={item.palette} />
-          </div>
-        </div>
+        <CaseScreenshot item={item} />
       </div>
 
       {/* Метрики */}
@@ -160,7 +163,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
               href={`/design/work/${next.slug}/`}
               className="mt-1 inline-flex items-center gap-2 text-[17px] font-semibold text-[var(--d-ink)] hover:underline"
             >
-              {next.emoji} {next.title}
+              <NextIcon size={17} strokeWidth={1.6} aria-hidden /> {next.title}
             </Link>
           </div>
           <div className="flex flex-wrap items-center gap-3">
