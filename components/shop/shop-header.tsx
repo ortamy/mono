@@ -27,7 +27,7 @@ interface ShopHeaderProps {
 export default function ShopHeader({
   links = LINKS,
   requestHref = '#request',
-  requestLabel = 'Рассчитать экономию',
+  requestLabel = 'Обсудить проект',
 }: ShopHeaderProps = {}) {
   const [open, setOpen] = useState(false);
 

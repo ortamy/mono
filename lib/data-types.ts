@@ -28,6 +28,74 @@ export interface DirectionItem {
   term: string;
 }
 
+/** ИИ-услуга главной. Иконка выбирается в коде по `id`: JSON не хранит компоненты. */
+export interface AiServiceItem {
+  id: string;
+  title: string;
+  term: string;
+  desc: string;
+}
+
+export interface AiServicesConfig {
+  eyebrow: string;
+  heading_a: string;
+  heading_b: string;
+  note: string;
+  items: AiServiceItem[];
+}
+
+/** Компетенция студии. Иконка — тоже по `id` в коде. */
+export interface CompetencyItem {
+  id: string;
+  title: string;
+  tech: string;
+  desc: string;
+}
+
+export interface CompetenciesConfig {
+  eyebrow: string;
+  heading_a: string;
+  heading_b: string;
+  lead: string;
+  items: CompetencyItem[];
+}
+
+export interface ProcessStep {
+  num: string;
+  title: string;
+  term: string;
+  desc: string;
+}
+
+export interface ProcessConfig {
+  eyebrow: string;
+  heading: string;
+  lead: string;
+  steps: ProcessStep[];
+}
+
+export interface PricingPlan {
+  name: string;
+  price: string;
+  term: string;
+  popular: boolean;
+  features: string[];
+}
+
+export interface PricingConfig {
+  eyebrow: string;
+  heading: string;
+  lead: string;
+  plans: PricingPlan[];
+  note: string;
+}
+
+/** Пункт FAQ главной. */
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export interface SiteConfig {
   meta: {
     site_url: string;
@@ -35,7 +103,7 @@ export interface SiteConfig {
     description: string;
     og_image: string;
   };
-  nav: NavItem[];
+  /* Навигация живёт в lib/nav.ts: дублировать её в site.json больше не нужно. */
   contacts: {
     telegram: string;
     telegram_handle: string;
@@ -48,9 +116,16 @@ export interface SiteConfig {
     subtitle: string;
     primary_cta: Cta;
     secondary_cta: Cta;
+    /** Чипы под hero: «Продуктовый дизайн», «ИИ-автоматизация» и т.д. */
+    badges: string[];
     index: string;
     index_sub: string;
   };
+  ai_services: AiServicesConfig;
+  competencies: CompetenciesConfig;
+  process: ProcessConfig;
+  pricing: PricingConfig;
+  faq: FaqItem[];
   metrics: {
     source: string;
     items: MetricItem[];
@@ -67,7 +142,8 @@ export interface SiteConfig {
     heading_b: string;
     text: string;
     tags: string[];
-    ai_note: string;
+    stats: MetricItem[];
+    /* Подпись про нейросети живёт в ai_services.note: одна мысль — одно место. */
     more_href: string;
     more_label: string;
   };
@@ -77,6 +153,10 @@ export interface SiteConfig {
     heading_b: string;
     offer_title: string;
     offer_text: string;
+    /** Что будет после заявки — список шагов под заголовком. */
+    audit_steps: string[];
+    /** Итог для клиента: что он получает после разбора. */
+    audit_outcome: string;
     telegram_label: string;
   };
   footer: {

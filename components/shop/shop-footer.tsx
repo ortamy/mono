@@ -4,18 +4,18 @@ const COLUMNS = [
   {
     title: 'Разделы',
     links: [
+      { label: 'Компетенции', href: '/#competencies' },
       { label: 'Кейсы', href: '/#cases' },
       { label: 'Тарифы', href: '/#pricing' },
       { label: 'FAQ', href: '/#faq' },
-      { label: 'Решение', href: '/#solution' },
       { label: 'Бесплатный аудит', href: '/audit' },
     ],
   },
   {
     title: 'Связь',
     links: [
-      { label: 'Telegram @mono_studio', href: 'https://t.me/mono_studio', external: true },
-      { label: 'hello@mono.studio', href: 'mailto:hello@mono.studio', external: true },
+      { label: 'Telegram @ortamy', href: 'https://t.me/ortamy', external: true },
+      { label: 'Бесплатный аудит', href: '/audit' },
     ],
   },
 ];
@@ -31,7 +31,7 @@ export default function ShopFooter() {
               mono<span className="text-agentos-faint">.</span>
             </Link>
             <p className="mt-3 max-w-[320px] text-[13px] leading-[1.6] text-agentos-muted">
-              Кастомные интернет-магазины с ИИ-автоматизацией. Без комиссий маркетплейсов.
+              Продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS. Интерфейсы, которые считаются в метриках.
             </p>
           </div>
 
@@ -60,7 +60,7 @@ export default function ShopFooter() {
         <div className="mt-12 flex flex-col gap-2 border-t border-agentos-line pt-6 text-[12px] text-agentos-faint sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} mono. Все права защищены.</span>
           <div className="flex items-center gap-5">
-            <a href="https://t.me/mono_studio" target="_blank" rel="noreferrer" className="transition-colors hover:text-agentos-ink">Telegram</a>
+            <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="transition-colors hover:text-agentos-ink">Telegram</a>
             <Link href="/privacy" className="transition-colors hover:text-agentos-ink">Политика конфиденциальности</Link>
           </div>
         </div>
