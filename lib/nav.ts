@@ -10,6 +10,7 @@ export const NAV: NavItem[] = [
   { label: 'E-commerce', href: '/mono' },
   { label: 'Web', href: '/web' },
   { label: 'Brand', href: '/brand' },
+  { label: 'Аудит', href: '/audit' },
   { label: 'Обо мне', href: '/about' },
   { label: 'Контакты', href: '/contact' },
 ];

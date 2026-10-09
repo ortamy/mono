@@ -8,6 +8,7 @@ const COLUMNS = [
       { label: 'Тарифы', href: '/#pricing' },
       { label: 'FAQ', href: '/#faq' },
       { label: 'Решение', href: '/#solution' },
+      { label: 'Бесплатный аудит', href: '/audit' },
     ],
   },
   {

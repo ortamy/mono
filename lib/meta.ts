@@ -10,6 +10,9 @@ import { pageUrl, assetUrl } from '@/lib/site';
 // картинку в /og.png и подставляет сюда NEXT_PUBLIC_OG_IMAGE.
 export const OG_IMAGE = process.env.NEXT_PUBLIC_OG_IMAGE || '/api/og/';
 
+/** Подпись OG-картинки: одна на весь сайт, для соцсетей и скринридеров. */
+export const OG_ALT = 'mono. — продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS';
+
 export interface PageMeta {
   title: string;
   description: string;
@@ -34,7 +37,7 @@ export function buildMetadata({ title, description, path = '/' }: PageMeta): Met
       type: 'website',
       url,
       siteName: 'mono.',
-      images: [{ url: image, width: 1200, height: 630, alt: 'mono. — кастомные интернет-магазины с ИИ' }],
+      images: [{ url: image, width: 1200, height: 630, alt: OG_ALT }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -47,9 +50,9 @@ export function buildMetadata({ title, description, path = '/' }: PageMeta): Met
 
 /**
  * Значения по умолчанию для страниц, которые не задают свои (app/about и т.д.).
- * Описание отражает текущее позиционирование — магазины «под ключ», а не
- * дизайн-услуги, поэтому текст обновлён вместе с репозиторионированием.
+ * Описание отражает текущее позиционирование — продуктовый дизайн и
+ * ИИ-автоматизация для e-commerce и SaaS, а не только магазины «под ключ».
  */
-export const SITE_TITLE_DEFAULT = 'mono. — кастомные интернет-магазины без комиссий';
+export const SITE_TITLE_DEFAULT = 'mono. — продуктовый дизайн и ИИ-автоматизация';
 export const SITE_DESCRIPTION_DEFAULT =
-  'Кастомные интернет-магазины с ИИ-автоматизацией. 0% комиссий маркетплейсов, запуск за 21 день, окупаемость 2–4 месяца.';
+  'Проектирую интерфейсы, которые приносят прибыль, и автоматизирую рутину с помощью ИИ. E-commerce, SaaS, маркетплейсы.';

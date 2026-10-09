@@ -2,7 +2,7 @@
 
 > Документ-контекст для передачи проекта человеку или ИИ-ассистенту.
 > Описывает, **что это за продукт, зачем он, на чём построен, как устроен и
-> что важно не сломать**. Актуально на дату коммита `e634558` (ветка `main`).
+> что важно не сломать**. Актуально на дату коммита Фазы 3 (`feat: фаза 3 — аудит-лид-магнит, локальный favicon, обновление hero`).
 
 ---
 
@@ -78,7 +78,8 @@
 
 | URL | Файл | Что это |
 |---|---|---|
-| `/` | `app/page.tsx` | Лендинг: «кастомный интернет-магазин без комиссий». Светлая mono-тема, палитра `agentos.*`. |
+| `/` | `app/page.tsx` | Главная: «продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS». Светлая mono-тема, палитра `agentos.*`; сразу под hero — блок ИИ-услуг (видео, карточки, автоворонки). |
+| `/audit` | `app/audit/page.tsx` | Лид-магнит: «Бесплатный UX-аудит за 15 минут» с формой (`components/audit/audit-form.tsx` → POST `/api/lead` с `source: 'audit'`). |
 | `/web` | `app/web/page.tsx` | Направление Web. Контент целиком из `content/web/*.json`. |
 | `/mono` | `app/mono/page.tsx` | Направление E-commerce (карточки WB/Ozon). |
 | `/wbdesign` | `app/wbdesign/page.tsx` | Алиас-редирект на `/mono` (переиспользует его компонент). |
@@ -95,8 +96,9 @@
 | `/api/design-lead` | `app/api/design-lead/route.ts` | Приём заявок портфолио. |
 | `/api/og` | `app/api/og/route.tsx` | Динамическая OG-картинка. |
 
-✅ **Исправлено (Фаза 0):** пункт `{ label: 'Аудит', href: '/audit' }` из `lib/nav.ts`
-убран — страницы `app/audit` в проекте не было, ссылка вела на 404.
+✅ **Актуально:** пункт `{ label: 'Аудит', href: '/audit' }` вернулся в `lib/nav.ts`
+вместе с реальной страницей `app/audit` (Фаза 3 — техдолг и переориентация
+главной). До этого страницы не было, ссылка вела на 404 и её убирали (Фаза 0).
 `data/site.json` перестал быть вторым источником навигации: его блок `nav`
 удалён (файл и так не читался ни одним модулем). Единственный источник
 навигации — `lib/nav.ts`. `/design` по-прежнему вне навигации (страницу
@@ -132,6 +134,8 @@
   - мягкий rate-limit: **один IP — не более 5 заявок за 10 минут** (in-memory `Map`);
   - **экранирование HTML** перед подстановкой в Telegram `parse_mode: 'HTML'`;
   - пишет в Supabase таблицу `landing_leads` **и** шлёт в Telegram;
+  - в БД пишет `source` (`landing` | `audit`) и `calculated_savings`: для
+    заявок с `/audit` экономия маркетплейса не считается и пишется `NULL`;
   - **Telegram — основной канал**: если он падает → 502; падение Supabase —
     только `console.error`, пользователю не мешает;
   - экономия считается через `lib/turnover.ts` (`savingsForBand`).
@@ -162,6 +166,12 @@
 
 - `lib/site.ts`: `siteUrl` (из `NEXT_PUBLIC_SITE_URL`, дефолт
   `https://ortamy.github.io/mono`), `basePath`, `pageUrl()`, `assetUrl()`.
+- **Иконка сайта — файл `app/icon.svg`**, а не поле `icons` в метаданных: Next сам
+  печатает `<link rel="icon">` с учётом `basePath` и хешем для сброса кэша.
+  Собранный вручную `assetUrl('/favicon.svg')` давал абсолютный URL из `siteUrl`,
+  поэтому на локальном сервере, в превью и на любом хостинге, кроме указанного в
+  `NEXT_PUBLIC_SITE_URL`, иконка не грузилась. `public/favicon.svg` оставлен как
+  отдельный файл — на прямые ссылки вида `/favicon.svg` смотрят закладки и боты.
 - `lib/meta.ts`: `buildMetadata({title, description, path})` — единый builder
   canonical + OpenGraph + Twitter с абсолютными URL. `metadataBase` задаётся
   в корневом layout.
@@ -225,9 +235,15 @@
 
 ### 6.1 Бэкенд — Supabase
 
-- DDL: `supabase/landing_leads.sql` (выполнить один раз в SQL Editor проекта).
-- Таблица **`landing_leads`**: заявки лендинга (имя, контакт, оборот, цель,
-  сайт, рассчитанная экономия, utm-метки, created_at).
+- DDL: `supabase/landing_leads.sql` (выполнить один раз в SQL Editor проекта);
+  инкрементальные изменения — `supabase/migrations/*.sql` по номеру.
+- Таблица **`landing_leads`**: заявки главной и `/audit` (имя, контакт, оборот,
+  продукт, `source`, `calculated_savings`, статус, created_at). Воронки
+  разделяются колонкой **`source`** (`landing` | `audit`) —
+  `supabase/migrations/001_add_source.sql`.
+- ⚠️ **Порядок деплоя:** сначала миграция, потом код — `/api/lead` пишет `source`
+  в каждой заявке, и без колонки вставка в Supabase падает (заявка всё равно
+  уходит в Telegram, но в БД не попадает: в логах `[lead] supabase insert failed`).
 - Клиент создаётся на сервере с `SUPABASE_SERVICE_KEY` (**service_role**,
   обходит RLS) — ключ НИКОГДА не попадает в клиент.
 - Падение записи в БД не влияет на ответ пользователю (логируется).
@@ -236,7 +252,7 @@
 
 | Файл | Назначение |
 |---|---|
-| `data/site.json` | Конфиг сайта: мета, контакты (Telegram `@ortamy`), hero, метрики, направления, CTA. ⚠️ Нигде не читается — «мёртвый» файл; блок `nav` удалён, навигация живёт в `lib/nav.ts`. |
+| `data/site.json` | Конфиг сайта: мета, контакты (Telegram `@ortamy`), hero, ИИ-услуги (`ai_services`), метрики, направления, CTA. ⚠️ Нигде не читается — «мёртвый» файл; блок `nav` удалён, навигация живёт в `lib/nav.ts`. |
 | `data/form.json` | Провайдер формы: `telegram` \| `web3forms` \| `off`. |
 | `data/analytics.json` | `enabled`, `ga_id`, список событий. |
 | `data/policy.json` | Текст политики конфиденциальности (оператор, данные, цели, сроки, права). |
@@ -361,7 +377,7 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 - **Для продакшена с приёмом заявок** нужен хостинг с Node-рантаймом (**Vercel /
   Render / Railway / Fly.io**): там собирается обычный `npm run build`, работает
   `/api/lead`, а env из `.env.example` (Supabase + Telegram) не попадают в
-  клиентский бандл. SQL для таблицы лидов — `supabase/landing_leads.sql`.
+  клиентский бандл. SQL для таблицы лидов — `supabase/landing_leads.sql` плюс миграции в `supabase/migrations/`.
 
 ---
 
@@ -383,15 +399,16 @@ typecheck сайта. Не добавляйте импорты между `wbgen
   `design.css` (scope `data-theme`) только для `/design`. Не смешивать scope-ы.
 - **Классы** объединяются через `cn()` (`lib/utils.ts`, clsx + tailwind-merge).
 - **Формы**: клиентский компонент → `fetch('/api/...')` **со слэшем в конце**.
-- **Структура веток/git:** основная ветка `main`. Последний коммит `e153134`
-  («ci(pages): публикация статического экспорта на GitHub Pages»).
+- **Структура веток/git:** основная ветка `main`. Последний коммит `2f722f8`
+  («feat(design): фаза 2 — кейсы на данных, общие рендеры без хардкода»).
 
 ---
 
 ## 11. Известные пробелы, риски и TODO
 
-1. ~~**Ссылка `/audit` в `lib/nav.ts` не имеет страницы** → 404.~~ ✅ Убрана в
-   Фазе 0; при необходимости соберём реальную страницу аудита.
+1. ~~**Ссылка `/audit` в `lib/nav.ts` не имеет страницы** → 404.~~ ✅ Закрыто в
+   Фазе 3: страница `app/audit` собрана, пункт «Аудит» возвращён в `lib/nav.ts`,
+   URL добавлен в `app/sitemap.ts`.
 2. ~~**`lib/nav.ts` и `data/site.json` (nav) расходятся**~~ ✅ Дубль `nav`
    удалён, единственный источник — `lib/nav.ts`.
 3. **`/design` нет в навигации** и вне sitemap — сейчас попадает по прямой ссылке.
@@ -404,7 +421,8 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 6. **`web_cases.json` стартово пуст** — кейсы страницы `/web` ещё не наполнены.
 7. **`data/cases.json`** — концепты без реальных метрик (сознательно, чтобы не
    публиковать неподтверждённые цифры; см. комментарий в `components/shop/cases.tsx`).
-8. **Supabase-таблица только для лендинга** (`landing_leads`); заявки с
+8. **Supabase-таблица одна на две воронки** (`landing_leads`): заявки с
+   главной и с `/audit` различаются колонкой `source` (см. 6.1); заявки с
    `/design` в БД не сохраняются (только Telegram).
 9. **`dev.log`** не отслеживается git, но и **не в `.gitignore`** (status: `??`) —
    стоит добавить в `.gitignore`, чтобы лог `next dev` не попал в коммит.
@@ -421,12 +439,20 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 
 - Ветка: `main`. Коммиты деплоя: `266407b` («fix(nav): убрать пункт «Аудит»») и
   `e153134` («ci(pages): публикация статического экспорта на GitHub Pages»);
-  оба запушены, прогон «Deploy to GitHub Pages» зелёный.
-- **Незакоммиченными остаются правки параллельной задачи «редизайн /design»
-  (Фаза 0):** `components/design/**`, `data/design-cases.ts`, `data/site.json`,
-  `lib/nav.ts`, `HANDOFF.md`. В коммиты деплоя они не входили.
-- ⚠️ Перед следующим коммитом сверьтесь с `git status --short` и `git diff`, чтобы
-  не потерять незавершённые правки и не смешать их с другой задачей.
+  оба запушены, прогон «Deploy to GitHub Pages» зелёный. Последний коммит —
+  `2f722f8` («feat(design): фаза 2 — кейсы на данных, общие рендеры без хардкода»).
+- **Фаза 3 закоммичена** (`feat: фаза 3 — аудит-лид-магнит, локальный favicon,
+  обновление hero (продуктовый дизайн + ИИ)`): `app/audit/**`,
+  `components/audit/**`, `app/icon.svg`, правки `app/page.tsx`, `app/layout.tsx`,
+  `app/api/lead/route.ts`, `app/sitemap.ts`, `components/shop/shop-header.tsx`,
+  `components/shop/shop-footer.tsx`, `lib/meta.ts`, `lib/nav.ts`, `data/site.json`,
+  `tests/api-lead.test.mts`, `HANDOFF.md` и миграция БД
+  `supabase/migrations/001_add_source.sql` (колонка `source` в `landing_leads`).
+- ⚠️ **Этот коммит ещё не запушен** (`git push origin main` вручную). Перед первым
+  деплоем Фазы 3 примените `supabase/migrations/001_add_source.sql` — иначе
+  заявки перестанут доходить до Supabase (Telegram продолжит работать).
+- ⚠️ Если правите что-то новое, сверяйтесь с `git status --short` и `git diff`,
+  чтобы не смешать незавершённую задачу с готовой.
 
 ---
 
@@ -441,7 +467,8 @@ copy .env.example .env.local     # Windows (в PowerShell)
 # затем вписать SUPABASE_URL, SUPABASE_SERVICE_KEY,
 # TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, NEXT_PUBLIC_METRIKA_ID
 
-# 3. Выполнить SQL в Supabase (один раз): supabase/landing_leads.sql
+# 3. Выполнить SQL в Supabase: supabase/landing_leads.sql (один раз),
+#    затем миграции supabase/migrations/*.sql по номеру
 
 # 4. Дев-сервер
 npm run dev                       # http://localhost:3000

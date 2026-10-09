@@ -18,6 +18,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: `${siteUrl}/`, lastModified, changeFrequency: 'weekly', priority: 1 },
+    // /audit — лид-магнит с формой, поэтому приоритет выше остальных разделов:
+    // это второй по важности вход на сайт после главной.
+    { url: `${siteUrl}/audit/`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${siteUrl}/web/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/mono/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/brand/`, lastModified, changeFrequency: 'monthly', priority: 0.6 },

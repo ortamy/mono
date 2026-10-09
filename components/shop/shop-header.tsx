@@ -15,7 +15,20 @@ const LINKS = [
   { label: 'FAQ', href: '#faq' },
 ];
 
-export default function ShopHeader() {
+interface ShopHeaderProps {
+  /** Пункты меню. По умолчанию — якоря секций главной. */
+  links?: { label: string; href: string }[];
+  /** Куда ведёт кнопка действия. На /audit — форма аудита, а не форма расчёта. */
+  requestHref?: string;
+  /** Подпись кнопки действия. */
+  requestLabel?: string;
+}
+
+export default function ShopHeader({
+  links = LINKS,
+  requestHref = '#request',
+  requestLabel = 'Рассчитать экономию',
+}: ShopHeaderProps = {}) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -31,16 +44,16 @@ export default function ShopHeader() {
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Разделы">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <a key={l.href} href={l.href} className="text-[13px] text-agentos-muted transition-colors hover:text-agentos-ink">
               {l.label}
             </a>
           ))}
           <a
-            href="#request"
+            href={requestHref}
             className="inline-flex h-9 items-center rounded-control bg-agentos-ink px-4 text-[13px] font-medium text-white transition-colors hover:bg-agentos-graphite"
           >
-            Рассчитать экономию
+            {requestLabel}
           </a>
         </nav>
 
@@ -57,17 +70,17 @@ export default function ShopHeader() {
 
       <div className={cn('overflow-hidden border-t border-agentos-line bg-agentos-card md:hidden', open ? 'block' : 'hidden')}>
         <nav className="mx-auto flex max-w-[1160px] flex-col px-5 py-4 sm:px-8" aria-label="Мобильное меню">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="border-b border-agentos-line py-3 text-[15px] text-agentos-ink">
               {l.label}
             </a>
           ))}
           <a
-            href="#request"
+            href={requestHref}
             onClick={() => setOpen(false)}
             className="mt-4 inline-flex h-11 items-center justify-center rounded-control bg-agentos-ink px-4 text-[14px] font-medium text-white"
           >
-            Рассчитать экономию
+            {requestLabel}
           </a>
         </nav>
       </div>

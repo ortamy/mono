@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import {
-  BarChart3, Blocks, Bot, Check, Clock, FileText, MessagesSquare, Plug, Radar,
-  Search, Sparkles, TrendingUp, X,
+  ArrowRight, BarChart3, Blocks, Bot, Check, Clapperboard, Clock, FileText, Layers3, MessagesSquare,
+  Plug, Radar, Search, Sparkles, TrendingUp, Workflow, X,
 } from 'lucide-react';
 
 import ShopHeader from '@/components/shop/shop-header';
@@ -18,14 +19,14 @@ import About from '@/components/shop/about';
 import { buildMetadata } from '@/lib/meta';
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Кастомный интернет-магазин без комиссий — mono',
-  description: 'Свой магазин с ИИ за 21 день. 0% комиссий маркетплейсов. Полный контроль.',
+  title: 'Продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS — mono',
+  description: 'Проектирую интерфейсы, которые приносят прибыль, и автоматизирую рутину с помощью ИИ. Первый шаг — бесплатный UX-аудит.',
   path: '/',
 });
 
 /* ---------- Данные секций ---------- */
 
-const HERO_BADGES = ['0% комиссий', '21 день запуск', 'ИИ внутри', 'Под ключ'];
+const HERO_BADGES = ['Продуктовый дизайн', 'ИИ-автоматизация', 'E-commerce · SaaS', 'Под ключ'];
 
 const PAIN = [
   'Комиссия 25–35% с каждой продажи',
@@ -50,6 +51,14 @@ const SOLUTION = [
   { icon: Bot, title: 'ИИ-автоматизация', tech: 'LLM + векторный поиск', desc: 'Умный поиск, рекомендации, чат-поддержка 24/7.' },
   { icon: Plug, title: 'Интеграции', tech: '1С · МойСклад · СДЭК', desc: 'Подключаем 1С, МойСклад, СДЭК, ЮKassa и вашу CRM.' },
   { icon: BarChart3, title: 'Аналитика и рост', tech: 'Дашборд 24/7', desc: 'Воронка, конверсия и отчёты без ручной рутины.' },
+];
+
+/* ИИ-услуги: производство визуала и автоматизация рутины. Отдельно от блока
+   «что встроено в магазин» ниже: здесь это услуга, которую можно заказать. */
+const AI_SERVICES = [
+  { icon: Clapperboard, title: 'ИИ-видео для товаров', term: 'срок: 2–3 дня', desc: 'Ролики, видеообложки и сторис из фото товара: сценарий, озвучка и монтаж.' },
+  { icon: Layers3, title: 'Карточки и описания', term: 'срок: 3–5 дней', desc: 'Инфографика, слайды и тексты по вашему ТЗ — сотни SKU в едином стиле бренда.' },
+  { icon: Workflow, title: 'Автоворонки и поддержка', term: 'срок: от 5 дней', desc: 'Прогрев, письма и чат-бот с базой знаний: отвечает 24/7 и доводит до оплаты.' },
 ];
 
 const STEPS = [
@@ -128,25 +137,25 @@ export default function HomePage() {
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-agentos-line bg-agentos-card px-3 py-1.5 text-[12px] text-agentos-muted">
                 <span className="h-1.5 w-1.5 rounded-full bg-agentos-ink" aria-hidden="true" />
-                Для тех, кто устал от комиссий WB и Ozon
+                Продуктовый дизайн · ИИ-автоматизация
               </span>
 
               <h1 className="mt-7 text-[36px] font-semibold leading-[1.05] tracking-[-1.8px] text-agentos-ink sm:text-[54px] lg:text-[60px]">
-                Забирайте 100% выручки.
-                <span className="block text-agentos-muted">Свой интернет-магазин за 21 день.</span>
+                Продуктовый дизайн и ИИ-автоматизация
+                <span className="block text-agentos-muted">для e-commerce и SaaS.</span>
               </h1>
 
               <p className="mt-6 max-w-[540px] text-[15px] leading-[1.65] text-agentos-muted sm:text-[17px]">
-                Делаем кастомные магазины с ИИ-автоматизацией. Без комиссий, без ограничений маркетплейсов,
-                полный контроль над клиентами и данными.
+                Проектирую интерфейсы, которые приносят прибыль. Автоматизирую рутину с помощью ИИ —
+                от лендинга и магазина до карточек и автоворонок.
               </p>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href="#request" className="inline-flex h-12 items-center justify-center rounded-control bg-agentos-ink px-6 text-[15px] font-medium text-white transition-colors hover:bg-agentos-graphite">
-                  Рассчитать экономию
-                </a>
-                <a href="#cases" className="inline-flex h-12 items-center justify-center rounded-control border border-agentos-line bg-agentos-card px-6 text-[15px] font-medium text-agentos-ink transition-colors hover:bg-agentos-soft">
-                  Посмотреть кейсы
+                <Link href="/audit" className="inline-flex h-12 items-center justify-center rounded-control bg-agentos-ink px-6 text-[15px] font-medium text-white transition-colors hover:bg-agentos-graphite">
+                  Бесплатный UX-аудит
+                </Link>
+                <a href="#request" className="inline-flex h-12 items-center justify-center rounded-control border border-agentos-line bg-agentos-card px-6 text-[15px] font-medium text-agentos-ink transition-colors hover:bg-agentos-soft">
+                  Обсудить проект
                 </a>
               </div>
 
@@ -163,7 +172,37 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 2. БОЛЬ */}
+        {/* 2. ИИ-УСЛУГИ */}
+        <section className="border-b border-agentos-line">
+          <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
+            <SectionHead
+              label="/ ИИ-услуги"
+              title={<>ИИ делает рутину.<br className="hidden sm:block" /> Дизайнер — решения.</>}
+              lead="Видео, карточки и автоворонки собираю с нейросетями — быстрее, чем производственная команда. Смысл, читабельность и стиль проверяю вручную."
+            />
+
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {AI_SERVICES.map((service) => (
+                <article key={service.title} className="flex flex-col rounded-agentos border border-agentos-line bg-agentos-card p-6 sm:p-7">
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-control border border-agentos-line text-agentos-ink" aria-hidden="true">
+                      <service.icon size={18} strokeWidth={1.5} />
+                    </span>
+                    <span className="text-[11px] text-agentos-faint">{service.term}</span>
+                  </div>
+                  <h3 className="mt-5 text-[17px] font-semibold tracking-[-0.4px] text-agentos-ink">{service.title}</h3>
+                  <p className="mt-3 text-[14px] leading-[1.6] text-agentos-muted">{service.desc}</p>
+                  <a href="#request" className="mt-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-agentos-ink">
+                    Обсудить задачу
+                    <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 3. БОЛЬ */}
         <section className="border-b border-agentos-line bg-agentos-card">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead
@@ -191,7 +230,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 3. РЕШЕНИЕ */}
+        {/* 4. РЕШЕНИЕ */}
         <section id="solution" className="border-b border-agentos-line">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead
@@ -215,7 +254,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 4. ИИ-ФИШКИ */}
+        {/* 5. ИИ-ФИШКИ */}
         <section className="border-b border-agentos-line">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead label="/ Внутри" title="Что уже встроено в магазин" lead="ИИ-слой входит в каждый пакет — не как отдельная услуга." />
@@ -234,10 +273,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 5. MID CTA */}
+        {/* 6. MID CTA */}
         <MidCta />
 
-        {/* 6. КАК ЭТО РАБОТАЕТ */}
+        {/* 7. КАК ЭТО РАБОТАЕТ */}
         <section className="border-b border-agentos-line bg-agentos-card">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead label="/ Процесс" title="Как это работает" lead="Три этапа, 21 день, один результат — работающий канал продаж." />
@@ -260,13 +299,13 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 7. КЕЙСЫ */}
+        {/* 8. КЕЙСЫ */}
         <Cases />
 
-        {/* 8. ОТЗЫВЫ */}
+        {/* 9. ОТЗЫВЫ */}
         <Testimonials />
 
-{/* 9. ТАРИФЫ */}
+{/* 10. ТАРИФЫ */}
         <section id="pricing" className="border-b border-agentos-line">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead label="/ Тарифы" title="Три пакета" lead="Цена фиксируется после аудита. Всё включено: разработка, интеграции, запуск." />
@@ -310,7 +349,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 10. FAQ */}
+        {/* 11. FAQ */}
         <section id="faq" className="border-b border-agentos-line bg-agentos-card">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">
             <SectionHead label="/ FAQ" title="Частые вопросы" />
@@ -320,10 +359,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 11. О СТУДИИ */}
+        {/* 12. О СТУДИИ */}
         <About />
 
-        {/* 12. CTA */}
+        {/* 13. CTA */}
         <section id="request" className="border-b border-agentos-line">
           <div className="mx-auto grid max-w-[1160px] gap-10 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
             <div>

@@ -61,7 +61,7 @@ check('telegram has name/phone', tg.text.includes('Иван') && tg.text.include
 check('telegram marketplaces', tg.text.includes('WB, Ozon'));
 check('telegram economics 1-3M = 2 400 000', tg.text.includes('2') && tg.text.includes('400') && tg.text.includes('000'));
 check('supabase savings int', sb.calculated_savings === 2400000, String(sb.calculated_savings));
-check('supabase row shape', sb.name === 'Иван' && sb.turnover === '1-3M' && Array.isArray(sb.marketplaces));
+check('supabase row shape', sb.name === 'Иван' && sb.turnover === '1-3M' && Array.isArray(sb.marketplaces) && sb.source === 'landing');
 
 // 2. Все диапазоны оборота из формы дают верную экономию
 const EXPECT: Record<string, number> = {
@@ -98,7 +98,23 @@ for (const [name, body, want] of cases) {
 const r2 = await POST(req({ name: 'Анна', phone: '+79990001122', turnover: '500k-1M', email: '' }, { 'x-forwarded-for': '10.2.0.1' }));
 check('empty email accepted', r2.status === 200);
 
-// 6. Rate limit: 5 запросов с одного IP проходят, 6-й отклоняется
+// 6. Заявка со страницы /audit: source: 'audit' — без расчёта экономии маркетплейса
+const r3 = await POST(req(
+  { name: 'Олег', phone: '+79995554433', turnover: '3-10M', product: 'https://example.com', source: 'audit' },
+  { 'x-forwarded-for': '10.5.0.1' },
+));
+check('audit lead -> 200', r3.status === 200, `status=${r3.status}`);
+const auditText = captured.telegram[captured.telegram.length - 1].text;
+check('audit lead marked in telegram', auditText.includes('UX-аудит'));
+check('audit lead keeps project link', auditText.includes('https://example.com'));
+check('audit lead has no marketplace savings', !auditText.includes('экономия') && !auditText.includes('Маркетплейсы'));
+const auditRow = JSON.parse(captured.supabase[captured.supabase.length - 1].body);
+check('audit row: source=audit', auditRow.source === 'audit', String(auditRow.source));
+check('audit row: no marketplace savings', auditRow.calculated_savings === null, String(auditRow.calculated_savings));
+const badSource = await POST(req({ ...VALID, source: 'spam' }, { 'x-forwarded-for': '10.5.0.2' }));
+check('unknown source -> 400', badSource.status === 400, `got ${badSource.status}`);
+
+// 7. Rate limit: 5 запросов с одного IP проходят, 6-й отклоняется
 let rateStatus = 0;
 for (let i = 0; i < 6; i++) {
   const r = await POST(req({ ...VALID, name: 'Лид' + i }, { 'x-forwarded-for': '10.3.0.1' }));

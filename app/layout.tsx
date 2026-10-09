@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import { assetUrl, siteUrl } from '@/lib/site';
-import { OG_IMAGE, SITE_DESCRIPTION_DEFAULT, SITE_TITLE_DEFAULT } from '@/lib/meta';
+import { OG_ALT, OG_IMAGE, SITE_DESCRIPTION_DEFAULT, SITE_TITLE_DEFAULT } from '@/lib/meta';
 import { METRIKA_ID, metrikaEnabled } from '@/lib/metrika';
 import DevAgentation from '@/components/dev/dev-agentation';
 
@@ -26,15 +26,20 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ru_RU',
     siteName: 'mono.',
-    images: [{ url: assetUrl(OG_IMAGE), width: 1200, height: 630, alt: 'mono. — кастомные интернет-магазины с ИИ' }],
+    images: [{ url: assetUrl(OG_IMAGE), width: 1200, height: 630, alt: OG_ALT }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Забирайте 100% выручки — свой магазин за 21 день',
-    description: 'Селлеры отдают WB/Ozon 25–35% выручки. Мы делаем кастомные магазины с ИИ.',
+    title: SITE_TITLE_DEFAULT,
+    description: SITE_DESCRIPTION_DEFAULT,
     images: [assetUrl(OG_IMAGE)],
   },
-  icons: [{ rel: 'icon', url: assetUrl('/favicon.svg'), type: 'image/svg+xml' }],
+  // Поля icons здесь нет намеренно: иконка задаётся файлом app/icon.svg, и Next
+  // сам печатает <link rel="icon"> с учётом basePath и с хешем для сброса кэша.
+  // Через metadata иконку приходилось собирать вручную (assetUrl('/favicon.svg'))
+  // — получался абсолютный URL из siteUrl, поэтому на локальной машине, в превью
+  // и на любом хостинге, кроме указанного в NEXT_PUBLIC_SITE_URL, ссылка вела в
+  // никуда: браузер запрашивал иконку у чужого домена или получал 404.
 };
 
 /**
@@ -42,15 +47,18 @@ export const metadata: Metadata = {
  *
  * Экранируем «<» при сериализации: иначе значение с тегом в данных (например,
  * в описании) способно закрыть тег script и сломать страницу.
+ *
+ * Позиционирование — продуктовый дизайн + ИИ-автоматизация. Цены остались от
+ * пакетов разработки магазинов: они по-прежнему опубликованы на главной.
  */
 const structuredData = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Кастомная разработка интернет-магазинов',
+  name: 'Продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS',
   provider: { '@type': 'Organization', name: 'mono', url: siteUrl },
-  description: 'Разработка кастомных интернет-магазинов с ИИ-автоматизацией',
+  description: 'Проектирование интерфейсов, которые приносят прибыль, и автоматизация рутины с помощью ИИ',
   areaServed: 'RU',
-  serviceType: 'Разработка интернет-магазинов',
+  serviceType: 'Дизайн и разработка цифровых продуктов',
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'RUB',
