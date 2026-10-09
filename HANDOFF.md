@@ -95,11 +95,12 @@
 | `/api/design-lead` | `app/api/design-lead/route.ts` | Приём заявок портфолио. |
 | `/api/og` | `app/api/og/route.tsx` | Динамическая OG-картинка. |
 
-⚠️ **Замечено расхождение:** `lib/nav.ts` содержит пункт `{ label: 'Аудит', href: '/audit' }`,
-но маршрута `app/audit` в проекте **нет** → ссылка ведёт на 404. Также `/design`
-отсутствует в навигации (страницу отправляют по прямой ссылке клиенту).
-`data/site.json` (nav) и `lib/nav.ts` сейчас **расходятся** и оба правлены локально
-(см. git status в разделе 12).
+✅ **Исправлено (Фаза 0):** пункт `{ label: 'Аудит', href: '/audit' }` из `lib/nav.ts`
+убран — страницы `app/audit` в проекте не было, ссылка вела на 404.
+`data/site.json` перестал быть вторым источником навигации: его блок `nav`
+удалён (файл и так не читался ни одним модулем). Единственный источник
+навигации — `lib/nav.ts`. `/design` по-прежнему вне навигации (страницу
+отправляют по прямой ссылке клиенту).
 
 ---
 
@@ -235,7 +236,7 @@
 
 | Файл | Назначение |
 |---|---|
-| `data/site.json` | Главный конфиг: мета, навигация (`nav`), контакты (Telegram `@ortamy`), hero, метрики, направления, CTA. |
+| `data/site.json` | Конфиг сайта: мета, контакты (Telegram `@ortamy`), hero, метрики, направления, CTA. ⚠️ Нигде не читается — «мёртвый» файл; блок `nav` удалён, навигация живёт в `lib/nav.ts`. |
 | `data/form.json` | Провайдер формы: `telegram` \| `web3forms` \| `off`. |
 | `data/analytics.json` | `enabled`, `ga_id`, список событий. |
 | `data/policy.json` | Текст политики конфиденциальности (оператор, данные, цели, сроки, права). |
@@ -312,8 +313,8 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 | Скрипт | Что делает |
 |---|---|
 | `npm run dev` | `next dev` — дев-сервер. |
-| `npm run build:static` | `node scripts/build-static.mjs` — статический экспорт в `./out`; его публикует GitHub Pages. |
 | `npm run build` | `next build` — прод-сборка (серверный режим, НЕ static export). |
+| `npm run build:static` | `node scripts/build-static.mjs` — статический экспорт в `./out`; его публикует GitHub Pages. |
 | `npm start` | `next start` — запуск прод-сборки (нужен Node-рантайм). |
 | `npm run lint` | `set ESLINT_USE_FLAT_CONFIG=true && eslint .` (flat-config). |
 | `npm run typecheck` | `tsc --noEmit` — проверка типов сайта. |
@@ -389,10 +390,10 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 
 ## 11. Известные пробелы, риски и TODO
 
-1. **Ссылка `/audit` в `lib/nav.ts` не имеет страницы** → 404. Либо создать
-   `app/audit/`, либо убрать пункт.
-2. **`lib/nav.ts` и `data/site.json` (nav) расходятся** — источники навигации
-   дублируются. Возможно, стоит переиспользовать один.
+1. ~~**Ссылка `/audit` в `lib/nav.ts` не имеет страницы** → 404.~~ ✅ Убрана в
+   Фазе 0; при необходимости соберём реальную страницу аудита.
+2. ~~**`lib/nav.ts` и `data/site.json` (nav) расходятся**~~ ✅ Дубль `nav`
+   удалён, единственный источник — `lib/nav.ts`.
 3. **`/design` нет в навигации** и вне sitemap — сейчас попадает по прямой ссылке.
    Нужно решить, публичен ли он.
 4. **Rate-limit `/api/lead` — in-memory** → на serverless нестабилен.
@@ -406,13 +407,13 @@ typecheck сайта. Не добавляйте импорты между `wbgen
 8. **Supabase-таблица только для лендинга** (`landing_leads`); заявки с
    `/design` в БД не сохраняются (только Telegram).
 9. **`dev.log`** не отслеживается git, но и **не в `.gitignore`** (status: `??`) —
+   стоит добавить в `.gitignore`, чтобы лог `next dev` не попал в коммит.
 10. **`seo.og_image` в `data/site.json`** (`/og.svg`) не используется и такого
     файла нет: OG-картинку отдаёт `/api/og` (сервер) или `/og.png` (статический
     экспорт, см. `lib/meta.ts`). Либо удалить поле, либо связать с `OG_IMAGE`.
 11. **OG-картинка в статике рендерится на этапе сборки** (satori). Если раннер не
     достанет шрифт для кириллицы, картинка отрисуется системным фолбэком, а в
     логах будет `Failed to download dynamic font` — сборка при этом проходит.
-   стоит добавить в `.gitignore`, чтобы лог `next dev` не попал в коммит.
 
 ---
 
@@ -469,14 +470,25 @@ npm run wbgen:typecheck
 
 Типы — в `lib/web-types.ts`; загрузка — `loadJSON()` из `lib/content.ts`.
 
-### 6.4 `data/design-cases.ts` — 8 кейсов портфолио
+### 6.4 `data/design-cases.ts` — 10 кейсов портфолио
 
-Каждый кейс: `slug`, `title`, `subtitle`, метрики, список экранов с
-описаниями, а также «мини-макеты» (`components/design/previews/*`) и иконки.
+Каждый кейс: `slug`, `title`, `category`, метрики, палитра, список экранов
+(`screens`) и ключ `preview`, который ведёт к мини-макету в
+`components/design/previews/*`. Палитра монохромная (near-black / near-white)
+у каждого кейса — различается только тон и контраст.
 
-Слаги: `mono-store`, `alephy`, `furniture-store`, `mobile-bank`,
-`saas-dashboard`, `dental-clinic`, `food-delivery`, `corporate-site`.
-Страница кейса генерируется статически (`/design/work/[slug]`) — новый кейс
-= новая запись в массиве (код компонента править не нужно, если подходит
-существующий шаблон превью).
+Слаги: `mono-store`, `versta-furniture`, `nordbank-business`,
+`metrik-unit-economics`, `levin-dental`, `ukus-delivery`, `ferro-equipment`,
+`alephy-platform`, `traq-observability`, `base-api-console`.
+
+Ключи превью: `mono`, `lookbook`, `bank`, `dashboard`, `slots`, `map`,
+`specsheet`, `alephy`, `traq`, `base` — у каждого кейса свой архетип первого
+экрана (калькулятор, лукбук, стопка карт, app-shell, сетка слотов, карта
+курьера, чертёж, редакционная типографика, терминал, docs API).
+
+Тип `PreviewKey` расширяем аккуратно: новый кейс = запись в массиве +
+компонент превью + строка в картах `PREVIEWS`/`DOMAINS`
+(`components/design/case-screenshot.tsx`) и `CASE_ICONS`
+(`components/design/case-icons.tsx`). Страница кейса генерируется статически
+(`/design/work/[slug]`).
 

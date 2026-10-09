@@ -1,46 +1,85 @@
 /**
- * Кейс «Alephy» — тёмный «книжный» первый экран с золотым акцентом.
+ * Кейс «Alephy» — тёмный редакционный первый экран.
+ * Архетип: только типографика — серифный оффер слева и «указатель»
+ * корпуса справа, крупная буква-сигил как водяной знак. Без стоковых фото.
  */
-import Image from 'next/image';
+import { DARK as C } from './mono-tokens';
 
-const PHOTO =
-  'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=900&q=70';
+const INDEX: [string, string][] = [
+  ['Образ', '0.84'],
+  ['Движение', '0.61'],
+  ['Состояние', '0.77'],
+  ['Телесность', '0.52'],
+  ['Звук', '0.69'],
+];
 
 export default function AlephyPreview() {
   return (
-    <div className="flex h-full w-full flex-col bg-[#0B0A08] text-[#F3ECE0]">
-      <header className="flex items-center justify-between px-[3cqw] py-[1.9cqw]">
-        <span className="flex items-center gap-[1cqw] text-[2.1cqw] font-semibold tracking-[-0.04cqw]">
-          <span className="flex h-[2.6cqw] w-[2.6cqw] items-center justify-center rounded-[0.6cqw] bg-[#C9A227] text-[1.5cqw] font-bold text-[#1A1406]">
+    <div className="relative flex h-full w-full flex-col overflow-hidden" style={{ background: C.bg, color: C.ink }}>
+      {/* Водяной знак: буква-сигил проекта. */}
+      <span
+        className="pointer-events-none absolute -right-[4cqw] -top-[10cqw] select-none font-serif text-[46cqw] leading-none"
+        style={{ color: C.ink, opacity: 0.035 }}
+        aria-hidden
+      >
+        א
+      </span>
+
+      <header className="z-10 flex items-center justify-between border-b px-[3cqw] py-[1.6cqw]" style={{ borderColor: C.line }}>
+        <span className="flex items-center gap-[1.1cqw] font-serif text-[1.9cqw]">
+          <span className="flex h-[2.6cqw] w-[2.6cqw] items-center justify-center rounded-[0.5cqw] border text-[1.3cqw]" style={{ borderColor: C.line }}>
             א
           </span>
           alephy
         </span>
-        <nav className="flex items-center gap-[2.2cqw] text-[1.45cqw] text-[#A69C88]">
+        <nav className="flex items-center gap-[2.2cqw] text-[1.25cqw]" style={{ color: C.muted }}>
           <span>Карта</span>
-          <span>Механика</span>
           <span>Лаборатория</span>
           <span>Клуб</span>
         </nav>
-        <span className="rounded-[0.6cqw] bg-[#C9A227] px-[2.4cqw] py-[1cqw] text-[1.35cqw] font-semibold text-[#1A1406]">
-          Начать
-        </span>
+        <span className="border-b pb-[0.5cqw] text-[1.25cqw] font-medium" style={{ borderColor: C.ink }}>Войти</span>
       </header>
 
-      <div className="flex flex-1 items-stretch gap-[3.5cqw] px-[3cqw] pb-[3.5cqw]">
-        <div className="flex w-[52%] flex-col justify-center">
-          <h3 className="text-[4.4cqw] font-bold leading-[1.06] tracking-[-0.14cqw]">
-            Реконструкция палео-образного мышления
+      <div className="relative z-10 flex flex-1 items-center gap-[5cqw] px-[3cqw]">
+        <div className="flex w-[56%] flex-col">
+          <span className="text-[1.1cqw] uppercase tracking-[0.24em]" style={{ color: C.faint }}>
+            Исследование · 2026
+          </span>
+          <h3 className="mt-[1.6cqw] font-serif text-balance text-[4.6cqw] font-normal leading-[1.06] tracking-[-0.06cqw]">
+            Реконструкция палео-мышления
           </h3>
-          <p className="mt-[1.8cqw] text-[1.55cqw] leading-[1.45] text-[#A69C88]">
-            Возвращаем тексту его физику: образ, движение, состояние
+          <p className="mt-[1.7cqw] max-w-[40cqw] text-[1.4cqw] leading-[1.55]" style={{ color: C.muted }}>
+            Возвращаем тексту его физику: образ, движение, состояние. Не читать, а переживать.
           </p>
-          <span className="mt-[2.6cqw] inline-block w-fit rounded-[0.7cqw] bg-[#C9A227] px-[2.8cqw] py-[1.3cqw] text-[1.45cqw] font-semibold text-[#1A1406]">
+          <span className="mt-[2.4cqw] w-fit whitespace-nowrap rounded-[0.6cqw] border px-[2.4cqw] py-[1.1cqw] text-[1.35cqw] font-medium" style={{ borderColor: C.ink }}>
             Начать исследование
           </span>
         </div>
-        <div className="relative w-[48%] overflow-hidden rounded-[1.6cqw] ring-1 ring-[#C9A227]/25">
-          <Image src={PHOTO} alt="" fill sizes="600px" className="object-cover opacity-85" />
+
+        <div className="w-[44%]">
+          <div className="border-t pt-[1.4cqw] text-[1.1cqw] uppercase tracking-[0.18em]" style={{ borderColor: C.line, color: C.faint }}>
+            Указатель утрат
+          </div>
+          <div className="mt-[1.4cqw] flex flex-col">
+            {INDEX.map(([label, val], i) => (
+              <div
+                key={label}
+                className="flex items-baseline justify-between gap-[1.6cqw] border-b py-[1.1cqw]"
+                style={{ borderColor: C.lineSoft }}
+              >
+                <span className="text-[1.15cqw] tabular-nums" style={{ color: C.faint }}>
+                  0{i + 1}
+                </span>
+                <span className="flex-1 font-serif text-[1.9cqw] leading-none">{label}</span>
+                <span
+                  className="h-[1px] flex-1 self-center"
+                  style={{ background: C.line }}
+                  aria-hidden
+                />
+                <span className="text-[1.3cqw] tabular-nums">{val}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

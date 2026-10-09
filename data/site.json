@@ -5,14 +5,6 @@
     "description": "Карточки WB / Ozon, сайты и брендинг. Дизайн, который повышает CTR и конверсию.",
     "og_image": "/og.svg"
   },
-  "nav": [
-    { "label": "Главная", "href": "/", "end": true },
-    { "label": "E-commerce", "href": "/mono" },
-    { "label": "Web", "href": "/web" },
-    { "label": "Brand", "href": "/brand" },
-    { "label": "Обо мне", "href": "/about" },
-    { "label": "Контакты", "href": "/contact" }
-  ],
   "contacts": {
     "telegram": "https://t.me/ortamy",
     "telegram_handle": "@ortamy",

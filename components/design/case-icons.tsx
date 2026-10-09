@@ -6,14 +6,16 @@
  */
 import type { LucideIcon } from 'lucide-react';
 import {
+  Activity,
   BarChart3,
+  Bike,
   BookOpen,
-  Building2,
+  Braces,
+  CalendarClock,
+  Factory,
   Landmark,
   ShoppingBag,
-  Smile,
   Sofa,
-  Utensils,
 } from 'lucide-react';
 import type { PreviewKey } from '@/data/design-cases';
 
@@ -21,12 +23,14 @@ import type { PreviewKey } from '@/data/design-cases';
 export type CaseIcon = LucideIcon;
 
 export const CASE_ICONS: Record<PreviewKey, LucideIcon> = {
-  furniture: Sofa,
+  mono: ShoppingBag,
+  lookbook: Sofa,
   bank: Landmark,
   dashboard: BarChart3,
-  dental: Smile,
-  food: Utensils,
-  b2b: Building2,
-  mono: ShoppingBag,
+  slots: CalendarClock,
+  map: Bike,
+  specsheet: Factory,
   alephy: BookOpen,
+  traq: Activity,
+  base: Braces,
 };

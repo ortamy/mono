@@ -1,22 +1,28 @@
 /**
- * Полоса логотипов клиентов: SVG-иконка в квадрате + название, чёрным на белом.
+ * Полоса направлений: SVG-иконка в квадрате + название проекта.
+ *
+ * Все проекты — концепты, поэтому это не «клиенты», а ниши, в которых
+ * собраны кейсы портфолио.
  */
 import { CASE_ICONS } from './case-icons';
 import type { PreviewKey } from '@/data/design-cases';
 
 const CLIENTS: { name: string; icon: PreviewKey }[] = [
-  { name: 'Мебель+', icon: 'furniture' },
-  { name: 'ФинБанк', icon: 'bank' },
-  { name: 'АналитикПро', icon: 'dashboard' },
-  { name: 'Стома+', icon: 'dental' },
-  { name: 'ЕдаСкоро', icon: 'food' },
-  { name: 'СтройПро', icon: 'b2b' },
+  { name: 'Versta', icon: 'lookbook' },
+  { name: 'Nordbank', icon: 'bank' },
+  { name: 'Metrik', icon: 'dashboard' },
+  { name: 'Levin', icon: 'slots' },
+  { name: 'Ukus', icon: 'map' },
+  { name: 'Ferro', icon: 'specsheet' },
+  { name: 'Alephy', icon: 'alephy' },
+  { name: 'Traq', icon: 'traq' },
+  { name: 'Base', icon: 'base' },
 ];
 
 export default function ClientLogos() {
   return (
-    <section aria-label="Клиенты" className="mx-auto max-w-[1100px] px-5 pb-4 sm:px-8">
-      <p className="text-[11px] uppercase tracking-[0.08em] d-faint">С кем работал</p>
+    <section aria-label="Направления работ" className="mx-auto max-w-[1100px] px-5 pb-4 sm:px-8">
+      <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Концепты · по направлениям</p>
       <ul className="mt-4 flex flex-wrap items-center gap-x-7 gap-y-3">
         {CLIENTS.map(({ name, icon }) => {
           const Icon = CASE_ICONS[icon];
