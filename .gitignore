@@ -7,3 +7,4 @@ next-env.d.ts
 .env.local
 !/.env.example
 /data/leads.json
+*.log
