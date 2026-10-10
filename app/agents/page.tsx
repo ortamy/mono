@@ -2,6 +2,7 @@ import { ArrowRight, BarChart3, MessageCircle, PenTool, Search, Send, Settings, 
 import { AGENT_CASES } from '@/data/agent-cases';
 import AgentCaseCard from '@/components/agents/agent-case-card';
 import AgentContactForm from '@/components/agents/agent-contact-form';
+import AgentStackTeaser from '@/components/agents/agent-stack-teaser';
 
 /* ---------- Данные секций ---------- */
 
@@ -92,14 +93,6 @@ const PACKAGES = [
     desc: 'Дообучение на новых кейсах, расширение сценариев и поддержка работы.',
     points: ['Еженедельные улучшения', 'Новые сценарии', 'Отчёт раз в месяц'],
   },
-];
-
-/** Стек: четыре группы чипов. */
-const STACK = [
-  { title: 'Модели', items: ['GPT-4o', 'Claude 3.5', 'Llama 3', 'Embeddings'] },
-  { title: 'Оркестрация', items: ['Python', 'LangGraph', 'n8n', 'OpenAI Assistants'] },
-  { title: 'Интеграции', items: ['Telegram Bot API', 'WhatsApp', 'amoCRM', 'Битрикс24', '1С', 'WB API'] },
-  { title: 'Данные', items: ['PostgreSQL', 'pgvector', 'Supabase', 'Redis'] },
 ];
 
 /** Частые вопросы. */
@@ -255,6 +248,9 @@ export default function AgentsPage() {
         </div>
       </section>
 
+      {/* СТЕК */}
+      <AgentStackTeaser />
+
       {/* ТАРИФЫ */}
       <section id="pricing" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
         <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
@@ -290,27 +286,6 @@ export default function AgentsPage() {
         </div>
       </section>
 
-      {/* СТЕК */}
-      <section id="stack" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
-        <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Стек</p>
-        <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
-          На чём собираю агентов
-        </h2>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {STACK.map((group) => (
-            <div key={group.title} className="d-card p-6">
-              <h3 className="text-[13px] uppercase tracking-[0.08em] d-faint">{group.title}</h3>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {group.items.map((it) => (
-                  <li key={it} className="rounded-full border border-[var(--d-line)] px-3 py-1 text-[12px] d-muted">
-                    {it}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
       {/* FAQ */}
       <section id="faq" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
         <div className="mx-auto max-w-[820px] px-5 py-20 sm:px-8 sm:py-24">

@@ -24,6 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // /agents — услуга по сборке AI-агентов: самостоятельный вход в портфолио,
     // в отличие от /design страница индексируется.
     { url: `${siteUrl}/agents/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
+    // /stack — справочник по стеку сборки агентов: на него ссылается блок
+    // «Стек» на /agents, поэтому страница индексируется вместе с услугой.
+    { url: `${siteUrl}/stack/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/web/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/mono/`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${siteUrl}/brand/`, lastModified, changeFrequency: 'monthly', priority: 0.6 },

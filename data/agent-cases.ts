@@ -4,10 +4,10 @@
  * Единый источник для сетки кейсов и страниц /agents/work/[slug]: карточка и
  * детальный вид читают один массив, поэтому описания не расходятся.
  *
- * Экраны кейсов рисует общий CaseMock с /design (SVG-рендер по описанию
- * kind + контент), а первые экраны в карточках — превью из
- * components/agents/previews/*. Ассетов-скриншотов нет: всё резкое на любом
- * DPI и не зависит от темы интерфейса.
+ * Экраны кейсов рисует AGENT_SCREENS (Vercel/shadcn, светлая тема) из
+ * components/agents/agent-screens.tsx; первые экраны в карточках — превью
+ * из components/agents/previews/*. Ассетов-скриншотов нет: всё резкое
+ * на любом DPI и не зависит от темы интерфейса.
  *
  * Палитра — строгий монохром: near-black / near-white без цветных акцентов.
  */
@@ -50,7 +50,13 @@ export interface AgentMetric {
   label: string;
 }
 
-/** Экран кейса: общий макет CaseMock + описание под ним на странице кейса. */
+/** Подкатегория стека: заголовок + список чипов. */
+export interface StackCategory {
+  title: string;
+  items: string[];
+}
+
+/** Экран кейса: hi-fi макет AGENT_SCREENS + описание под ним. */
 export interface AgentScreen extends DesignScreen {
   /** Что показывает экран и какую задачу он закрывает. */
   desc: string;
@@ -64,7 +70,7 @@ export interface AgentCase {
   /** Тип агента: поддержка, продажи, контент… */
   agentType: string;
   /** Технологии и интеграции: подписи чипов на странице кейса. */
-  stack: string[];
+  stack: StackCategory[];
   /** Ровно три метрики: первая попадает в бейдж поверх превью. */
   metrics: AgentMetric[];
   /** Ровно четыре экрана с описаниями. */
@@ -73,6 +79,8 @@ export interface AgentCase {
   preview: AgentPreviewKey;
   /** Палитра макетов экранов кейса. */
   palette: MockPalette;
+  /** Пять узлов схемы: источники → LLM → инструменты → каналы → мониторинг. */
+  architecture: { label: string; hint: string }[];
 }
 
 /** Кейсы AI-агентов: от поддержки магазина до конкурентной разведки. */
@@ -81,11 +89,21 @@ export const AGENT_CASES: AgentCase[] = [
     slug: 'support-furniture',
     title: 'Агент поддержки для интернет-магазина мебели',
     subtitle:
-      'Отвечает клиентам 24/7 по базе знаний магазина: от статуса заказа до подбора ткана. Оператору отдаёт только спорные диалоги.',
+      'Отвечает клиентам 24/7 по базе знаний магазина: от статуса заказа до подбора ткани. Оператору отдаёт только спорные диалоги.',
     agentType: 'Поддержка',
-    stack: ['GPT-4o', 'RAG + pgvector', 'PostgreSQL', 'Telegram Bot API', 'API магазина'],
+    stack: [
+      { title: 'LLM', items: ['GPT-4o'] },
+      { title: 'Оркестрация', items: ['RAG + pgvector', 'PostgreSQL', 'API магазина'] },
+    ],
     preview: 'support',
     palette: P_LIGHT,
+    architecture: [
+      { label: 'Источники данных', hint: '1С · база знаний' },
+      { label: 'LLM', hint: 'GPT-4o' },
+      { label: 'Инструменты', hint: 'RAG · API магазина' },
+      { label: 'Каналы', hint: 'сайт · WhatsApp · TG' },
+      { label: 'Мониторинг', hint: 'уверенность · эскалации' },
+    ],
     metrics: [
       { value: '−68%', label: 'ручных ответов' },
       { value: '8 сек', label: 'первый ответ' },
@@ -162,9 +180,20 @@ export const AGENT_CASES: AgentCase[] = [
     subtitle:
       'Квалифицирует входящих лидов по ICP, ведёт диалог по вашему скрипту и записывает на демо прямо в календарь менеджера.',
     agentType: 'Продажи',
-    stack: ['Claude 3.5', 'n8n', 'amoCRM API', 'PostgreSQL', 'Google Calendar'],
+    stack: [
+      { title: 'LLM', items: ['Claude 3.5'] },
+      { title: 'Оркестрация', items: ['n8n', 'amoCRM API', 'Google Calendar'] },
+      { title: 'Данные', items: ['PostgreSQL'] },
+    ],
     preview: 'sales',
     palette: P_DARK,
+    architecture: [
+      { label: 'Источники данных', hint: 'сайт · amoCRM' },
+      { label: 'LLM', hint: 'Claude 3.5' },
+      { label: 'Инструменты', hint: 'n8n · Calendar' },
+      { label: 'Каналы', hint: 'чат · email' },
+      { label: 'Мониторинг', hint: 'воронка · SLA' },
+    ],
     metrics: [
       { value: '×3', label: 'квалифицированных демо' },
       { value: '−40%', label: 'времени SDR' },
@@ -240,9 +269,19 @@ export const AGENT_CASES: AgentCase[] = [
     subtitle:
       'Готовит карточки товаров и посты партиями: по ТЗ бренда, в едином тоне голоса, с проверкой фактов по спецификации.',
     agentType: 'Контент',
-    stack: ['GPT-4o', 'WB API', 'Telegram Bot', 'Redis', 'S3-хранилище'],
+    stack: [
+      { title: 'LLM', items: ['GPT-4o'] },
+      { title: 'Интеграции', items: ['WB API', 'Telegram Bot', 'Redis', 'S3-хранилище'] },
+    ],
     preview: 'content',
     palette: P_LIGHT,
+    architecture: [
+      { label: 'Источники данных', hint: 'ТЗ · спецификации' },
+      { label: 'LLM', hint: 'GPT-4o' },
+      { label: 'Инструменты', hint: 'WB API · Redis' },
+      { label: 'Каналы', hint: 'Telegram · WB' },
+      { label: 'Мониторинг', hint: 'CTR · охваты' },
+    ],
     metrics: [
       { value: '20+', label: 'карточек в день' },
       { value: '−70%', label: 'времени копирайтера' },
@@ -313,9 +352,19 @@ export const AGENT_CASES: AgentCase[] = [
     subtitle:
       'Отвечает на вопросы о продажах цифрами: подключается к кабинетам WB и Ozon, отвечает словами и показывает источники данных.',
     agentType: 'Аналитика',
-    stack: ['GPT-4o', 'Text-to-SQL', 'PostgreSQL', 'WB API', 'Ozon API'],
+    stack: [
+      { title: 'LLM', items: ['GPT-4o'] },
+      { title: 'Интеграции', items: ['Text-to-SQL', 'PostgreSQL', 'WB API', 'Ozon API'] },
+    ],
     preview: 'analytics',
     palette: P_DARK,
+    architecture: [
+      { label: 'Источники данных', hint: 'WB API · Ozon API' },
+      { label: 'LLM', hint: 'GPT-4o' },
+      { label: 'Инструменты', hint: 'Text-to-SQL' },
+      { label: 'Каналы', hint: 'чат · Telegram' },
+      { label: 'Мониторинг', hint: 'выгрузки · ROI' },
+    ],
     metrics: [
       { value: '1 мин', label: 'до готового отчёта' },
       { value: '6', label: 'источников данных' },
@@ -386,9 +435,20 @@ export const AGENT_CASES: AgentCase[] = [
     subtitle:
       'Каждый день обходит сайты конкурентов, ловит изменения цен и запуски и присылает дайджест на 4 минуты чтения.',
     agentType: 'Разведка',
-    stack: ['Python', 'Playwright', 'GPT-4o', 'PostgreSQL', 'Telegram Bot'],
+    stack: [
+      { title: 'Оркестрация', items: ['Python', 'Playwright'] },
+      { title: 'LLM', items: ['GPT-4o'] },
+      { title: 'Данные', items: ['PostgreSQL'] },
+    ],
     preview: 'research',
     palette: P_DARK,
+    architecture: [
+      { label: 'Источники данных', hint: '12 сайтов' },
+      { label: 'LLM', hint: 'GPT-4o' },
+      { label: 'Инструменты', hint: 'Playwright · Postgres' },
+      { label: 'Каналы', hint: 'Telegram · дайджест' },
+      { label: 'Мониторинг', hint: 'ретраи · сигналы' },
+    ],
     metrics: [
       { value: '12', label: 'сайтов под наблюдением' },
       { value: '9:00', label: 'дайджест каждый день' },

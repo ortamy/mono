@@ -2,20 +2,22 @@
 
 > Документ-контекст для передачи проекта человеку или ИИ-ассистенту.
 > Описывает, **что это за продукт, зачем он, на чём построен, как устроен и
-> что важно не сломать**. Актуально на дату коммита Фазы 3 (`feat: фаза 3 — аудит-лид-магнит, локальный favicon, обновление hero`).
+> что важно не сломать**. Актуально на дату коммита `feat(stack): страница /stack + тизер на /agents, единый источник data/stack.ts`.
 
 ---
 
 ## 1. Что это за проект (в двух абзацах)
 
 `mono.` — сайт небольшой **дизайн-студии / digital-студии одного специалиста**,
-которая занимается тремя направлениями:
+которая занимается четырьмя направлениями:
 
 1. **E-commerce** — карточки товаров для маркетплейсов (Wildberries, Ozon):
    обложки, визуальные воронки до 8 слайдов, A/B-тесты.
 2. **Web** — лендинги и сайты с измеримым результатом (заявки, конверсия,
    ROI-калькулятор, прозрачный процесс и гарантии).
 3. **Brand** — айдентика, логотипы, фирменный стиль, гайдлайны.
+4. **AI-агенты** — сборка агентов под процесс клиента (оркестрация, LLM, RAG,
+   наблюдаемость). Услуга `/agents`, справочник по стеку — `/stack`.
 
 Репозиторий — это **монорепозиторий из двух независимых частей**, живущих в
 одной папке:
@@ -89,6 +91,9 @@
 | `/privacy` | `app/privacy/page.tsx` | Политика конфиденциальности из `data/policy.json`. |
 | `/design` | `app/design/page.tsx` | **Отдельное портфолио UX/UI-дизайнера** (своя оболочка, light/dark, свой CSS). |
 | `/design/work/[slug]` | `app/design/work/[slug]/page.tsx` | Страница кейса портфолио, SSG из `DESIGN_CASES`. |
+| `/agents` | `app/agents/page.tsx` | Услуга «AI-агенты»: метрики, 6 типов агентов, кейсы, 5 шагов внедрения, тарифы, FAQ, тизер стека и форма (`AgentContactForm` → POST `/api/lead/`). |
+| `/agents/work/[slug]` | `app/agents/work/[slug]/page.tsx` | Кейс агента, SSG из `AGENT_CASES` (`data/agent-cases.ts`): архитектура, экраны и блоки «Стек и интеграции» и «Архитектура агента». |
+| `/stack` | `app/stack/page.tsx` | Справочник по стеку сборки агентов: 4 группы инструментов из `data/stack.ts`, принципы, «ситуация → минимальный стек», что это даёт бизнесу. |
 | `/404` | `app/not-found.tsx` | Страница «не найдено». |
 | `/robots.txt` | `app/robots.ts` | Генерируется. |
 | `/sitemap.xml` | `app/sitemap.ts` | Генерируется. |
@@ -103,6 +108,11 @@
 удалён (файл и так не читался ни одним модулем). Единственный источник
 навигации — `lib/nav.ts`. `/design` по-прежнему вне навигации (страницу
 отправляют по прямой ссылке клиенту).
+
+✅ **Актуально (коммит `feat(stack)`):** добавлены услуга `/agents` с 5 кейсами
+(`/agents/work/*`) и справочник `/stack`; пункты «AI-агенты» и «Стек» есть
+в `lib/nav.ts`, URL `/agents/` и `/stack/` — в `app/sitemap.ts` (страницы
+кейсов в карту не включены — см. раздел 11).
 
 ---
 
@@ -257,7 +267,9 @@
 | `data/analytics.json` | `enabled`, `ga_id`, список событий. |
 | `data/policy.json` | Текст политики конфиденциальности (оператор, данные, цели, сроки, права). |
 | `data/cases.json` | Кейсы e-commerce (на текущий момент — концепты, без фейковых метрик). |
-| `data/design-cases.ts` | **8 кейсов портфолио `/design`** (типизированный TS, не JSON). |
+| `data/design-cases.ts` | **10 кейсов портфолио `/design`** (типизированный TS, не JSON). |
+| `data/agent-cases.ts` | **Кейсы AI-агентов `/agents`** (TS, не JSON): архитектура, экраны и группы стека `StackCategory[]`; страницы кейсов — SSG. |
+| `data/stack.ts` | **Единый источник стека сборки агентов** (`STACK_GROUPS`: Оркестрация, LLM, RAG / Векторы, Наблюдаемость). Читают тизер на `/agents` (`AgentStackTeaser`) и страница `/stack`; имя инструмента = ключ марки в `components/agents/agent-stack-logos.tsx`. |
 
 Типы для JSON — в `lib/data-types.ts`; загрузка — `loadDataJSON()` из `lib/content.ts`.
 
@@ -269,6 +281,32 @@
 | `web_faq.json` | FAQ, массив `{q, a}`. |
 | `web_guarantees.json` | Гарантии, `{title, text}`. |
 | `web_cases.json` | Кейсы с метриками (изначально `[]` — наполнять по мере появления). |
+| `web_calculator.json` | Поля ROI-калькулятора, шаблон результата, дисклеймер, `growth_price`. |
+| `web_process.json` | Шаги процесса `{num, title, term, artifact}`. |
+
+Типы — в `lib/web-types.ts`; загрузка — `loadJSON()` из `lib/content.ts`.
+
+### 6.4 `data/design-cases.ts` — 10 кейсов портфолио
+
+Каждый кейс: `slug`, `title`, `category`, метрики, палитра, список экранов
+(`screens`) и ключ `preview`, который ведёт к мини-макету в
+`components/design/previews/*`. Палитра монохромная (near-black / near-white)
+у каждого кейса — различается только тон и контраст.
+
+Слаги: `mono-store`, `versta-furniture`, `nordbank-business`,
+`metrik-unit-economics`, `levin-dental`, `ukus-delivery`, `ferro-equipment`,
+`alephy-platform`, `traq-observability`, `base-api-console`.
+
+Ключи превью: `mono`, `lookbook`, `bank`, `dashboard`, `slots`, `map`,
+`specsheet`, `alephy`, `traq`, `base` — у каждого кейса свой архетип первого
+экрана (калькулятор, лукбук, стопка карт, app-shell, сетка слотов, карта
+курьера, чертёж, редакционная типографика, терминал, docs API).
+
+Тип `PreviewKey` расширяем аккуратно: новый кейс = запись в массиве +
+компонент превью + строка в картах `PREVIEWS`/`DOMAINS`
+(`components/design/case-screenshot.tsx`) и `CASE_ICONS`
+(`components/design/case-icons.tsx`). Страница кейса генерируется статически
+(`/design/work/[slug]`).
 
 ---
 
@@ -374,6 +412,8 @@ typecheck сайта. Не добавляйте импорты между `wbgen
   - роут `/api/og` экспортируется файлом без расширения, поэтому
     `scripts/build-static.mjs` перекладывает его в `out/og.png`, а в метаданные
     подставляется `NEXT_PUBLIC_OG_IMAGE=/og.png`.
+  - `/agents`, `/agents/work/*` и `/stack` — обычные статические страницы (SSG):
+    в экспорт попадают как есть, серверных зависимостей у них нет.
 - **Для продакшена с приёмом заявок** нужен хостинг с Node-рантаймом (**Vercel /
   Render / Railway / Fly.io**): там собирается обычный `npm run build`, работает
   `/api/lead`, а env из `.env.example` (Supabase + Telegram) не попадают в
@@ -399,39 +439,65 @@ typecheck сайта. Не добавляйте импорты между `wbgen
   `design.css` (scope `data-theme`) только для `/design`. Не смешивать scope-ы.
 - **Классы** объединяются через `cn()` (`lib/utils.ts`, clsx + tailwind-merge).
 - **Формы**: клиентский компонент → `fetch('/api/...')` **со слэшем в конце**.
-- **Структура веток/git:** основная ветка `main`. Последний коммит `2f722f8`
-  («feat(design): фаза 2 — кейсы на данных, общие рендеры без хардкода»).
+- **Структура веток/git:** основная ветка `main`; история — коммитами вида
+  `feat(scope): ...`. Последние: `38984cf` (фаза 4 — единое позиционирование),
+  `e03aee5` (раздел AI-агентов), `feat(stack): страница /stack + тизер на
+  /agents, единый источник data/stack.ts` (см. `git log --oneline -3`).
+
+### Золотые правила
+
+- ⚠️ **Никогда не запускать `npm run build` при работающем `next start` / `next dev`.**
+  Порядок: стоп → `Remove-Item -Recurse -Force .next` → `build` → старт. Инцидент
+  2026-10-09: зомби-сервер отдавал HTML со ссылкой на уже удалённый CSS-чанк —
+  страница теряла стили.
+- ⚠️ **Все правки делать CRLF-safe.** В репозитории файлы с `\r\n`; многострочные
+  замены выполнять скриптом с нормализацией `\r\n` (иначе `replace` молча не
+  срабатывает и правка не применяется). Редактор, который ищет текст по `\n`,
+  многострочную замену в таких файлах не находит.
 
 ---
 
 ## 11. Известные пробелы, риски и TODO
 
-1. ~~**Ссылка `/audit` в `lib/nav.ts` не имеет страницы** → 404.~~ ✅ Закрыто в
-   Фазе 3: страница `app/audit` собрана, пункт «Аудит» возвращён в `lib/nav.ts`,
-   URL добавлен в `app/sitemap.ts`.
-2. ~~**`lib/nav.ts` и `data/site.json` (nav) расходятся**~~ ✅ Дубль `nav`
-   удалён, единственный источник — `lib/nav.ts`.
-3. **`/design` нет в навигации** и вне sitemap — сейчас попадает по прямой ссылке.
+**Перед запуском трафика:**
+
+1. **Кастомный домен не подключён.** Сайт живёт на `https://ortamy.github.io/mono/`
+   (Pages, подкаталог `basePath`). Для трафика нужен свой домен:
+   `NEXT_PUBLIC_SITE_URL` + `NEXT_PUBLIC_BASE_PATH`, далее DNS/CNAME на Pages
+   либо переезд на хостинг с Node-рантаймом (тогда заявки снова идут в Supabase).
+2. **Playwright не в зависимостях.** Вёрстка проверялась Playwright из кэша —
+   в `package.json` его нет ни в `dependencies`, ни в `devDependencies`. Нужен
+   `npm i -D playwright` (+ `npx playwright install chromium`), иначе проверки
+   не воспроизводятся с чистой машины.
+3. **Кейс «Nexus AI» не собран.** В `AGENT_CASES` (`data/agent-cases.ts`) сейчас
+   5 кейсов (`support-furniture`, `sales-agent-b2b`, `wb-content-agent`,
+   `marketplace-analyst`, `competitive-research`) — «Nexus AI» среди них нет.
+   Добавление = запись в массив + папка `app/agents/work/<slug>/`.
+
+**Прочее (известные ограничения):**
+
+4. **`/design` нет в навигации** и вне sitemap — сейчас попадает по прямой ссылке.
    Нужно решить, публичен ли он.
-4. **Rate-limit `/api/lead` — in-memory** → на serverless нестабилен.
+5. **Страницы кейсов не в sitemap** (`/agents/work/*` и `/design/work/*`): для
+   `/design` это осознанно, по кейсам агентов решение ещё не принято — в карту
+   попали только `/agents/` и `/stack/`.
+6. **Rate-limit `/api/lead` — in-memory** → на serverless нестабилен.
    Для прод-нагрузки нужен внешний стор.
-5. ~~**Деплой отключён** (GitHub Pages больше не подходит).~~ ✅ Деплой на Pages
-   работает (раздел 9). Открытый вопрос — хостинг с Node-рантаймом, чтобы заявки
-   снова писались в Supabase и Telegram.
-6. **`web_cases.json` стартово пуст** — кейсы страницы `/web` ещё не наполнены.
-7. **`data/cases.json`** — концепты без реальных метрик (сознательно, чтобы не
+7. **`web_cases.json` стартово пуст** — кейсы страницы `/web` ещё не наполнены.
+8. **`data/cases.json`** — концепты без реальных метрик (сознательно, чтобы не
    публиковать неподтверждённые цифры; см. комментарий в `components/shop/cases.tsx`).
-8. **Supabase-таблица одна на две воронки** (`landing_leads`): заявки с
+9. **Supabase-таблица одна на две воронки** (`landing_leads`): заявки с
    главной и с `/audit` различаются колонкой `source` (см. 6.1); заявки с
    `/design` в БД не сохраняются (только Telegram).
-9. **`dev.log`** не отслеживается git, но и **не в `.gitignore`** (status: `??`) —
-   стоит добавить в `.gitignore`, чтобы лог `next dev` не попал в коммит.
 10. **`seo.og_image` в `data/site.json`** (`/og.svg`) не используется и такого
     файла нет: OG-картинку отдаёт `/api/og` (сервер) или `/og.png` (статический
     экспорт, см. `lib/meta.ts`). Либо удалить поле, либо связать с `OG_IMAGE`.
 11. **OG-картинка в статике рендерится на этапе сборки** (satori). Если раннер не
     достанет шрифт для кириллицы, картинка отрисуется системным фолбэком, а в
     логах будет `Failed to download dynamic font` — сборка при этом проходит.
+
+> Ранее закрыто: `/audit` (страница + пункт в навигации), дубль навигации в
+> `data/site.json`, деплой на GitHub Pages, `*.log` в `.gitignore`.
 
 ---
 
@@ -490,32 +556,3 @@ npm run wbgen:typecheck
 - `wbgen` — изолированный инструмент, у него свой `tsconfig` и свои команды;
 - и API-роуты, и Яндекс.Метрика требуют **server-рантайма** — на чистой статике
   они не работают.
-
-
-| `web_calculator.json` | Поля ROI-калькулятора, шаблон результата, дисклеймер, `growth_price`. |
-| `web_process.json` | Шаги процесса `{num, title, term, artifact}`. |
-
-Типы — в `lib/web-types.ts`; загрузка — `loadJSON()` из `lib/content.ts`.
-
-### 6.4 `data/design-cases.ts` — 10 кейсов портфолио
-
-Каждый кейс: `slug`, `title`, `category`, метрики, палитра, список экранов
-(`screens`) и ключ `preview`, который ведёт к мини-макету в
-`components/design/previews/*`. Палитра монохромная (near-black / near-white)
-у каждого кейса — различается только тон и контраст.
-
-Слаги: `mono-store`, `versta-furniture`, `nordbank-business`,
-`metrik-unit-economics`, `levin-dental`, `ukus-delivery`, `ferro-equipment`,
-`alephy-platform`, `traq-observability`, `base-api-console`.
-
-Ключи превью: `mono`, `lookbook`, `bank`, `dashboard`, `slots`, `map`,
-`specsheet`, `alephy`, `traq`, `base` — у каждого кейса свой архетип первого
-экрана (калькулятор, лукбук, стопка карт, app-shell, сетка слотов, карта
-курьера, чертёж, редакционная типографика, терминал, docs API).
-
-Тип `PreviewKey` расширяем аккуратно: новый кейс = запись в массиве +
-компонент превью + строка в картах `PREVIEWS`/`DOMAINS`
-(`components/design/case-screenshot.tsx`) и `CASE_ICONS`
-(`components/design/case-icons.tsx`). Страница кейса генерируется статически
-(`/design/work/[slug]`).
-
