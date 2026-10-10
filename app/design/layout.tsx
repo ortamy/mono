@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './design.css';
 import DesignShell from '@/components/design/design-shell';
+import { pageUrl } from '@/lib/site';
 
 /**
  * Маршрут портфолио UX/UI-дизайнера.
@@ -11,14 +12,18 @@ import DesignShell from '@/components/design/design-shell';
  * title — с absolute: корневой layout задаёт шаблон '%s | mono.', а
  * пользователю нужен ровно «UX/UI дизайнер | Портфолио» без суффикса.
  *
- * /design намеренно НЕ попадает в sitemap.xml (см. app/sitemap.ts):
- * страницу отправляют клиентам по ссылке, индексировать её не нужно.
+ * Страница доступна для индексации с 10.10.2026: URL есть в sitemap.xml
+ * (см. app/sitemap.ts), canonical задаётся ниже. В навигации её при этом нет —
+ * доступ по прямой ссылке для клиентов, но поисковики её видят.
  */
 export const metadata: Metadata = {
   title: { absolute: 'UX/UI дизайнер | Портфолио' },
   description: 'Дизайн сайтов и приложений. Figma, AI-инструменты.',
-  // /design вне sitemap, но запрет индексации не ставим: прямая ссылка
-  // должна открываться у клиента без роботов-заглушек.
+  // canonical нужен именно потому, что страница теперь в карте сайта: без него
+  // варианты адреса с utm-хвостом или иным регистром пути выглядят дублями.
+  alternates: { canonical: pageUrl('/design') },
+  // Запрет индексации не ставим: прямая ссылка должна открываться у клиента
+  // без роботов-заглушек.
   openGraph: {
     title: 'UX/UI дизайнер | Портфолио',
     description: 'Дизайн сайтов и приложений. Figma, AI-инструменты.',

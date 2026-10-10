@@ -6,6 +6,7 @@ import { DESIGN_CASES, getDesignCase } from '@/data/design-cases';
 import CaseMock from '@/components/design/case-mock';
 import CaseScreenshot from '@/components/design/case-screenshot';
 import { CASE_ICONS } from '@/components/design/case-icons';
+import { buildMetadata } from '@/lib/meta';
 
 /**
  * Страница кейса портфолио: /design/work/[slug].
@@ -28,12 +29,24 @@ export async function generateMetadata({
   const { slug } = await params;
   const item = getDesignCase(slug);
   if (!item) return { title: 'Кейс не найден' };
-  return {
-    // absolute: не даёт корневому шаблону приклеить «| mono» — кейс живёт
-    // в портфолио, а не на главной студии.
-    title: { absolute: `${item.title} — UX/UI дизайнер | Портфолио` },
+
+  // canonical, og:url и twitter-карточку собирает общий builder — как у кейсов
+  // агентов (/agents/work/[slug]), чтобы метаданные не расходились между
+  // разделами (см. lib/meta.ts).
+  const meta = buildMetadata({
+    title: `${item.title} — UX/UI дизайнер`,
     description: `${item.category}, ${item.year}. ${item.summary}`,
+    path: `/design/work/${slug}`,
+  });
+
+  return {
+    ...meta,
+    // absolute: не даёт корневому шаблону приклеить «| mono» — кейс живёт
+    // в портфолио, а не на главной студии. Текст заголовка остался прежним.
+    title: { absolute: `${item.title} — UX/UI дизайнер | Портфолио` },
     openGraph: {
+      ...(meta.openGraph ?? {}),
+      // В соцсетях хвост заголовка обрезается — в карточку отдаём короткий.
       title: item.title,
       description: item.summary,
       type: 'article',

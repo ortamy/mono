@@ -8,9 +8,8 @@ import { buildMetadata } from '@/lib/meta';
  * header/footer портфолио), потому что услуга — продолжение дизайн-портфолио.
  * Общие стили темы переиспользуются из app/design/design.css.
  *
- * В отличие от /design страница попадает в sitemap (см. app/sitemap.ts),
- * поэтому метаданные собираются обычным buildMetadata с canonical, а не
- * absolute-заголовком.
+ * Страница в sitemap с 10.10.2026 (см. app/sitemap.ts), поэтому метаданные
+ * собираются обычным buildMetadata с canonical, а не absolute-заголовком.
  */
 export const metadata: Metadata = buildMetadata({
   title: 'AI-агенты: сборка под задачи бизнеса',
