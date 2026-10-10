@@ -519,6 +519,13 @@ typecheck сайта. Не добавляйте импорты между `wbgen
   заявки перестанут доходить до Supabase (Telegram продолжит работать).
 - ⚠️ Если правите что-то новое, сверяйтесь с `git status --short` и `git diff`,
   чтобы не смешать незавершённую задачу с готовой.
+- ⚠️ **10.10.2026 — `origin/main` переписан.** Ранее на remote лежал `3fb07d6`:
+  та же работа «раздел AI-агентов», но с `agents-case.png`, `agents-full.png`
+  и `start-server.cmd` — локально эти файлы убрали правкой того же коммита,
+  поэтому хеши разошлись. Пуш сделан через `git push --force-with-lease`
+  (lease на `3fb07d6`), теперь `origin/main == 99ba586` (`feat(stack)`).
+  Если работаете из другого клона — сначала `git fetch && git reset --hard
+  origin/main`, иначе git будет требовать merge/rebase.
 
 ---
 
