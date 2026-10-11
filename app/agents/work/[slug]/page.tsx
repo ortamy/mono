@@ -138,11 +138,11 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
                   {ScreenView ? <ScreenView /> : null}
                 </div>
                 <figcaption className="px-4 py-3">
-                  <div className="flex flex-wrap items-baseline gap-2">
-                  <span className="inline-flex items-center rounded-full bg-[var(--d-soft)] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--d-ink)]">{SCREEN_KIND_LABELS[screen.kind] ?? screen.kind}</span>
-                  <span className="block text-[14px] font-semibold text-[var(--d-ink)]">{screen.title}</span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center rounded-full bg-[var(--d-soft)] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--d-ink)]">{SCREEN_KIND_LABELS[screen.kind] ?? screen.kind}</span>
+                    <span className="block text-[14px] font-semibold text-[var(--d-ink)]">{screen.title}</span>
+                  </div>
                   <span className="mt-1.5 block max-w-[60ch] text-[13px] leading-[1.65] d-muted">{screen.desc}</span>
-                </div>
                 </figcaption>
               </figure>
             );

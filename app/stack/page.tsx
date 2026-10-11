@@ -73,6 +73,10 @@ const VALUE = [
     title: 'Данные под контролем',
     desc: 'Self-hosted там, где это критично: переписка клиентов и база знаний не уходят в чужое облако.',
   },
+  {
+    title: 'Долгосрочное партнёрство',
+    desc: 'Я не ухожу после сдачи проекта. Ретейнер — это гарантия, что агент работает через год так же хорошо, как в первый день.',
+  },
 ];
 
 /** Антипаттерны: что мешает проекту и чем я это заменяю. */
@@ -222,7 +226,7 @@ export default function StackPage() {
         <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Что бизнес получает от такого стека
         </h2>
-        <div className="mt-10 grid gap-5 sm:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {VALUE.map((v, i) => (
             <article key={v.title} className="d-card p-6">
               <div className="text-[13px] font-semibold tabular-nums d-faint">

@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart3, MessageCircle, PenTool, Search, Send, Settings, Target } from 'lucide-react';
+import { ArrowRight, Award, BarChart3, Bot, CheckCircle, MessageCircle, PenTool, Rocket, Search, Send, Settings, Sparkles, Target, TrendingUp, XCircle, Zap } from 'lucide-react';
 import { AGENT_CASES } from '@/data/agent-cases';
 import AgentCaseCard from '@/components/agents/agent-case-card';
 import AgentContactForm from '@/components/agents/agent-contact-form';
@@ -12,6 +12,53 @@ const METRICS = [
   { value: '×3', label: 'быстрее ответ клиенту' },
   { value: '24/7', label: 'агент не уходит на обед' },
   { value: '14 дней', label: 'до первого агента в проде' },
+  { value: '74%', label: 'обращений агент закрывает без человека' },
+];
+
+/** Сравнение «проблема чат-бота → решение агента». */
+const CHATBOT_PROBLEMS = [
+  {
+    problem: '«Я вас не понял. Выберите пункт меню»',
+    title: 'Понимает естественный язык',
+    desc: 'даже с ошибками и опечатками',
+  },
+  {
+    problem: 'Отвечает, но ничего не делает',
+    title: 'Выполняет действия',
+    desc: 'оформляет заказы, обновляет CRM, отправляет письма',
+  },
+  {
+    problem: 'Не помнит предыдущий диалог',
+    title: 'Помнит всю историю',
+    desc: 'возвращается к клиенту через месяц с контекстом',
+  },
+  {
+    problem: 'Работает только в одном канале',
+    title: 'Работает везде',
+    desc: 'сайт, Telegram, WhatsApp, Instagram DM, почта',
+  },
+  {
+    problem: 'Приводит к оператору в 40% случаев',
+    title: 'Закрывает 74% диалогов без человека',
+    desc: 'оставшиеся 26% идут с полным контекстом',
+  },
+];
+
+/** Кому агент подходит. */
+const FIT_FOR = [
+  'E-commerce с большим потоком однотипных вопросов',
+  'SaaS с onboarding-задачами',
+  'Услуги (клиники, салоны, юристы) с записью и квалификацией',
+  'Бизнесы с чат-ботом, который не справляется',
+  'Компании с базой знаний, которую нужно обслуживать',
+];
+
+/** Кому агент не подходит. */
+const FIT_AGAINST = [
+  'Стартапы на pre-seed (нет бюджета и данных)',
+  'Бизнесы без digital-процессов',
+  'Задачи, требующие только человеческого суждения',
+  'Разовые задачи (не окупятся)',
 ];
 
 /** Типы агентов: шесть карточек с иконками Lucide. */
@@ -63,8 +110,21 @@ const STEPS = [
   { num: '05', title: 'Запуск', desc: 'Выкатываем, следим за качеством и дообучаем на ошибках.' },
 ];
 
-/** Тарифы: от диагностики до сопровождения. */
-const PACKAGES = [
+/** Карточка тарифа. Блоки why/savings заполняются только у поддержки (ретейнера). */
+interface Package {
+  title: string;
+  price: string;
+  term: string;
+  desc: string;
+  points: string[];
+  /** Блок «Почему это важно» — только у ретейнера. */
+  why?: string;
+  /** Строка экономии — только у ретейнера. */
+  savings?: string;
+}
+
+/** Тарифы: от диагностики до поддержки агента. */
+const PACKAGES: Package[] = [
   {
     title: 'Диагностика',
     price: '15 000 ₽',
@@ -87,11 +147,47 @@ const PACKAGES = [
     points: ['База знаний и RAG', 'Интеграции с CRM и сайтом', 'Мониторинг и алерты'],
   },
   {
-    title: 'Сопровождение',
-    price: 'от 35 000 ₽/мес',
+    title: 'Поддержка агента (ретейнер)',
+    price: '50 000 ₽/мес',
     term: 'помесячно',
-    desc: 'Дообучение на новых кейсах, расширение сценариев и поддержка работы.',
-    points: ['Еженедельные улучшения', 'Новые сценарии', 'Отчёт раз в месяц'],
+    desc: 'Держу агента в форме: слежу за качеством, обновляю базу знаний и расширяю сценарии.',
+    points: [
+      'Мониторинг качества ответов (ежедневно)',
+      'Обновление базы знаний (ежемесячно)',
+      'Добавление 1–2 новых сценариев в месяц',
+      'Фикс багов и интеграционных проблем',
+      'Ежемесячный отчёт по метрикам',
+    ],
+    why: 'AI-агент деградирует без обновлений. Базы знаний устаревают, модели меняются, новые сценарии не появляются. Без ретейнера через 3 месяца агент начнёт ошибаться.',
+    savings: 'Экономия клиента: ~40 часов/мес × ставка = 100 000 ₽. Ретейнер окупается ×2.',
+  },
+];
+
+/** Жизненный цикл агента после запуска: четыре этапа. */
+const LIFECYCLE = [
+  {
+    icon: Rocket,
+    period: 'День 0–30',
+    action: 'Запуск, обучение, мониторинг',
+    result: 'Работающий агент + бесплатная поддержка',
+  },
+  {
+    icon: TrendingUp,
+    period: 'Месяц 2–3',
+    action: 'Обновление базы знаний, добавление сценариев',
+    result: 'Агент обрабатывает больше запросов',
+  },
+  {
+    icon: Zap,
+    period: 'Месяц 4–6',
+    action: 'Обновление LLM, оптимизация промптов',
+    result: 'Качество растёт, стоимость токенов падает',
+  },
+  {
+    icon: Award,
+    period: 'Месяц 7–12',
+    action: 'Интеграция с новыми системами, масштабирование',
+    result: 'Агент становится центральным инструментом',
   },
 ];
 
@@ -120,6 +216,10 @@ const FAQ = [
   {
     q: 'Сколько это стоит?',
     a: 'Диагностика — 15 000 ₽, пилот — от 60 000 ₽, агент под ключ — от 150 000 ₽. Точная оценка — после первого созвона.',
+  },
+  {
+    q: 'Что будет, если я не возьму поддержку?',
+    a: 'Агент продолжит работать, но через 2–3 месяца начнёт ошибаться: база знаний устареет, модели обновятся, новые сценарии не будут обработаны. Перезапуск после простоя обойдётся дороже, чем год поддержки.',
   },
 ];
 
@@ -156,6 +256,64 @@ export default function AgentsPage() {
         </div>
       </section>
 
+      {/* У ВАС УЖЕ ЕСТЬ ЧАТ-БОТ? */}
+      <section id="chatbot" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
+        <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+          <Bot size={19} strokeWidth={1.6} />
+        </span>
+        <h2 className="mt-4 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
+          У вас уже есть чат-бот? Тогда вы знаете, что не работает.
+        </h2>
+        <p className="mt-3 max-w-[560px] text-[14px] leading-[1.6] d-muted">
+          Каждый бизнес, который приходит ко мне с чат-ботом, называет одни и те же
+          проблемы. Агент решает их все.
+        </p>
+
+        <div className="mt-10 overflow-hidden rounded-xl border border-[var(--d-line)]">
+          <div className="hidden border-b border-[var(--d-line)] bg-[var(--d-soft)] sm:grid sm:grid-cols-2">
+            <div className="px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">
+              Проблема с чат-ботом
+            </div>
+            <div className="border-l border-[var(--d-line)] px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">
+              Что делает агент
+            </div>
+          </div>
+          {CHATBOT_PROBLEMS.map((row) => (
+            <div
+              key={row.problem}
+              className="grid gap-0 border-b border-[var(--d-line)] last:border-b-0 sm:grid-cols-2"
+            >
+              <div className="flex items-start gap-3 px-5 py-4">
+                <XCircle size={16} strokeWidth={1.6} className="mt-0.5 shrink-0 d-faint" aria-hidden />
+                <span className="text-[14px] leading-[1.55] d-muted">{row.problem}</span>
+              </div>
+              <div className="flex items-start gap-3 border-t border-[var(--d-line)] px-5 py-4 sm:border-l sm:border-t-0">
+                <CheckCircle size={16} strokeWidth={1.6} className="mt-0.5 shrink-0 text-[var(--d-ink)]" aria-hidden />
+                <span className="text-[14px] leading-[1.55] text-[var(--d-ink)]">
+                  <strong className="font-semibold">{row.title}</strong> — {row.desc}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-6 text-[14px] leading-[1.6] d-muted">
+          Не нужно выбрасывать то, что есть. Агент встраивается поверх вашего чат-бота
+          и превращает его в работающий инструмент.
+        </p>
+
+        <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <a href="#contact" className="d-btn d-btn-primary">
+            Показать, что умеет агент на вашем кейсе
+            <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+          </a>
+          <p className="max-w-[420px] text-[13px] d-faint">
+            Бесплатный разбор вашего чат-бота — где он теряет клиентов и что можно
+            исправить.
+          </p>
+        </div>
+      </section>
+
       {/* МЕТРИКИ */}
       <section className="d-surface border-y border-[var(--d-line)]">
         <div className="mx-auto max-w-[1100px] px-5 py-16 sm:px-8 sm:py-20">
@@ -163,7 +321,7 @@ export default function AgentsPage() {
           <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
             Что дают агенты в цифрах
           </h2>
-          <dl className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-4">
+          <dl className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
             {METRICS.map((m) => (
               <div key={m.label} className="d-card p-5">
                 <dt className="text-[11px] uppercase tracking-[0.05em] d-faint">{m.label}</dt>
@@ -280,8 +438,99 @@ export default function AgentsPage() {
                     </li>
                   ))}
                 </ul>
+                {pkg.why ? (
+                  <div className="mt-4 rounded-lg bg-[var(--d-soft)] p-4">
+                    <p className="text-[11px] uppercase tracking-[0.06em] d-faint">Почему это важно</p>
+                    <p className="mt-2 text-[13px] leading-[1.6] d-muted">{pkg.why}</p>
+                  </div>
+                ) : null}
+                {pkg.savings ? (
+                  <p className="mt-4 border-t border-[var(--d-line)] pt-4 text-[13px] font-semibold leading-[1.6] text-[var(--d-ink)]">
+                    {pkg.savings}
+                  </p>
+                ) : null}
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ПОСЛЕ ЗАПУСКА */}
+      <section id="lifecycle" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
+        <p className="text-[11px] uppercase tracking-[0.08em] d-faint">После запуска</p>
+        <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
+          Что происходит после запуска
+        </h2>
+        <p className="mt-3 max-w-[560px] text-[14px] leading-[1.6] d-muted">
+          AI-агент — это не сайт. Он живёт, обучается и развивается.
+        </p>
+
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {LIFECYCLE.map((s) => (
+            <article key={s.period} className="d-card p-5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+                  <s.icon size={19} strokeWidth={1.6} />
+                </span>
+                <span className="text-[13px] font-semibold tabular-nums d-faint">{s.period}</span>
+              </div>
+              <dl className="mt-5 space-y-3 border-t border-[var(--d-line)] pt-4">
+                <div>
+                  <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Что делаю</dt>
+                  <dd className="mt-1 text-[13px] leading-[1.55] d-muted">{s.action}</dd>
+                </div>
+                <div>
+                  <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Что получает клиент</dt>
+                  <dd className="mt-1 text-[13px] leading-[1.55] text-[var(--d-ink)]">{s.result}</dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* КОМУ ПОДХОДИТ */}
+      <section id="fit" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
+        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+          <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Кому подходит</p>
+          <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
+            Когда агент уместен, а когда — нет
+          </h2>
+          <p className="mt-3 max-w-[560px] text-[14px] leading-[1.6] d-muted">
+            Честно: агент окупается не в каждом бизнесе. Ниже — где он приносит
+            результат и где браться не стоит.
+          </p>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <div className="d-card p-6 sm:p-7">
+              <div className="flex items-center gap-2">
+                <Sparkles size={18} strokeWidth={1.6} className="text-[var(--d-ink)]" aria-hidden />
+                <h3 className="text-[17px] font-semibold text-[var(--d-ink)]">Кому подходит</h3>
+              </div>
+              <ul className="mt-4 space-y-2 border-t border-[var(--d-line)] pt-4">
+                {FIT_FOR.map((p) => (
+                  <li key={p} className="flex items-start gap-2 text-[14px] leading-[1.55] d-muted">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--d-faint)]" aria-hidden />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="d-card p-6 sm:p-7">
+              <div className="flex items-center gap-2">
+                <XCircle size={18} strokeWidth={1.6} className="d-faint" aria-hidden />
+                <h3 className="text-[17px] font-semibold text-[var(--d-ink)]">Кому не подходит</h3>
+              </div>
+              <ul className="mt-4 space-y-2 border-t border-[var(--d-line)] pt-4">
+                {FIT_AGAINST.map((p) => (
+                  <li key={p} className="flex items-start gap-2 text-[14px] leading-[1.55] d-muted">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--d-faint)]" aria-hidden />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

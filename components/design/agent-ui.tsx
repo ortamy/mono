@@ -94,7 +94,7 @@ export function AgentButton({
   );
 }
 
-/** Бейдж-pill: Solid (тёмный), Soft (светло-серый), Success (зелёный статус). */
+/** Бейдж-pill: Solid (тёмный), Soft (светло-серый), Success (зелёный), Warn (красный статус). */
 export function AgentBadge({
   children,
   variant = 'soft',
@@ -102,7 +102,7 @@ export function AgentBadge({
   style,
 }: {
   children: ReactNode;
-  variant?: 'solid' | 'soft' | 'success';
+  variant?: 'solid' | 'soft' | 'success' | 'warn';
   className?: string;
   style?: CSSProperties;
 }) {
@@ -123,7 +123,9 @@ export function AgentBadge({
       ? { background: AGENT_THEME.ink, color: '#FFFFFF' }
       : variant === 'success'
         ? { background: AGENT_THEME.successSoft, color: AGENT_THEME.success }
-        : { background: AGENT_THEME.soft, color: AGENT_THEME.ink };
+        : variant === 'warn'
+          ? { background: 'rgba(231, 0, 11, 0.08)', color: AGENT_THEME.ember }
+          : { background: AGENT_THEME.soft, color: AGENT_THEME.ink };
   return (
     <span className={className} style={{ ...base, ...skin, ...style }}>
       {children}

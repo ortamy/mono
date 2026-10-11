@@ -91,7 +91,7 @@
 | `/privacy` | `app/privacy/page.tsx` | Политика конфиденциальности из `data/policy.json`. |
 | `/design` | `app/design/page.tsx` | **Отдельное портфолио UX/UI-дизайнера** (своя оболочка, light/dark, свой CSS). |
 | `/design/work/[slug]` | `app/design/work/[slug]/page.tsx` | Страница кейса портфолио, SSG из `DESIGN_CASES`. |
-| `/agents` | `app/agents/page.tsx` | Услуга «AI-агенты»: метрики, 6 типов агентов, кейсы, 5 шагов внедрения, тарифы, FAQ, тизер стека и форма (`AgentContactForm` → POST `/api/lead/`). |
+| `/agents` | `app/agents/page.tsx` | Услуга «AI-агенты»: метрики, сравнение «проблема чат-бота → действие агента», 6 типов агентов, кейсы, 5 шагов внедрения, тарифы (включая ретейнер), «что происходит после запуска», «кому подходит / не подходит», FAQ, тизер стека и форма (`AgentContactForm` → POST `/api/lead/`). |
 | `/agents/work/[slug]` | `app/agents/work/[slug]/page.tsx` | Кейс агента, SSG из `AGENT_CASES` (`data/agent-cases.ts`): архитектура, экраны и блоки «Стек и интеграции» и «Архитектура агента». |
 | `/stack` | `app/stack/page.tsx` | Справочник по стеку сборки агентов: 4 группы инструментов из `data/stack.ts`, принципы, «ситуация → минимальный стек», что это даёт бизнесу. |
 | `/404` | `app/not-found.tsx` | Страница «не найдено». |

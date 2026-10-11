@@ -13,6 +13,10 @@
  * контейнером страницы кейса (Screen задаёт [container-type:inline-size]).
  * Экран — «скриншот» чужого продукта: цвета заданы жёстко токенами Vercel и не
  * перекрашиваются темой интерфейса.
+ *
+ * Модуль — серверный. График (recharts) живёт отдельно в agent-quality-chart.tsx
+ * ('use client'), иначе recharts вызывает React.createContext, которого нет в
+ * серверном графе, и prerender падает с `createContext is not a function`.
  */
 import type { ReactNode } from 'react';
 import type { AgentPreviewKey } from '@/data/agent-cases';
@@ -31,25 +35,27 @@ import {
   type TerminalRow,
 } from '@/components/design/agent-ui';
 import {
-  Activity,
   AlertTriangle,
   BookOpen,
+  Bot,
+  CalendarDays,
   CheckCheck,
   Clock,
-  Cpu,
-  Database,
+  CreditCard,
+  Download,
   MessageSquare,
   Paperclip,
-  Package,
+  Plus,
   RotateCcw,
+  Ruler,
   Send,
   Shield,
-  Tag as TagIcon,
   Truck,
-  Wrench,
   Wifi,
+  Wrench,
+  type LucideIcon,
 } from 'lucide-react';
-import { Line, LineChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { QualityChart } from './agent-quality-chart';
 
 const MONO = AGENT_MONO;
 const SANS = AGENT_SANS;
@@ -66,8 +72,17 @@ function Screen({ children }: { children: ReactNode }) {
   );
 }
 
+/** Иконка для действия в шапке экрана: по ключевому слову кнопки. */
+const ACTION_ICONS: [RegExp, LucideIcon][] = [
+  [/выгруз|экспорт/i, Download],
+  [/нов/i, Plus],
+  [/telegram/i, Send],
+  [/amocrm|слот|встреч/i, CalendarDays],
+];
+
 /** Верхний колонтитул страницы-экрана: имя продукта, период, действие. */
 function ScreenHeader({ brand, period, action }: { brand: string; period?: string; action?: string }) {
+  const ActionIcon = action ? ACTION_ICONS.find(([re]) => re.test(action))?.[1] : undefined;
   return (
     <div className="flex items-center justify-between gap-[1.5cqw] px-[2cqw] pt-[1.6cqw]">
       <div className="flex items-center gap-[0.8cqw]">
@@ -83,7 +98,12 @@ function ScreenHeader({ brand, period, action }: { brand: string; period?: strin
           <span style={{ fontFamily: MONO, fontSize: '1.05cqw', color: AGENT_THEME.slate }}>{period}</span>
         ) : null}
       </div>
-      {action ? <AgentButton variant="ghost">{action}</AgentButton> : null}
+      {action ? (
+        <AgentButton variant="ghost">
+          {ActionIcon ? <ActionIcon className="h-[1.1cqw] w-[1.1cqw]" strokeWidth={1.8} aria-hidden /> : null}
+          {action}
+        </AgentButton>
+      ) : null}
     </div>
   );
 }
@@ -139,6 +159,13 @@ function Bars({ items, title }: { items: [string, string, number][]; title?: str
 
 /** Диалог поддержки: список диалогов + чат с клиентом. */
 function SupportDialogue() {
+  const dialogs = [
+    { name: 'Ольга Ковалёва', topic: 'Заказ №1842 · фото ткани', time: '18:09', active: true },
+    { name: 'Игорь Морозов', topic: 'Доставка дивана', time: '17:52', active: false },
+    { name: 'Марина Лебедева', topic: 'Возврат подушки', time: '16:31', active: false },
+    { name: 'Пётр Соколов', topic: 'Гарантия на кресло', time: '15:04', active: false },
+    { name: 'Анна Гусева', topic: 'Рассрочка на стол', time: 'вчера', active: false },
+  ];
   return (
     <Screen>
       <SidebarLayout
@@ -147,19 +174,14 @@ function SupportDialogue() {
             <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
               Диалоги
             </div>
-            {[
-              ['Ольга Ковалёва', 'Заказ №1842', true],
-              ['Игорь Морозов', 'Доставка дивана', false],
-              ['Марина Лебедева', 'Возврат подушки', false],
-              ['Пётр Соколов', 'Гарантия', false],
-            ].map(([name, topic, active]) => (
+            {dialogs.map(({ name, topic, time, active }) => (
               <div
-                key={name as string}
+                key={name}
                 className="mt-[1.1cqw] flex items-center gap-[0.8cqw] rounded-[0.5cqw] px-[0.6cqw] py-[0.55cqw]"
-                style={active ? { background: AGENT_THEME.paper } : undefined}
+                style={active ? { background: AGENT_THEME.paper, boxShadow: AGENT_THEME.ring } : undefined}
               >
-                <AgentAvatar name={name as string} size="2cqw" />
-                <div className="min-w-0">
+                <AgentAvatar name={name} size="2cqw" />
+                <div className="min-w-0 flex-1">
                   <div className="truncate" style={{ fontFamily: SANS, fontSize: '1.15cqw', fontWeight: 500 }}>
                     {name}
                   </div>
@@ -167,93 +189,93 @@ function SupportDialogue() {
                     {topic}
                   </div>
                 </div>
+                <span className="shrink-0 tabular-nums" style={{ fontFamily: MONO, fontSize: '0.9cqw', color: AGENT_THEME.slate }}>
+                  {time}
+                </span>
               </div>
             ))}
+            <div
+              className="mt-auto flex flex-col gap-[0.4cqw] border-t pt-[1.2cqw]"
+              style={{ borderColor: AGENT_THEME.hairline, fontFamily: MONO, fontSize: '0.95cqw', color: AGENT_THEME.slate }}
+            >
+              <div className="flex items-center justify-between">
+                <span>отвечено сегодня</span>
+                <span className="tabular-nums" style={{ color: AGENT_THEME.ink }}>148</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>эскалировано</span>
+                <span className="tabular-nums" style={{ color: AGENT_THEME.ember }}>6</span>
+              </div>
+            </div>
           </>
         }
       >
-        <div className="flex items-center justify-between border-b px-[2cqw] py-[1.2cqw]" style={{ borderColor: AGENT_THEME.hairline }}>
-          <div className="flex items-center gap-[0.9cqw]">
-            <AgentAvatar name="Ольга Ковалёва" size="2.4cqw" />
-            <div>
-              <div style={{ fontFamily: SANS, fontSize: '1.3cqw', fontWeight: 600 }}>Ольга Ковалёва</div>
-              <div style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>WhatsApp · онлайн</div>
-            </div>
-          </div>
-          <AgentBadge variant="success">решено</AgentBadge>
-        </div>
-
-        <div className="flex flex-1 flex-col justify-end gap-[0.9cqw] px-[2cqw] py-[1.3cqw]">
-          {[
+        <ChatThread
+          header="Ольга Ковалёва"
+          channel="WhatsApp"
+          peer="Ольга Ковалёва"
+          badge="решено"
+          badgeVariant="success"
+          messages={[
             ['user', 'Здравствуйте! Где мой заказ?'],
             ['agent', 'Заказ №1842 — «Диван Осло» — у грузчиков, сегодня до 18:00.'],
             ['user', 'А диван точно тёмно-зелёный?'],
-            ['agent', 'Да, цвет «мокко» — пришлю фото из зала.'],
-          ].map(([from, text], i) => (
-            <div
-              key={i}
-              className={`flex max-w-[72%] items-end gap-[0.8cqw] rounded-[0.7cqw] px-[1.2cqw] py-[0.8cqw] ${from === 'agent' ? 'self-end' : 'self-start'}`}
-              style={
-                from === 'agent'
-                  ? { background: AGENT_THEME.ink, color: '#fff', fontFamily: SANS, fontSize: '1.2cqw' }
-                  : { background: AGENT_THEME.soft, fontFamily: SANS, fontSize: '1.2cqw' }
-              }
-            >
-              {from === 'user' ? <AgentAvatar name="Ольга Ковалёва" size="1.8cqw" /> : null}
-              <span>{text}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-[0.9cqw] border-t px-[2cqw] py-[1.2cqw]" style={{ borderColor: AGENT_THEME.hairline }}>
-          <span
-            className="min-w-0 flex-1 truncate rounded-[0.5cqw] border px-[1cqw] py-[0.7cqw]"
-            style={{ borderColor: AGENT_THEME.hairline, color: AGENT_THEME.slate, fontFamily: SANS, fontSize: '1.15cqw' }}
-          >
-            Спросить о заказе…
-          </span>
-          <AgentButton>Отправить</AgentButton>
-        </div>
+            ['user', 'Фото ткани из чата — похоже на «мокко»?', true],
+            ['agent', 'Да, это «мокко» из коллекции Vela. Паспорт ткани пришлю.'],
+          ]}
+          placeholder="Ответить клиенту…"
+        />
       </SidebarLayout>
     </Screen>
   );
 }
 
-/** База знаний: сетка статей со счётчиками просмотров. */
+/** База знаний: сетка статей со статусами, счётчиками просмотров и документов. */
 function SupportKnowledge() {
-  const articles: [string, string, string, string, number][] = [
-    ['Доставка', 'Как отследить заказ', '12 480', 'обновлено 3 дня назад', 96],
-    ['Доставка', 'Сроки доставки по регионам', '8 210', 'обновлено вчера', 78],
-    ['Сборка', 'Сборка и монтаж', '5 640', 'обновлено 6 дней назад', 62],
-    ['Гарантия', 'Гарантия 2 года', '4 915', 'обновлено 2 недели назад', 54],
-    ['Возврат', 'Возврат за 14 дней', '3 302', 'обновлено 5 дней назад', 41],
-    ['Ткани', 'Уход за тканью', '1 870', 'обновлено неделю назад', 28],
-    ['Оплата', 'Оплата и рассрочка', '1 420', 'обновлено 4 дня назад', 22],
-    ['Сервис', 'Замер и монтаж на дому', '1 180', 'обновлено 8 дней назад', 18],
-    ['Сервис', 'Вызов замерщика', '640', 'обновлено 11 дней назад', 11],
+  const articles: {
+    icon: LucideIcon;
+    topic: string;
+    title: string;
+    views: string;
+    updated: string;
+    share: number;
+    docs: number;
+    /** false — статья устарела и ждёт ревью. */
+    fresh: boolean;
+  }[] = [
+    { icon: Truck, topic: 'Доставка', title: 'Как отследить заказ', views: '12 480', updated: '3 дня назад', share: 96, docs: 14, fresh: true },
+    { icon: Truck, topic: 'Доставка', title: 'Сроки доставки по регионам', views: '8 210', updated: 'вчера', share: 78, docs: 9, fresh: true },
+    { icon: Wrench, topic: 'Сборка', title: 'Сборка и монтаж', views: '5 640', updated: '6 дней назад', share: 62, docs: 7, fresh: true },
+    { icon: Shield, topic: 'Гарантия', title: 'Гарантия 2 года', views: '4 915', updated: '2 недели назад', share: 54, docs: 6, fresh: false },
+    { icon: RotateCcw, topic: 'Возврат', title: 'Возврат за 14 дней', views: '3 302', updated: '5 дней назад', share: 41, docs: 5, fresh: true },
+    { icon: BookOpen, topic: 'Ткани', title: 'Уход за тканью', views: '1 870', updated: 'неделю назад', share: 28, docs: 8, fresh: false },
+    { icon: CreditCard, topic: 'Оплата', title: 'Оплата и рассрочка', views: '1 420', updated: '4 дня назад', share: 22, docs: 4, fresh: true },
+    { icon: Ruler, topic: 'Сервис', title: 'Замер и монтаж на дому', views: '1 180', updated: '8 дней назад', share: 18, docs: 3, fresh: true },
+    { icon: Ruler, topic: 'Сервис', title: 'Вызов замерщика', views: '640', updated: '11 дней назад', share: 11, docs: 2, fresh: false },
   ];
   return (
     <Screen>
       <ScreenHeader brand="Мебель-Дом" period="842 статьи" action="Новая статья" />
       {/* 9 статей в три ряда; сетка растянута на всю высоту кадра, как в каталоге. */}
       <div className="mt-[1.6cqw] grid h-[calc(100%-7cqw)] auto-rows-fr grid-cols-3 gap-[1.2cqw] px-[2cqw] pb-[2cqw]">
-        {articles.map(([topic, title, views, updated, share]) => (
+        {articles.map(({ icon: Icon, topic, title, views, updated, share, docs, fresh }) => (
           <AgentCard key={title} className="flex flex-col justify-between gap-[0.7cqw]">
             <div className="flex items-center justify-between gap-[0.6cqw]">
               <span
-                className="truncate rounded-full px-[0.75cqw] py-[0.25cqw]"
+                className="flex min-w-0 items-center gap-[0.45cqw] rounded-full px-[0.75cqw] py-[0.25cqw]"
                 style={{ background: AGENT_THEME.soft, color: AGENT_THEME.charcoal, fontFamily: MONO, fontSize: '0.95cqw' }}
               >
-                {topic}
+                <Icon className="h-[1.05cqw] w-[1.05cqw] shrink-0" strokeWidth={1.8} aria-hidden />
+                <span className="truncate">{topic}</span>
               </span>
-              <span
-                className="shrink-0 tabular-nums"
-                style={{ fontFamily: MONO, fontSize: '1.05cqw', color: AGENT_THEME.slate }}
-              >
-                {views} просм.
-              </span>
+              <AgentBadge variant={fresh ? 'success' : 'warn'}>{fresh ? 'актуально' : 'ревью'}</AgentBadge>
             </div>
             <div style={{ fontFamily: SANS, fontSize: '1.25cqw', fontWeight: 600, lineHeight: 1.35 }}>{title}</div>
+            <div className="flex items-center gap-[0.6cqw]" style={{ fontFamily: MONO, fontSize: '0.95cqw', color: AGENT_THEME.slate }}>
+              <span className="tabular-nums">{views} просм.</span>
+              <span aria-hidden>·</span>
+              <span className="tabular-nums">{docs} док.</span>
+            </div>
             <div className="flex flex-col gap-[0.5cqw]">
               <div className="h-[0.5cqw] w-full rounded-full" style={{ background: AGENT_THEME.soft }}>
                 <div className="h-full rounded-full" style={{ width: `${share}%`, background: AGENT_THEME.ink }} />
@@ -284,19 +306,56 @@ function SupportLogs() {
     { kind: 'log', time: '14:05', text: 'подбор ткани: букле vs велюр · ответ по базе знаний' },
     { kind: 'err', time: '14:06', text: 'скидка вне политики → оператору', meta: 'handoff' },
   ];
+  const recent = [
+    { name: 'Ольга Ковалёва', duration: '8 мин', status: 'решён', ok: true },
+    { name: 'Игорь Морозов', duration: '3 мин', status: 'решён', ok: true },
+    { name: 'Марина Лебедева', duration: '14 мин', status: 'эскалирован', ok: false },
+    { name: 'Пётр Соколов', duration: '2 мин', status: 'решён', ok: true },
+  ];
   return (
     <Screen>
       <ScreenHeader brand="Мебель-Дом" period="февраль 2026" action="Экспорт" />
       <div className="mt-[1.6cqw] grid h-[calc(100%-7cqw)] grid-cols-[1.5fr_1fr] gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
         <TerminalPanel title="support-agent · prod" status="live" rows={rows} />
-        <div className="flex flex-col gap-[1.6cqw]">
+        <div className="flex min-h-0 flex-col gap-[1.4cqw]">
           <StatBlock label="Первый ответ" value="8 сек" delta="−82%" note="медиана за неделю" />
           <StatBlock label="Без оператора" value="74%" delta="+31 п.п." note="из всех диалогов" />
+          {/* Последние диалоги: аватар, длительность и статус — правый столбец без пустоты. */}
+          <AgentCard className="flex min-h-0 flex-1 flex-col gap-[0.5cqw] overflow-hidden">
+            <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
+              Последние диалоги
+            </div>
+            {recent.map(({ name, duration, status, ok }, i) => (
+              <div
+                key={name}
+                className="flex items-center gap-[0.7cqw] py-[0.55cqw]"
+                style={i > 0 ? { borderTop: `1px solid ${AGENT_THEME.hairline}` } : undefined}
+              >
+                <AgentAvatar name={name} size="1.9cqw" />
+                <span className="min-w-0 flex-1 truncate" style={{ fontFamily: SANS, fontSize: '1.1cqw', color: AGENT_THEME.charcoal }}>
+                  {name}
+                </span>
+                <span className="flex shrink-0 items-center gap-[0.3cqw] tabular-nums" style={{ fontFamily: MONO, fontSize: '0.95cqw', color: AGENT_THEME.slate }}>
+                  <Clock className="h-[0.9cqw] w-[0.9cqw]" aria-hidden />
+                  {duration}
+                </span>
+                <AgentBadge variant={ok ? 'success' : 'warn'}>
+                  {ok ? null : <AlertTriangle className="h-[0.9cqw] w-[0.9cqw]" aria-hidden />}
+                  {status}
+                </AgentBadge>
+              </div>
+            ))}
+          </AgentCard>
         </div>
       </div>
     </Screen>
   );
 }
+
+/**
+ * График качества ответов вынесен в agent-quality-chart.tsx ('use client') —
+ * recharts использует React.createContext, недоступный в серверном графе.
+ */
 
 /** Дашборд качества: метрики, темы обращений, отзыв клиента. */
 function SupportDashboard() {
@@ -310,7 +369,8 @@ function SupportDashboard() {
           <StatBlock label="Оценка диалогов" value="4,7" note="2 480 отзывов" />
           <StatBlock label="Без оператора" value="74%" delta="+31 п.п." />
         </div>
-        <div className="grid min-h-0 flex-1 grid-cols-[1fr_1fr] gap-[1.4cqw]">
+        <div className="grid min-h-0 flex-1 grid-cols-[1.35fr_1fr_1fr] gap-[1.4cqw]">
+          <QualityChart />
           <Bars
             title="Топ тем обращений"
             items={[
@@ -349,66 +409,123 @@ function SupportDashboard() {
 
 /* ============================ Продажи ============================ */
 
-/** Чат с клиентом: аватары, таймстампы, статус доставки, вложение. */
-function ChatThread({ header, badge, badgeVariant = 'solid', messages, placeholder }: { header: string; badge: string; badgeVariant?: 'solid' | 'soft' | 'success'; messages: [string, string][]; placeholder: string; }) {
+/** Сообщение чата: [кто говорит, текст, есть ли вложение]. */
+type ChatMessage = ['user' | 'agent', string, boolean?];
+
+/**
+ * Чат внутри экрана кейса: шапка с собеседником и статусом «онлайн»,
+ * лента с аватарами, временем и отметкой доставки, поле ввода.
+ * Слева — человек (аватар с инициалами), справа — агент (иконка бота).
+ */
+function ChatThread({
+  header,
+  channel = 'WhatsApp',
+  peer,
+  headerAvatar = 'peer',
+  badge,
+  badgeVariant = 'solid',
+  messages,
+  placeholder,
+}: {
+  header: string;
+  /** Канал переписки: WhatsApp, Telegram… — под именем в шапке. */
+  channel?: string;
+  /** Имя человека по туточную сторону: аватар в шапке и слева в ленте. */
+  peer: string;
+  /** Аватар шапки: собеседник или бот (чат «с сервисом»). */
+  headerAvatar?: 'peer' | 'bot';
+  badge: string;
+  badgeVariant?: 'solid' | 'soft' | 'success' | 'warn';
+  messages: ChatMessage[];
+  placeholder: string;
+}) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between border-b px-[2cqw] py-[1.2cqw]" style={{ borderColor: AGENT_THEME.hairline }}>
-        <div className="flex items-center gap-[0.9cqw]">
-          <span className="relative flex h-[2.4cqw] w-[2.4cqw] items-center justify-center rounded-full" style={{ background: AGENT_THEME.soft }}>
-            <MessageSquare className="h-full w-full" style={{ color: AGENT_THEME.ink }} aria-hidden />
-            <span className="absolute right-[0.3cqw] top-[0.3cqw] h-[0.5cqw] w-[0.5cqw] rounded-full border-2 border-[var(--d-ink)]" />
+        <div className="flex min-w-0 items-center gap-[0.9cqw]">
+          <span className="relative shrink-0">
+            {headerAvatar === 'bot' ? (
+              <span className="flex h-[2.4cqw] w-[2.4cqw] items-center justify-center rounded-full" style={{ background: AGENT_THEME.soft }}>
+                <MessageSquare className="h-[1.2cqw] w-[1.2cqw]" style={{ color: AGENT_THEME.ink }} aria-hidden />
+              </span>
+            ) : (
+              <AgentAvatar name={peer} size="2.4cqw" />
+            )}
+            <span
+              className="absolute -bottom-[0.1cqw] -right-[0.1cqw] h-[0.75cqw] w-[0.75cqw] rounded-full"
+              style={{ background: AGENT_THEME.success, boxShadow: `0 0 0 1.5px ${AGENT_THEME.paper}` }}
+              aria-hidden
+            />
           </span>
-          <div>
-            <div style={{ fontFamily: SANS, fontSize: '1.3cqw', fontWeight: 600 }}>{header}</div>
-            <div style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>WhatsApp · онлайн</div>
+          <div className="min-w-0">
+            <div className="truncate" style={{ fontFamily: SANS, fontSize: '1.3cqw', fontWeight: 600 }}>
+              {header}
+            </div>
+            <div className="flex items-center gap-[0.4cqw]" style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>
+              <Wifi className="h-[0.9cqw] w-[0.9cqw]" aria-hidden />
+              {channel} · онлайн
+            </div>
           </div>
         </div>
         <AgentBadge variant={badgeVariant}>{badge}</AgentBadge>
       </div>
+
       <div className="flex flex-1 flex-col justify-end gap-[0.9cqw] px-[2cqw] py-[1.3cqw]">
-        {messages.map(([from, text], i) => (
-          <div key={i} className="flex max-w-[72%] items-end gap-[0.8cqw]">
+        {messages.map(([from, text, attach], i) => (
+          <div key={i} className={`flex max-w-[72%] items-end gap-[0.8cqw] ${from === 'agent' ? 'self-end' : 'self-start'}`}>
             {from === 'user' ? (
               <div className="flex items-end gap-[0.8cqw]">
-                <AgentAvatar name="Ольга Ковалёва" size="1.8cqw" />
-                <div className="group relative flex-1 rounded-[0.7cqw] rounded-tl-[0.35cqw] bg-[var(--d-soft)] px-[1.2cqw] py-[0.8cqw]" style={{ fontFamily: SANS, fontSize: '1.2cqw' }}>
-                  <div className="absolute inset-x-[0.8cqw] top-[0.3cqw] flex items-center gap-[0.25cqw] rounded-[0.35cqw] bg-[var(--d-soft)] px-[0.5cqw] py-[0.2cqw] text-[10px] font-semibold" style={{ color: AGENT_THEME.ink }}>
-                    <Paperclip className="h-[0.6cqw] w-[0.6cqw]" aria-hidden />
-                    <span className="sr-only">Вложение</span>
+                <AgentAvatar name={peer} size="1.8cqw" />
+                <div className="rounded-[0.7cqw] rounded-tl-[0.35cqw] bg-[var(--d-soft)] px-[1.2cqw] py-[0.8cqw]" style={{ fontFamily: SANS, fontSize: '1.2cqw' }}>
+                  {attach ? (
+                    <span
+                      className="mb-[0.4cqw] inline-flex items-center gap-[0.35cqw] rounded-[0.4cqw] bg-white px-[0.55cqw] py-[0.25cqw] text-[10px] font-semibold"
+                      style={{ color: AGENT_THEME.ink, boxShadow: AGENT_THEME.ring }}
+                    >
+                      <Paperclip className="h-[0.7cqw] w-[0.7cqw]" aria-hidden />
+                      фото
+                    </span>
+                  ) : null}
+                  <div>{text}</div>
+                  <div className="mt-[0.3cqw] text-right tabular-nums text-[10px]" style={{ fontFamily: MONO, color: AGENT_THEME.slate }}>
+                    {formatTime(i)}
                   </div>
-                  <span className="mt-[0.9cqw]">{text}</span>
-                  <span className="mt-[0.3cqw] tabular-nums text-[10px]" style={{ fontFamily: MONO, color: AGENT_THEME.slate }}>{formatTime(i)}</span>
                 </div>
               </div>
             ) : (
               <div className="flex items-end gap-[0.8cqw]">
-                <span className="relative flex h-[2.4cqw] w-[2.4cqw] items-center justify-center rounded-full" style={{ background: AGENT_THEME.ink }}>
-                  <span className="flex h-full w-full items-center justify-center rounded-full" style={{ background: AGENT_THEME.soft }}>
-                    <CheckCheck className="h-[0.9cqw] w-[0.9cqw]" style={{ color: AGENT_THEME.ink }} aria-hidden />
-                  </span>
-                  <span className="absolute inset-0 rounded-full border-2 border-[var(--d-ink)]" />
+                <span className="flex h-[1.8cqw] w-[1.8cqw] shrink-0 items-center justify-center rounded-full" style={{ background: AGENT_THEME.ink }}>
+                  <Bot className="h-[1cqw] w-[1cqw]" style={{ color: '#fff' }} aria-hidden />
                 </span>
-                <div className="relative max-w-[72%] rounded-[0.7cqw] rounded-tr-[0.35cqw] bg-[var(--d-ink)] px-[1.2cqw] py-[0.8cqw] text-white" style={{ fontFamily: SANS, fontSize: '1.2cqw' }}>
-                  <span className="flex items-center justify-between gap-[0.6cqw]">
-                    <span className="truncate">{text}</span>
-                    <span className="flex items-center gap-[0.2cqw] text-[10px] font-semibold" style={{ color: '#9CA0A6' }}>
-                      <CheckCheck className="h-[0.5cqw] w-[0.5cqw]" aria-hidden />
+                <div className="rounded-[0.7cqw] rounded-tr-[0.35cqw] bg-[var(--d-ink)] px-[1.2cqw] py-[0.8cqw] text-white" style={{ fontFamily: SANS, fontSize: '1.2cqw' }}>
+                  <div className="flex items-end justify-between gap-[0.6cqw]">
+                    <span className="min-w-0">{text}</span>
+                    <span className="flex shrink-0 items-center gap-[0.2cqw] text-[10px] font-semibold" style={{ color: '#9CA0A6' }}>
+                      <CheckCheck className="h-[0.6cqw] w-[0.6cqw]" aria-hidden />
                       <span className="sr-only">Доставлено</span>
                     </span>
-                  </span>
-                  <span className="mt-[0.3cqw] tabular-nums text-[10px]" style={{ fontFamily: MONO, color: '#9CA0A6' }}>{formatTime(i)}</span>
+                  </div>
+                  <div className="mt-[0.3cqw] text-right tabular-nums text-[10px]" style={{ fontFamily: MONO, color: '#9CA0A6' }}>
+                    {formatTime(i)}
+                  </div>
                 </div>
               </div>
             )}
           </div>
         ))}
       </div>
+
       <div className="flex items-center gap-[0.9cqw] border-t px-[2cqw] py-[1.2cqw]" style={{ borderColor: AGENT_THEME.hairline }}>
-        <span className="min-w-0 flex-1 truncate rounded-[0.5cqw] border px-[1cqw] py-[0.7cqw]" style={{ borderColor: AGENT_THEME.hairline, color: AGENT_THEME.slate, fontFamily: SANS, fontSize: '1.15cqw' }}>
+        <span
+          className="min-w-0 flex-1 truncate rounded-[0.5cqw] border px-[1cqw] py-[0.7cqw]"
+          style={{ borderColor: AGENT_THEME.hairline, color: AGENT_THEME.slate, fontFamily: SANS, fontSize: '1.15cqw' }}
+        >
           {placeholder}
         </span>
-        <AgentButton>Отправить</AgentButton>
+        <AgentButton>
+          <Send className="h-[1.1cqw] w-[1.1cqw]" aria-hidden />
+          Отправить
+        </AgentButton>
       </div>
     </div>
   );
@@ -427,6 +544,8 @@ function SalesDialogue() {
         <div className="min-w-0 flex-1">
           <ChatThread
             header="Анна Ковалёва · Север-Трейд"
+            peer="Анна Ковалёва"
+            headerAvatar="peer"
             badge="лид квалифицирован"
             messages={[
               ['user', 'Интересует интеграция с нашей CRM.'],
@@ -628,6 +747,8 @@ function ContentTask() {
         <div className="min-w-0 flex-1">
           <ChatThread
             header="ContentBot · WB"
+            peer="Ирина Соколова"
+            headerAvatar="bot"
             badge="черновиков: 20"
             badgeVariant="soft"
             messages={[
@@ -815,6 +936,8 @@ function AnalystAsk() {
         <div className="min-w-0 flex-1">
           <ChatThread
             header="Аналитик · маркетплейс"
+            peer="Дмитрий Орлов"
+            headerAvatar="bot"
             badge="ответ подтверждён данными"
             badgeVariant="soft"
             messages={[
@@ -1006,6 +1129,8 @@ function ResearchBrief() {
         <div className="min-w-0 flex-1">
           <ChatThread
             header="MarketWatch"
+            peer="Артём Волков"
+            headerAvatar="bot"
             badge="12 источников"
             badgeVariant="soft"
             messages={[
