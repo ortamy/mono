@@ -10,3 +10,10 @@ next-env.d.ts
 /data/leads.json
 *.log
 refs/
+# Локальные артефакты аудита и отладки
+screenshots/
+*-out.txt
+build-out.txt
+lint-out.txt
+lint2.txt
+typecheck-out.txt
