@@ -67,7 +67,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
   return (
     <article>
       {/* Верх: назад + мета */}
-      <header className="mx-auto max-w-[1100px] px-5 pt-10 sm:px-8 sm:pt-14">
+      <header className="mx-auto max-w-[1100px] px-5 pt-8 sm:px-8 sm:pt-12">
         <Link
           href="/agents/#work"
           className="inline-flex items-center gap-2 text-[13px] d-muted transition-colors hover:text-[var(--d-ink)]"
@@ -75,7 +75,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
           <ArrowLeft size={15} strokeWidth={1.5} aria-hidden /> Назад к кейсам
         </Link>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
             <CaseIcon size={18} strokeWidth={1.6} />
           </span>
@@ -91,15 +91,15 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
       </header>
 
       {/* Превью — рабочий экран агента. */}
-      <div className="mx-auto mt-10 max-w-[1100px] px-5 sm:px-8">
+      <div className="mx-auto mt-8 max-w-[1100px] px-5 sm:px-8">
         <AgentCaseScreenshot item={item} />
       </div>
 
       {/* Метрики */}
-      <div className="mx-auto mt-8 max-w-[1100px] px-5 sm:px-8">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mx-auto mt-6 max-w-[1100px] px-5 sm:px-8">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {item.metrics.map((m) => (
-            <div key={m.label} className="d-card p-5 text-center sm:text-left">
+            <div key={m.label} className="d-card p-4 text-center sm:text-left">
               <div className="text-[clamp(24px,3.5vw,30px)] font-bold tabular-nums text-[var(--d-ink)]">
                 {m.value}
               </div>
@@ -107,45 +107,45 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
             </div>
           ))}
         </div>
-        <dl className="d-card mt-4 grid gap-4 p-5 sm:grid-cols-2 sm:p-6">
+        <dl className="d-card mt-3 grid gap-3 p-4 sm:grid-cols-2 sm:p-5">
           <div>
-            <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Экономия</dt>
+            <dt className="text-[12px] font-semibold uppercase tracking-[0.06em] d-faint">Экономия</dt>
             <dd className="mt-1 text-[20px] font-bold tabular-nums text-[var(--d-ink)]">{item.savings}</dd>
           </div>
           <div>
-            <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Окупаемость</dt>
+            <dt className="text-[12px] font-semibold uppercase tracking-[0.06em] d-faint">Окупаемость</dt>
             <dd className="mt-1 text-[20px] font-bold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
           </div>
         </dl>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <div className="d-card p-5 sm:p-6">
-            <h2 className="text-[13px] uppercase tracking-[0.08em] d-faint">Раньше</h2>
-            <p className="mt-3 text-[14px] leading-[1.65] d-muted">{item.before}</p>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="d-card p-4 sm:p-5">
+            <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Раньше</h2>
+            <p className="mt-2 text-[14px] leading-[1.65] d-muted">{item.before}</p>
           </div>
-          <div className="d-card p-5 sm:p-6">
-            <h2 className="text-[13px] uppercase tracking-[0.08em] d-faint">Сейчас</h2>
-            <p className="mt-3 text-[14px] leading-[1.65] text-[var(--d-ink)]">{item.after}</p>
+          <div className="d-card p-4 sm:p-5">
+            <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[var(--d-ink)]">Сейчас</h2>
+            <p className="mt-2 text-[14px] leading-[1.65] text-[var(--d-ink)]">{item.after}</p>
           </div>
         </div>
       </div>
 
       {/* Стек и архитектура */}
-      <div className="mx-auto mt-8 max-w-[1100px] px-5 sm:px-8">
-        <section className="border-y border-[var(--d-line)] py-6">
-          <h2 className="text-[13px] uppercase tracking-[0.08em] d-faint">Стек и интеграции</h2>
+      <div className="mx-auto mt-6 max-w-[1100px] px-5 sm:px-8">
+        <section className="border-y border-[var(--d-line)] py-5">
+          <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Стек и интеграции</h2>
           <AgentStackRow stack={item.stack} />
         </section>
-        <section className="border-b border-[var(--d-line)] py-6">
-          <h2 className="text-[13px] uppercase tracking-[0.08em] d-faint">Архитектура агента</h2>
-          <div className="mt-4">
+        <section className="border-b border-[var(--d-line)] py-5">
+          <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Архитектура агента</h2>
+          <div className="mt-3">
             <AgentArchitecture nodes={item.architecture} />
           </div>
         </section>
       </div>
       {/* Экраны — hi-fi макеты из AGENT_SCREENS, не CaseMock. */}
-      <section className="mx-auto max-w-[1100px] px-5 py-14 sm:px-8">
-        <h2 className="text-[13px] uppercase tracking-[0.08em] d-faint">Экраны агента</h2>
-        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+      <section className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8">
+        <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Экраны агента</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {item.screens.map((screen, i) => {
             const ScreenView = AGENT_SCREENS[item.preview][i];
             return (
@@ -173,7 +173,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
 
       {/* Навигация + CTA */}
       <section className="d-surface border-t border-[var(--d-line)]">
-        <div className="mx-auto flex max-w-[1100px] flex-col gap-5 px-5 py-14 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="mx-auto flex max-w-[1100px] flex-col gap-5 px-5 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div>
             <p className="text-[12px] d-faint">Следующий кейс</p>
             <Link

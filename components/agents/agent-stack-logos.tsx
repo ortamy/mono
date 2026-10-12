@@ -1,48 +1,46 @@
 /**
  * SVG-логотипы стека для секции «Стек и интеграции» на страницах кейсов.
  *
- * Упрощённые монохромные марки нарисованы инлайном (без внешних ассетов и
- * сетевых запросов), поэтому резкие на любом DPI и работают офлайн. Реестр
- * сопоставляет подстроку из data/agent-cases.ts (например «GPT-4o»,
- * «Claude», «n8n», «Telegram») с нужной маркой: item.stack не меняется,
- * сопоставление гибкое по ключевому слову.
+ * Брендовые марки — path Simple Icons 14.12.0 (MIT), вшиты инлайном
+ * (без npm-пакета и сетевых запросов). Нет бренда в наборе — упрощённый
+ * монохромный знак. Реестр матчит подстроку из data/agent-cases.ts
+ * («GPT-4o», «Claude», «n8n», «Telegram»): item.stack не меняется.
  */
 import type { ReactNode } from 'react';
 import type { StackCategory } from '@/data/agent-cases';
+import {
+  PATH_ANTHROPIC,
+  PATH_GOOGLE,
+  PATH_GOOGLE_CALENDAR,
+  PATH_N8N,
+  PATH_NOTION,
+  PATH_OPENAI,
+  PATH_PYTHON,
+  PATH_REDIS,
+  PATH_STRIPE,
+  PATH_SUPABASE,
+  PATH_TELEGRAM,
+  PATH_WHATSAPP,
+} from './stack-logo-paths';
 
 /** Марка: один <path>/<g> в координатах 24×24. */
-type Mark = (props: { size?: string }) => ReactNode;
+type Mark = () => ReactNode;
 
-/** OpenAI — стилизованный «узел/клубок» из пересекающихся петель. */
-const OpenAIMark: Mark = () => (
-  <path
-    d="M12 2c-1.2 0-2.3.7-2.8 1.8L7.6 7.4 4 9.2C2.9 9.7 2.2 10.8 2.2 12s.7 2.3 1.8 2.8l3.6 1.8 1.6 3.6c.5 1.1 1.6 1.8 2.8 1.8s2.3-.7 2.8-1.8l1.6-3.6 3.6-1.8c1.1-.5 1.8-1.6 1.8-2.8s-.7-2.3-1.8-2.8l-3.6-1.8-1.6-3.6C14.3 2.7 13.2 2 12 2zm0 5.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9z"
-    fill="currentColor"
-  />
-);
+const Fill = ({ d }: { d: string }) => <path d={d} fill="currentColor" />;
 
-/** Anthropic — заглавная «A» с характерным срезом. */
-const AnthropicMark: Mark = () => (
-  <path d="M13.9 3l6.1 15h-3.3l-1.2-3.2H8.5L7.3 18H4L10.1 3h3.8zm-1 3.2L10.6 12h4.6L12.9 6.2z" fill="currentColor" />
-);
+const OpenAIMark: Mark = () => <Fill d={PATH_OPENAI} />;
+const AnthropicMark: Mark = () => <Fill d={PATH_ANTHROPIC} />;
+const N8nMark: Mark = () => <Fill d={PATH_N8N} />;
+const TelegramMark: Mark = () => <Fill d={PATH_TELEGRAM} />;
+const WhatsAppMark: Mark = () => <Fill d={PATH_WHATSAPP} />;
+const PythonMark: Mark = () => <Fill d={PATH_PYTHON} />;
+const RedisMark: Mark = () => <Fill d={PATH_REDIS} />;
+const GoogleMark: Mark = () => <Fill d={PATH_GOOGLE} />;
+const CalendarMark: Mark = () => <Fill d={PATH_GOOGLE_CALENDAR} />;
+const NotionMark: Mark = () => <Fill d={PATH_NOTION} />;
+const StripeMark: Mark = () => <Fill d={PATH_STRIPE} />;
+const SupabaseMark: Mark = () => <Fill d={PATH_SUPABASE} />;
 
-/** n8n — связанные узлы workflow (три кружка + связи). */
-const N8nMark: Mark = () => (
-  <g fill="currentColor">
-    <circle cx="6" cy="6" r="2.4" />
-    <circle cx="18" cy="12" r="2.4" />
-    <circle cx="6" cy="18" r="2.4" />
-    <path d="M8.4 6.7l7.2 4.4M8.4 17.3l7.2-4.4" stroke="currentColor" strokeWidth="1.2" fill="none" />
-  </g>
-);
-
-/** Telegram — бумажный самолётик в круге. */
-const TelegramMark: Mark = () => (
-  <path
-    d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.6 6.9l-1.6 7.5c-.1.6-.5.8-1 .5l-2.7-2-1.3 1.3c-.2.2-.3.2-.5.2l.2-2.8 5.1-4.6c.2-.2 0-.3-.3-.1l-6.3 4-2.7-.9c-.6-.2-.6-.6.1-.9l10.5-4c.5-.2 1 .1.8.8z"
-    fill="currentColor"
-  />
-);
 
 /** Cline — фигурная скобка терминала (агент в CLI). */
 const ClineMark: Mark = () => (
@@ -98,11 +96,24 @@ const CloudMark: Mark = () => (
   />
 );
 
-/** Календарь — Google Calendar. */
-const CalendarMark: Mark = () => (
-  <g fill="none" stroke="currentColor" strokeWidth="1.6">
-    <rect x="3.5" y="5" width="17" height="15.5" rx="2" />
-    <path d="M3.5 9.5h17M8 3v4M16 3v4" strokeLinecap="round" />
+/** Wildberries — нет в Simple Icons. */
+const WbMark: Mark = () => (
+  <path d="M4.2 5.2h3.1l1.55 9.4L12 8.4l3.15 6.2 1.55-9.4h3.1L17.6 19H14.2L12 13.6 9.8 19H6.4L4.2 5.2z" fill="currentColor" />
+);
+
+/** Ozon — упрощённая «O». */
+const OzonMark: Mark = () => (
+  <g fill="none" stroke="currentColor" strokeWidth="1.8">
+    <circle cx="12" cy="12" r="7.2" />
+    <path d="M8.2 12h7.6" strokeLinecap="round" />
+  </g>
+);
+
+/** amoCRM — упрощённый контакт. */
+const AmoMark: Mark = () => (
+  <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+    <circle cx="12" cy="8.2" r="3" />
+    <path d="M5.5 19c1.2-3.2 3.4-4.8 6.5-4.8S16.8 15.8 18.5 19" />
   </g>
 );
 
@@ -225,14 +236,23 @@ const MARKS: { test: RegExp; mark: Mark; name: string }[] = [
   { test: /openai|gpt|text-to-sql/i, mark: OpenAIMark, name: 'OpenAI' },
   { test: /claude|anthropic/i, mark: AnthropicMark, name: 'Anthropic' },
   { test: /n8n/i, mark: N8nMark, name: 'n8n' },
-  // Марка «база / векторы» общая: pgvector, PostgreSQL, Redis и любые похожие.
-  { test: /pgvector|postgres|redis|база|вектор/i, mark: DbMark, name: 'База данных' },
+  { test: /whatsapp/i, mark: WhatsAppMark, name: 'WhatsApp' },
   { test: /telegram/i, mark: TelegramMark, name: 'Telegram' },
-  { test: /cline/i, mark: ClineMark, name: 'Cline' },
-  { test: /python|api|скрипт/i, mark: CodeMark, name: 'Код' },
+  { test: /wildberries|\bwb\b/i, mark: WbMark, name: 'Wildberries' },
+  { test: /ozon/i, mark: OzonMark, name: 'Ozon' },
+  { test: /amocrm|amo\b/i, mark: AmoMark, name: 'amoCRM' },
+  { test: /redis/i, mark: RedisMark, name: 'Redis' },
+  { test: /supabase/i, mark: SupabaseMark, name: 'Supabase' },
+  { test: /pgvector|postgres|база|вектор/i, mark: DbMark, name: 'PostgreSQL' },
+  { test: /python/i, mark: PythonMark, name: 'Python' },
   { test: /playwright|crawler|парсер|парсинг/i, mark: PlaywrightMark, name: 'Playwright' },
-  { test: /s3|хранилище|облако/i, mark: CloudMark, name: 'Хранилище' },
-  { test: /calendar|календарь/i, mark: CalendarMark, name: 'Календарь' },
+  { test: /s3|хранилище|облако/i, mark: CloudMark, name: 'Amazon S3' },
+  { test: /calendar|календарь/i, mark: CalendarMark, name: 'Google Calendar' },
+  { test: /google/i, mark: GoogleMark, name: 'Google' },
+  { test: /stripe/i, mark: StripeMark, name: 'Stripe' },
+  { test: /notion/i, mark: NotionMark, name: 'Notion' },
+  { test: /cline/i, mark: ClineMark, name: 'Cline' },
+  { test: /api|скрипт/i, mark: CodeMark, name: 'API' },
 ];
 
 /** Марка и её имя для строки стека (фолбэк — «код», если совпадений нет). */
@@ -261,10 +281,10 @@ export function StackIcon({ tech, size = '18px' }: { tech: string; size?: string
 /** Ряд стека: SVG-марка + подпись технологии. Цвет наследует тему страницы. */
 export function AgentStackRow({ stack }: { stack: StackCategory[] }) {
   return (
-    <div className="mt-4 space-y-4">
+    <div className="mt-3 space-y-3">
       {stack.map((group) => (
         <div key={group.title}>
-          <h3 className="text-[12px] uppercase tracking-[0.08em] d-faint">{group.title}</h3>
+          <h3 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">{group.title}</h3>
           <ul className="mt-2 flex flex-wrap gap-2">
             {group.items.map((tech) => (
               <li

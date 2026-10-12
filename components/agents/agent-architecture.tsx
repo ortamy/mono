@@ -9,7 +9,7 @@
  * Фон и текст — через переменные темы (--d-*), поэтому схема не остаётся
  * белой в тёмной теме страницы.
  */
-import { Activity, ArrowDown, ArrowRight, Cpu, Database, Send, Wrench, type LucideIcon } from 'lucide-react';
+import { Activity, Cpu, Database, Send, Wrench, type LucideIcon } from 'lucide-react';
 
 export interface ArchitectureNode {
   label: string;
@@ -43,6 +43,23 @@ const STEPS = ['Источники данных', 'LLM', 'Инструменты
 const MONO = "'Geist Mono','JetBrains Mono',ui-monospace,monospace";
 const SANS = "'Geist','Inter',Arial,sans-serif";
 
+/** Стрелка потока: толщина 2, наконечник, лёгкий pulse. */
+function FlowArrow() {
+  const stroke = { stroke: 'var(--d-ink)', strokeOpacity: 0.6, strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  return (
+    <span className="self-center shrink-0 motion-safe:animate-pulse" aria-hidden>
+      <svg width="22" height="12" viewBox="0 0 22 12" fill="none" className="hidden md:block">
+        <path d="M1.5 6h14.5" {...stroke} />
+        <path d="M12 2.2L19.5 6 12 9.8" fill="none" {...stroke} />
+      </svg>
+      <svg width="12" height="22" viewBox="0 0 12 22" fill="none" className="md:hidden">
+        <path d="M6 1.5v14.5" {...stroke} />
+        <path d="M2.2 12L6 19.5 9.8 12" fill="none" {...stroke} />
+      </svg>
+    </span>
+  );
+}
+
 export default function AgentArchitecture({ nodes }: ArchitectureFlow) {
   const items = nodes.slice(0, 5);
   return (
@@ -71,12 +88,7 @@ export default function AgentArchitecture({ nodes }: ArchitectureFlow) {
                   {node.hint}
                 </span>
               </div>
-              {i < items.length - 1 ? (
-                <span className="self-center shrink-0 text-[var(--d-faint)]" aria-hidden>
-                  <ArrowRight size={14} strokeWidth={1.5} className="hidden md:block" />
-                  <ArrowDown size={14} strokeWidth={1.5} className="md:hidden" />
-                </span>
-              ) : null}
+              {i < items.length - 1 ? <FlowArrow /> : null}
             </li>
           );
         })}

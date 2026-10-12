@@ -891,19 +891,26 @@ function ContentPlan() {
   );
 }
 
-/** Метрики контента: CTR, охваты, на что смотрят. */
+/** Метрики контента: CTR, охваты и топ карточек — плотная сетка на весь кадр. */
 function ContentMetrics() {
+  const top: [string, string, string][] = [
+    ['Постельное «Лофт»', '4,8%', '+1,2'],
+    ['Наволочки набор', '4,1%', '+0,9'],
+    ['Одеяло «Зима»', '3,7%', '+0,6'],
+    ['Плед детский', '3,2%', '+0,4'],
+    ['Подушка ортопед', '2,9%', '+0,3'],
+  ];
   return (
     <Screen>
       <ScreenHeader brand="ContentBot" period="февраль 2026" />
-      <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
-        <div className="grid grid-cols-4 gap-[1.1cqw]">
+      <div className="mt-[1.2cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1cqw] px-[2cqw] pb-[1.6cqw]">
+        <div className="grid grid-cols-4 gap-[0.9cqw]">
           <StatBlock label="CTR карточек" value="+18%" delta="▲" />
           <StatBlock label="Просмотры" value="2,4 млн" note="за месяц" />
           <StatBlock label="Конверсия" value="6,1%" delta="+1,4 п.п." />
           <StatBlock label="Возвраты" value="−2 п.п." note="точнее состав" />
         </div>
-        <div className="grid min-h-0 flex-1 grid-cols-[1fr_1fr] gap-[1.4cqw]">
+        <div className="grid min-h-0 flex-1 grid-cols-[1fr_1.05fr] gap-[1cqw]">
           <Bars
             title="На что смотрят"
             items={[
@@ -913,20 +920,31 @@ function ContentMetrics() {
               ['Размер', '11%', 11],
             ]}
           />
-          <AgentCard className="flex flex-col justify-between gap-[0.8cqw]">
+          <AgentCard className="flex min-h-0 flex-col gap-[0.5cqw] p-[1.2cqw]">
             <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
-              Рекомендация агента
+              Топ карточек по CTR
             </div>
-            <p style={{ fontFamily: SANS, fontSize: '1.25cqw', color: AGENT_THEME.ink, lineHeight: 1.5, fontWeight: 500 }}>
-              «Бельё „Лофт“: заголовок кликается на 46% — перенесите акцент в первые 40 символов на остальные карточки.»
-            </p>
-            <AgentButton className="self-start"><Send className="h-[1.1cqw] w-[1.1cqw]" aria-hidden />Применить к партии</AgentButton>
-            <div
-              className="flex items-center justify-between gap-[0.6cqw] border-t pt-[1cqw]"
-              style={{ borderColor: AGENT_THEME.hairline, fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}
-            >
-              <span>затронет 8 карточек</span>
-              <span className="tabular-nums">прогноз CTR +6–9%</span>
+            <div className="flex min-h-0 flex-1 flex-col">
+              {top.map(([title, ctr, delta], i) => (
+                <div
+                  key={title}
+                  className="flex flex-1 items-center gap-[0.8cqw]"
+                  style={i > 0 ? { borderTop: `1px solid ${AGENT_THEME.hairline}` } : undefined}
+                >
+                  <span className="w-[1.6cqw] shrink-0 tabular-nums" style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>
+                    {i + 1}
+                  </span>
+                  <span className="min-w-0 flex-1 truncate" style={{ fontFamily: SANS, fontSize: '1.15cqw', fontWeight: 600, color: AGENT_THEME.ink }}>
+                    {title}
+                  </span>
+                  <span className="shrink-0 tabular-nums" style={{ fontFamily: MONO, fontSize: '1.15cqw', fontWeight: 600, color: AGENT_THEME.ink }}>
+                    {ctr}
+                  </span>
+                  <span className="w-[4.2cqw] shrink-0 text-right tabular-nums" style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.success }}>
+                    {delta}
+                  </span>
+                </div>
+              ))}
             </div>
           </AgentCard>
         </div>

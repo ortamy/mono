@@ -161,8 +161,8 @@ export function StatBlock({
         {label}
       </div>
       <div
-        className="mt-[0.7cqw] flex items-baseline gap-[0.8cqw] tabular-nums"
-        style={{ fontFamily: AGENT_SANS, fontSize: '3.1cqw', fontWeight: 600, color: AGENT_THEME.ink, letterSpacing: '-0.03em' }}
+        className="mt-[0.4cqw] flex items-baseline gap-[0.6cqw] tabular-nums"
+        style={{ fontFamily: AGENT_SANS, fontSize: '2.7cqw', fontWeight: 600, color: AGENT_THEME.ink, letterSpacing: '-0.03em' }}
       >
         {value}
         {delta ? (
