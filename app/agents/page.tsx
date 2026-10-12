@@ -232,24 +232,28 @@ const LIFECYCLE = [
     period: 'День 0–30',
     action: 'Запуск, обучение, мониторинг',
     result: 'Работающий агент + бесплатная поддержка',
+    savings: 'Экономия: 30 000 ₽/мес',
   },
   {
     icon: TrendingUp,
     period: 'Месяц 2–3',
     action: 'Обновление базы знаний, добавление сценариев',
     result: 'Агент обрабатывает больше запросов',
+    savings: '60 000 ₽/мес',
   },
   {
     icon: Zap,
     period: 'Месяц 4–6',
     action: 'Обновление LLM, оптимизация промптов',
     result: 'Качество растёт, стоимость токенов падает',
+    savings: '80 000 ₽/мес',
   },
   {
     icon: Award,
     period: 'Месяц 7–12',
     action: 'Интеграция с новыми системами, масштабирование',
     result: 'Агент становится центральным инструментом',
+    savings: '90 000 ₽/мес',
   },
 ];
 
@@ -669,6 +673,10 @@ export default function AgentsPage() {
                   <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Что получает клиент</dt>
                   <dd className="mt-1 text-[13px] leading-[1.55] text-[var(--d-ink)]">{s.result}</dd>
                 </div>
+                <div>
+                  <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Экономия</dt>
+                  <dd className="mt-1 text-[13px] font-semibold tabular-nums text-agentos-up">{s.savings}</dd>
+                </div>
               </dl>
             </article>
           ))}
@@ -738,6 +746,32 @@ export default function AgentsPage() {
                 <p className="mt-3 text-[14px] leading-[1.65] d-muted">{item.a}</p>
               </details>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ОБО МНЕ */}
+      <section id="about" className="mx-auto max-w-[800px] scroll-mt-20 px-5 py-20 text-center sm:px-8 sm:py-24">
+        <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Обо мне</p>
+        <h2 className="mt-3 text-[clamp(26px,4vw,32px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
+          Собираю агентов, которые закрывают рутину
+        </h2>
+        <p className="mt-5 text-[16px] leading-[1.65] d-muted">
+          Один специалист: сценарии, стек, интеграции и запуск. Без команды
+          подрядчиков и без «давайте ещё подумаем».
+        </p>
+        <div className="mt-8 grid grid-cols-3 gap-6 border-t border-[var(--d-line)] pt-8">
+          <div>
+            <div className="text-[clamp(24px,4vw,32px)] font-bold tabular-nums text-[var(--d-ink)]">14 дней</div>
+            <div className="mt-1 text-[12px] uppercase tracking-[0.05em] d-faint">до прода</div>
+          </div>
+          <div>
+            <div className="text-[clamp(24px,4vw,32px)] font-bold tabular-nums text-[var(--d-ink)]">5</div>
+            <div className="mt-1 text-[12px] uppercase tracking-[0.05em] d-faint">агентов в кейсах</div>
+          </div>
+          <div>
+            <div className="text-[clamp(24px,4vw,32px)] font-bold tabular-nums text-[var(--d-ink)]">1</div>
+            <div className="mt-1 text-[12px] uppercase tracking-[0.05em] d-faint">специалист</div>
           </div>
         </div>
       </section>

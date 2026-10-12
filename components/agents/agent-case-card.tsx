@@ -4,6 +4,7 @@ import { ArrowUpRight } from 'lucide-react';
 import type { AgentCase } from '@/data/agent-cases';
 import AgentCaseScreenshot from './agent-case-screenshot';
 import { AGENT_CASE_ICONS } from './agent-case-icons';
+import AgentBeforeAfter from './agent-before-after';
 
 export default function AgentCaseCard({ item }: { item: AgentCase }) {
   const Icon = AGENT_CASE_ICONS[item.preview];
@@ -51,16 +52,7 @@ export default function AgentCaseCard({ item }: { item: AgentCase }) {
           </div>
         </dl>
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-lg bg-[var(--d-soft)] p-3">
-            <p className="text-[11px] uppercase tracking-[0.06em] d-faint">Раньше</p>
-            <p className="mt-1.5 text-[12px] leading-[1.55] d-muted">{item.before}</p>
-          </div>
-          <div className="rounded-lg bg-[var(--d-soft)] p-3">
-            <p className="text-[11px] uppercase tracking-[0.06em] d-faint">Сейчас</p>
-            <p className="mt-1.5 text-[12px] leading-[1.55] text-[var(--d-ink)]">{item.after}</p>
-          </div>
-        </div>
+        <AgentBeforeAfter item={item} compact />
 
         <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-[var(--d-line)] pt-4">
           {item.metrics.slice(0, 2).map((m) => (

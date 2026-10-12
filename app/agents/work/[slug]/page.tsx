@@ -7,6 +7,7 @@ import AgentCaseScreenshot from '@/components/agents/agent-case-screenshot';
 import { AGENT_CASE_ICONS } from '@/components/agents/agent-case-icons';
 import { AGENT_SCREENS } from '@/components/agents/agent-screens';
 import AgentArchitecture from '@/components/agents/agent-architecture';
+import AgentBeforeAfter from '@/components/agents/agent-before-after';
 import { AgentStackRow } from '@/components/agents/agent-stack-logos';
 import { buildMetadata } from '@/lib/meta';
 
@@ -117,16 +118,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
             <dd className="mt-1 text-[20px] font-bold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
           </div>
         </dl>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <div className="d-card p-4 sm:p-5">
-            <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Раньше</h2>
-            <p className="mt-2 text-[14px] leading-[1.65] d-muted">{item.before}</p>
-          </div>
-          <div className="d-card p-4 sm:p-5">
-            <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[var(--d-ink)]">Сейчас</h2>
-            <p className="mt-2 text-[14px] leading-[1.65] text-[var(--d-ink)]">{item.after}</p>
-          </div>
-        </div>
+        <AgentBeforeAfter item={item} />
       </div>
 
       {/* Стек и архитектура */}
