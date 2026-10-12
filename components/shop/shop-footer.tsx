@@ -21,11 +21,11 @@ const COLUMNS = [
   },
 ];
 
-/** Подвал лендинга: логотип, навигация, контакты, копирайт. */
+/** Подвал лендинга: полоса на всю ширину, контент max-w-[1100px], три колонки. */
 export default function ShopFooter() {
   return (
-    <footer className="border-t border-agentos-line bg-agentos-card">
-      <div className="mx-auto max-w-[1160px] px-5 py-14 sm:px-8 sm:py-16">
+    <footer className="w-full border-t border-agentos-line bg-agentos-card">
+      <div className="mx-auto max-w-[1100px] px-5 py-14 sm:px-8 sm:py-16">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <Link href="/" className="whitespace-nowrap text-[18px] font-semibold tracking-[-0.6px] text-agentos-ink" aria-label="mono. — на главную">

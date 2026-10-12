@@ -23,9 +23,9 @@ const COLUMNS = [
 
 export default function DesignFooter() {
   return (
-    <footer className="d-surface border-t border-[var(--d-line)]">
-      <div className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8 sm:py-14">
-        <div className="grid gap-9 md:grid-cols-[1.4fr_1fr_1fr]">
+    <footer className="d-surface w-full border-t border-[var(--d-line)]">
+      <div className="mx-auto max-w-[1100px] px-5 py-14 sm:px-8 sm:py-16">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <p className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]">
               <Logo mutedClassName="d-faint" />
@@ -57,7 +57,7 @@ export default function DesignFooter() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-[var(--d-line)] pt-5 text-[12px] d-faint sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-[var(--d-line)] pt-6 text-[12px] d-faint sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} UX/UI дизайнер. Все права защищены.</span>
           <div className="flex items-center gap-5">
             <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="transition-colors hover:text-[var(--d-ink)]">Telegram</a>
