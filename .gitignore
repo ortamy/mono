@@ -14,3 +14,6 @@ refs/
 screenshots/
 *-out.txt
 lint2.txt
+
+# local dev helper
+start-server.cmd
