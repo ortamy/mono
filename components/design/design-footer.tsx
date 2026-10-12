@@ -1,5 +1,6 @@
 /** Подвал портфолио: контакты, разделы, ссылка на основной сайт mono. */
 import Link from 'next/link';
+import Logo from '@/components/logo';
 
 const COLUMNS = [
   {
@@ -26,8 +27,8 @@ export default function DesignFooter() {
       <div className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8 sm:py-14">
         <div className="grid gap-9 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <p className="text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]">
-              portfolio<span className="d-faint">.</span>
+            <p className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]">
+              <Logo mutedClassName="d-faint" />
             </p>
             <p className="mt-3 max-w-[300px] text-[13px] leading-[1.6] d-muted">
               UX/UI-дизайнер: сайты, приложения и интерфейсы. Figma, AI-инструменты, дизайн-системы.

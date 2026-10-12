@@ -42,7 +42,7 @@ function getServerSnapshot(): DesignTheme {
   return 'light';
 }
 
-export default function DesignShell({ children }: { children: ReactNode }) {
+export default function DesignShell({ children, section }: { children: ReactNode; section: string }) {
   const stored = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   // override живёт после переключения в этой вкладке: storage-событие не
   // приходит в вкладку, которая его вызвала.
@@ -57,7 +57,7 @@ export default function DesignShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="design-scope min-h-screen" data-theme={theme}>
-      <DesignHeader theme={theme} onToggleTheme={toggleTheme} />
+      <DesignHeader theme={theme} onToggleTheme={toggleTheme} section={section} />
       <main id="main-content">{children}</main>
       <DesignFooter />
     </div>

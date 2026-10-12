@@ -13,7 +13,7 @@ const SERVICES = [
 export default function BrandPage() {
   return (
     <main>
-      <SiteHeader />
+      <SiteHeader section="brand" />
       <PageHero
         eyebrow="/ Brand"
         title={<>Бренд,<br /><span>который запоминают</span></>}

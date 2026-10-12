@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Logo from '@/components/logo';
 
 const LINKS = [
   { label: 'Кейсы', href: '#cases' },
@@ -22,12 +23,15 @@ interface ShopHeaderProps {
   requestHref?: string;
   /** Подпись кнопки действия. */
   requestLabel?: string;
+  /** Раздел страницы для логотипа «mono. / раздел». На главной не передаём. */
+  section?: string;
 }
 
 export default function ShopHeader({
   links = LINKS,
   requestHref = '#request',
   requestLabel = 'Обсудить проект',
+  section,
 }: ShopHeaderProps = {}) {
   const [open, setOpen] = useState(false);
 
@@ -39,8 +43,8 @@ export default function ShopHeader({
   return (
     <header className="sticky top-0 z-50 border-b border-agentos-line bg-agentos-card">
       <div className="mx-auto flex h-16 max-w-[1160px] items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="text-[17px] font-semibold tracking-[-0.6px] text-agentos-ink" aria-label="mono — главная">
-          mono<span className="text-agentos-faint">.</span>
+        <Link href="/" className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-agentos-ink" aria-label={section ? `mono. / ${section} — на главную` : 'mono — главная'}>
+          <Logo section={section} mutedClassName="text-agentos-faint" />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Разделы">

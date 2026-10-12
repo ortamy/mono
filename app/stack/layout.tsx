@@ -17,5 +17,5 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function StackLayout({ children }: { children: React.ReactNode }) {
-  return <DesignShell>{children}</DesignShell>;
+  return <DesignShell section="stack">{children}</DesignShell>;
 }

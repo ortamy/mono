@@ -38,5 +38,5 @@ export const metadata: Metadata = {
 };
 
 export default function DesignLayout({ children }: { children: React.ReactNode }) {
-  return <DesignShell>{children}</DesignShell>;
+  return <DesignShell section="portfolio">{children}</DesignShell>;
 }

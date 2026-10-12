@@ -72,7 +72,7 @@ const STEPS = [
 export default function AuditPage() {
   return (
     <div className="min-h-screen bg-agentos-bg font-agentos text-agentos-ink antialiased">
-      <ShopHeader links={AUDIT_LINKS} requestHref="#audit-form" requestLabel="Оставить заявку" />
+      <ShopHeader links={AUDIT_LINKS} requestHref="#audit-form" requestLabel="Оставить заявку" section="audit" />
 
       <main id="main-content">
         {/* 1. ГЕРОЙ И ФОРМА — форма выше сгиба: это лид-магнит, лишний шаг до неё не нужен. */}

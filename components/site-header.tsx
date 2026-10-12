@@ -6,8 +6,14 @@ import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { NAV } from '@/lib/nav';
+import Logo from '@/components/logo';
 
-export default function SiteHeader() {
+interface SiteHeaderProps {
+  /** Раздел страницы для логотипа «mono. / раздел». На главной не передаём. */
+  section?: string;
+}
+
+export default function SiteHeader({ section }: SiteHeaderProps = {}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -33,7 +39,9 @@ export default function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header-inner" ref={rootRef}>
-        <Link href="/" className="site-logo" aria-label="mono. — главная">mono<span>.</span></Link>
+        <Link href="/" className="site-logo whitespace-nowrap" aria-label={section ? `mono. / ${section} — на главную` : 'mono. — главная'}>
+          <Logo section={section} />
+        </Link>
 
         <nav className="site-nav" aria-label="Основное меню">
           {NAV.map((n) => (

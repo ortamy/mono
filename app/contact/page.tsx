@@ -5,7 +5,7 @@ import Reveal from '@/components/reveal';
 export default function ContactPage() {
   return (
     <main>
-      <SiteHeader />
+      <SiteHeader section="contact" />
 
       <section className="page-hero">
         <p className="eyebrow">/ Контакты</p>

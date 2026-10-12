@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Logo from '@/components/logo';
 
 const COLUMNS = [
   {
@@ -27,8 +28,8 @@ export default function ShopFooter() {
       <div className="mx-auto max-w-[1160px] px-5 py-14 sm:px-8 sm:py-16">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <Link href="/" className="text-[18px] font-semibold tracking-[-0.6px] text-agentos-ink">
-              mono<span className="text-agentos-faint">.</span>
+            <Link href="/" className="whitespace-nowrap text-[18px] font-semibold tracking-[-0.6px] text-agentos-ink" aria-label="mono. — на главную">
+              <Logo mutedClassName="text-agentos-faint" />
             </Link>
             <p className="mt-3 max-w-[320px] text-[13px] leading-[1.6] text-agentos-muted">
               Продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS. Интерфейсы, которые считаются в метриках.

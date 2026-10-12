@@ -19,5 +19,5 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function AgentsLayout({ children }: { children: React.ReactNode }) {
-  return <DesignShell>{children}</DesignShell>;
+  return <DesignShell section="agents">{children}</DesignShell>;
 }

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import type { DesignTheme } from './design-shell';
+import Logo from '@/components/logo';
 
 const LINKS = [
   { label: 'Работы', href: '/design/#work' },
@@ -19,16 +20,18 @@ const LINKS = [
 interface Props {
   theme: DesignTheme;
   onToggleTheme: () => void;
+  /** Раздел страницы для логотипа «mono. / раздел»: portfolio, agents, stack. */
+  section: string;
 }
 
-export default function DesignHeader({ theme, onToggleTheme }: Props) {
+export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
     <header className="d-card sticky top-0 z-50 rounded-none border-x-0 border-t-0">
       <div className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-5 sm:px-8">
-        <Link href="/design/" className="text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]" aria-label="UX/UI дизайнер — на главную портфолио">
-          portfolio<span className="d-faint">.</span>
+        <Link href="/design/" className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]" aria-label={`mono. / ${section} — на главную портфолио`}>
+          <Logo section={section} mutedClassName="d-faint" />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Разделы">

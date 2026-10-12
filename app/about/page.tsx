@@ -12,7 +12,7 @@ const PRINCIPLES = [
 export default function AboutPage() {
   return (
     <main>
-      <SiteHeader />
+      <SiteHeader section="about" />
 
       <section className="page-hero about-hero">
         <p className="eyebrow">/ Обо мне</p>
