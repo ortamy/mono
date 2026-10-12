@@ -12,7 +12,9 @@
  * Размеры внутри экрана — в cqw, поэтому каждый экран масштабируется вместе с
  * контейнером страницы кейса (Screen задаёт [container-type:inline-size]).
  * Экран — «скриншот» чужого продукта: цвета заданы жёстко токенами Vercel и не
- * перекрашиваются темой интерфейса.
+ * перекрашиваются темой интерфейса. Границу темы ставит Screen через MockFrame
+ * с theme="light": без неё отдельные элементы (например пузыри чата) тянут
+ * --d-* из .design-scope и в тёмной теме становятся нечитаемыми.
  *
  * Модуль — серверный. График (recharts) живёт отдельно в agent-quality-chart.tsx
  * ('use client'), иначе recharts вызывает React.createContext, которого нет в
@@ -34,6 +36,7 @@ import {
   TerminalPanel,
   type TerminalRow,
 } from '@/components/design/agent-ui';
+import MockFrame from '@/components/design/mock-frame';
 import {
   AlertTriangle,
   BookOpen,
@@ -63,12 +66,13 @@ const SANS = AGENT_SANS;
 /** Обёртка экрана: светлый canvas + контейнер для cqw-масштабирования. */
 function Screen({ children }: { children: ReactNode }) {
   return (
-    <div
+    <MockFrame
+      theme="light"
       className="relative h-full w-full overflow-hidden [container-type:inline-size]"
       style={{ background: AGENT_THEME.canvas, color: AGENT_THEME.ink }}
     >
       {children}
-    </div>
+    </MockFrame>
   );
 }
 
@@ -476,7 +480,10 @@ function ChatThread({
             {from === 'user' ? (
               <div className="flex items-end gap-[0.8cqw]">
                 <AgentAvatar name={peer} size="1.8cqw" />
-                <div className="rounded-[0.7cqw] rounded-tl-[0.35cqw] bg-[var(--d-soft)] px-[1.2cqw] py-[0.8cqw]" style={{ fontFamily: SANS, fontSize: '1.2cqw' }}>
+                <div
+                  className="rounded-[0.7cqw] rounded-tl-[0.35cqw] px-[1.2cqw] py-[0.8cqw]"
+                  style={{ background: AGENT_THEME.soft, color: AGENT_THEME.ink, fontFamily: SANS, fontSize: '1.2cqw' }}
+                >
                   {attach ? (
                     <span
                       className="mb-[0.4cqw] inline-flex items-center gap-[0.35cqw] rounded-[0.4cqw] bg-white px-[0.55cqw] py-[0.25cqw] text-[10px] font-semibold"
@@ -497,7 +504,10 @@ function ChatThread({
                 <span className="flex h-[1.8cqw] w-[1.8cqw] shrink-0 items-center justify-center rounded-full" style={{ background: AGENT_THEME.ink }}>
                   <Bot className="h-[1cqw] w-[1cqw]" style={{ color: '#fff' }} aria-hidden />
                 </span>
-                <div className="rounded-[0.7cqw] rounded-tr-[0.35cqw] bg-[var(--d-ink)] px-[1.2cqw] py-[0.8cqw] text-white" style={{ fontFamily: SANS, fontSize: '1.2cqw' }}>
+                <div
+                  className="rounded-[0.7cqw] rounded-tr-[0.35cqw] px-[1.2cqw] py-[0.8cqw]"
+                  style={{ background: AGENT_THEME.ink, color: '#FFFFFF', fontFamily: SANS, fontSize: '1.2cqw' }}
+                >
                   <div className="flex items-end justify-between gap-[0.6cqw]">
                     <span className="min-w-0">{text}</span>
                     <span className="flex shrink-0 items-center gap-[0.2cqw] text-[10px] font-semibold" style={{ color: '#9CA0A6' }}>

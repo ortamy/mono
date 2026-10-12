@@ -8,13 +8,27 @@
  * Две темы интерфейса: белая (по умолчанию) и чёрная. Тема переключается
  * атрибутом data-theme на .design-scope (см. components/design/design-shell.tsx)
  * и хранится в localStorage. Все цвета — через CSS-переменные.
+ *
+ * Каждый мокап должен явно декларировать свою тему через data-theme, иначе
+ * элементы унаследуют тему родителя: светлый чат внутри тёмного .design-scope
+ * получал --d-soft #1a1a1d на светлом canvas и --d-ink #fafafa под белым
+ * текстом. Поэтому наборы токенов висят и на .design-scope, и на самом
+ * атрибуте [data-theme] — так мокап изолируется от родителя (см.
+ * components/design/mock-frame.tsx).
  */
 
 .design-scope {
-  /* Белая тема */
+  background: var(--d-bg);
+  color: var(--d-ink);
+}
+
+/* Светлая тема: корень портфолио и любой изолированный светлый мокап. */
+.design-scope,
+[data-theme='light'] {
   --d-bg: #ffffff;
   --d-surface: #fafafa;
   --d-card: #ffffff;
+  --d-card-bg: #ffffff;
   --d-soft: #f5f5f5;
   --d-line: #e5e5e5;
   --d-ink: #0a0a0a;
@@ -22,16 +36,15 @@
   --d-faint: #a3a3a3;
   --d-inv-bg: #0a0a0a;
   --d-inv-ink: #ffffff;
-
-  background: var(--d-bg);
-  color: var(--d-ink);
 }
 
-.design-scope[data-theme='dark'] {
-  /* Чёрная тема */
+/* Чёрная тема: корень портфолио и любой изолированный тёмный мокап. */
+.design-scope[data-theme='dark'],
+[data-theme='dark'] {
   --d-bg: #0a0a0a;
   --d-surface: #111113;
   --d-card: #141416;
+  --d-card-bg: #141416;
   --d-soft: #1a1a1d;
   --d-line: #27272a;
   --d-ink: #fafafa;

@@ -12,6 +12,7 @@
 import type { ComponentType } from 'react';
 import type { PreviewKey } from '@/data/design-cases';
 import CasePreview from './case-preview';
+import type { MockTheme } from './mock-frame';
 import MonoPreview from './previews/mono-preview';
 import LookbookPreview from './previews/lookbook-preview';
 import BankPreview from './previews/bank-preview';
@@ -50,6 +51,20 @@ const DOMAINS: Record<PreviewKey, string> = {
   base: 'base.dev',
 };
 
+/** Тема превью — зеркало импорта mono-tokens (DARK/LIGHT) в самом макете. */
+const THEMES: Record<PreviewKey, MockTheme> = {
+  mono: 'dark',
+  lookbook: 'light',
+  bank: 'dark',
+  dashboard: 'dark',
+  slots: 'light',
+  map: 'dark',
+  specsheet: 'light',
+  alephy: 'dark',
+  traq: 'dark',
+  base: 'light',
+};
+
 /** Метрика для бейджа поверх макета. */
 export interface ScreenshotMetric {
   value: string;
@@ -66,10 +81,12 @@ export interface ScreenshotItem {
   metrics: readonly ScreenshotMetric[];
 }
 
-/** Один пункт реестра: мини-макет и домен для адресной строки. */
+/** Один пункт реестра: мини-макет, домен и тема для адресной строки. */
 export interface PreviewEntry {
   Preview: ComponentType;
   domain: string;
+  /** Тема мокапа: изолирует --d-* внутри макета от темы страницы. */
+  theme: MockTheme;
 }
 
 /** Реестр превью: ключ кейса → макет и домен. */
@@ -79,7 +96,7 @@ export type PreviewRegistry = Record<string, PreviewEntry>;
 function designRegistry(): PreviewRegistry {
   const registry: PreviewRegistry = {};
   (Object.keys(PREVIEWS) as PreviewKey[]).forEach((key) => {
-    registry[key] = { Preview: PREVIEWS[key], domain: DOMAINS[key] };
+    registry[key] = { Preview: PREVIEWS[key], domain: DOMAINS[key], theme: THEMES[key] };
   });
   return registry;
 }
@@ -99,13 +116,14 @@ export default function CaseScreenshot({
   const metric = item.metrics[0];
   // Ключ вне реестра — ошибка данных: молча не рисуем карточку, а не падаем.
   if (!entry) return null;
-  const { Preview, domain } = entry;
+  const { Preview, domain, theme } = entry;
 
   return (
     <div className={`relative ${className ?? ''}`}>
       <CasePreview
         url={`https://${domain}`}
         label={`Первый экран проекта «${item.title}»`}
+        theme={theme}
       >
         <Preview />
       </CasePreview>

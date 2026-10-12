@@ -117,11 +117,18 @@ const ResearchLogs = () => (
   />
 );
 
-/** Реестр превью: ключ AgentPreviewKey → мини-макет и домен в мокапе. */
+/**
+ * Реестр превью: ключ AgentPreviewKey → мини-макет, домен и тема в мокапе.
+ *
+ * theme дублирует tone соответствующего макета (см. компоненты выше): оба
+ * значения обязаны совпадать, иначе data-theme на мокапе разойдётся с
+ * палитрой превью. Благодаря ему --d-* внутри макета не тянутся из
+ * .design-scope, а светлый чат остаётся светлым в тёмной теме страницы.
+ */
 export const AGENT_REGISTRY: Record<AgentPreviewKey, PreviewEntry> = {
-  support: { Preview: SupportChat, domain: 'mebazon.ru' },
-  sales: { Preview: SalesDash, domain: 'leadbot.io' },
-  content: { Preview: ContentChat, domain: 'wbcontent.ru' },
-  analytics: { Preview: AnalyticsDash, domain: 'sellsight.app' },
-  research: { Preview: ResearchLogs, domain: 'marketwatch.pro' },
+  support: { Preview: SupportChat, domain: 'mebazon.ru', theme: 'light' },
+  sales: { Preview: SalesDash, domain: 'leadbot.io', theme: 'dark' },
+  content: { Preview: ContentChat, domain: 'wbcontent.ru', theme: 'dark' },
+  analytics: { Preview: AnalyticsDash, domain: 'sellsight.app', theme: 'light' },
+  research: { Preview: ResearchLogs, domain: 'marketwatch.pro', theme: 'dark' },
 };

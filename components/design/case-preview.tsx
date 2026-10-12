@@ -5,16 +5,24 @@
  * Рамка ничего не знает о содержимом. Все размеры внутри превью задаются в cqw —
  * это 1% ширины контейнера, поэтому один и тот же макет одинаково выглядит и в
  * карточке сетки, и в hero на странице кейса (контейнер здесь — сам мокап).
+ *
+ * Тема превью — обязательный проп: он ставит data-theme на область макета
+ * (MockFrame), чтобы элементы внутри не наследовали --d-* от .design-scope.
+ * Хром браузера при этом остаётся светлым у обоих вариантов — как настоящий.
  */
 import type { ReactNode } from 'react';
+import MockFrame, { type MockTheme } from './mock-frame';
 
 export default function CasePreview({
   url,
   label,
+  theme,
   children,
 }: {
   url: string;
   label: string;
+  /** Тема макета внутри браузера. Обязательна — иначе наследуется от страницы. */
+  theme: MockTheme;
   children: ReactNode;
 }) {
   return (
@@ -33,7 +41,9 @@ export default function CasePreview({
         </span>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 top-[5cqw] overflow-hidden">{children}</div>
+      <MockFrame theme={theme} className="absolute inset-x-0 bottom-0 top-[5cqw] overflow-hidden">
+        {children}
+      </MockFrame>
     </div>
   );
 }
