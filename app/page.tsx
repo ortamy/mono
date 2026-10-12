@@ -128,6 +128,32 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* 1.5. ПОЗИЦИОНИРОВАНИЕ: ИНЖЕНЕРИЯ, А НЕ МАГИЯ */}
+        <section className="border-b border-agentos-line bg-agentos-card">
+          <div className="mx-auto grid max-w-[1160px] gap-8 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-[1.3fr_0.7fr] lg:items-center">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.1em] text-agentos-faint">/ Подход</p>
+              <h2 className="mt-4 text-[26px] font-semibold leading-[1.14] tracking-[-1.2px] text-agentos-ink sm:text-[36px]">
+                Я не продаю магию. Я продаю инженерию.
+              </h2>
+              <p className="mt-5 max-w-[640px] text-[15px] leading-[1.7] text-agentos-muted sm:text-[17px]">
+                LLM галлюцинируют. Это не баг, это свойство. Плохой разработчик делает вид, что
+                проблемы нет. Хороший — строит систему, где галлюцинации ограничены RAG, валидацией
+                и участием человека. Я строю второе.
+              </p>
+            </div>
+            <div className="lg:justify-self-end">
+              <Link
+                href="/agents#anti-hallucination"
+                className="inline-flex h-12 items-center gap-2 rounded-control bg-agentos-ink px-6 text-[15px] font-medium text-white transition-colors hover:bg-agentos-graphite"
+              >
+                Как я это делаю
+                <ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* 2. ИИ-УСЛУГИ */}
         <section className="border-b border-agentos-line">
           <div className="mx-auto max-w-[1160px] px-5 py-20 sm:px-8 sm:py-24">

@@ -1,4 +1,4 @@
-import { ArrowRight, Award, BarChart3, Bot, CheckCircle, MessageCircle, PenTool, Rocket, Search, Send, Settings, Sparkles, Target, TrendingUp, XCircle, Zap } from 'lucide-react';
+import { ArrowRight, Award, BarChart3, Bot, CheckCircle, Database, FileJson, MessageCircle, PenTool, Rocket, Search, Send, Settings, Shield, ShieldCheck, Sparkles, Target, TrendingUp, UserCheck, XCircle, Zap } from 'lucide-react';
 import { AGENT_CASES } from '@/data/agent-cases';
 import AgentCaseCard from '@/components/agents/agent-case-card';
 import AgentContactForm from '@/components/agents/agent-contact-form';
@@ -42,6 +42,37 @@ const CHATBOT_PROBLEMS = [
     title: 'Закрывает 74% диалогов без человека',
     desc: 'оставшиеся 26% идут с полным контекстом',
   },
+];
+
+/** Уровни контроля галлюцинаций LLM: четыре карточки. */
+const HALLUCINATION_CONTROLS = [
+  {
+    icon: Database,
+    title: 'RAG — источник правды',
+    desc: 'Агент не «вспоминает» ответ — он ищет его в ваших документах. Если данных нет, он не выдумывает, а честно говорит: «Не знаю».',
+  },
+  {
+    icon: FileJson,
+    title: 'Structured Output — контроль формата',
+    desc: 'Агент обязан вернуть ответ по заданной схеме. Если не может — падает с ошибкой, а не выдумывает.',
+  },
+  {
+    icon: Shield,
+    title: 'Guardrails — контроль содержания',
+    desc: 'Перед показом клиенту ответ валидируется. Запрещённые слова, неверные цифры — блокируются.',
+  },
+  {
+    icon: UserCheck,
+    title: 'Human-in-the-loop — контроль решений',
+    desc: 'Для критичных задач агент готовит черновик, а решение принимает человек.',
+  },
+];
+
+/** Метрики контроля: честная картина работы системы. */
+const HALLUCINATION_METRICS = [
+  { value: '74%', label: 'обращений агент закрывает без человека' },
+  { value: '26%', label: 'с полным контекстом оператору' },
+  { value: '0%', label: 'выдуманных ответов, если данных нет в базе знаний' },
 ];
 
 /** Кому агент подходит. */
@@ -206,6 +237,10 @@ const FAQ = [
     a: 'У каждого сценария есть порог уверенности: ниже него ответ уходит оператору. Все диалоги логируются, качество видно на дашборде.',
   },
   {
+    q: 'А что, если агент ошибётся и скажет клиенту неверное?',
+    a: 'Галлюцинации ограничены четырьмя уровнями контроля. RAG — агент ищет ответ в ваших документах и, если данных нет, честно говорит «не знаю», а не выдумывает. Structured Output — ответ возвращается строго по заданной схеме: не сошёлся формат — запрос падает с ошибкой, а не доходит до клиента. Guardrails — перед показом ответ валидируется: запрещённые темы и неверные цифры блокируются. Human-in-the-loop — для критичных сценариев агент готовит черновик, а финальное решение принимает человек. Я не обещаю 100% точности — так не работает ни одна LLM. Я обещаю контролируемую систему: ошибки ограничены, видны на дашборде и исправимы.',
+  },
+  {
     q: 'Нужен ли свой разработчик?',
     a: 'Нет: я отвечаю за сценарии, сборку, интеграции и запуск. От вас — доступы и эксперт, который проверяет ответы на старте.',
   },
@@ -311,6 +346,50 @@ export default function AgentsPage() {
             Бесплатный разбор вашего чат-бота — где он теряет клиентов и что можно
             исправить.
           </p>
+        </div>
+      </section>
+
+      {/* КОНТРОЛЬ ГАЛЛЮЦИНАЦИЙ — ключевое позиционирование */}
+      <section id="anti-hallucination" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
+        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+            <ShieldCheck size={19} strokeWidth={1.6} />
+          </span>
+          <h2 className="mt-4 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
+            LLM ошибаются. Я делаю так, чтобы это не стало вашей проблемой.
+          </h2>
+          <p className="mt-3 max-w-[620px] text-[14px] leading-[1.6] d-muted">
+            Все LLM галлюцинируют — это фундаментальное свойство технологии. Разница между
+            плохим и хорошим агентом — в том, что делает разработчик, чтобы ограничить ошибки.
+          </p>
+
+          <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+            {HALLUCINATION_CONTROLS.map((c) => (
+              <article key={c.title} className="d-card d-hover-line p-4 sm:p-6">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+                  <c.icon size={19} strokeWidth={1.6} />
+                </span>
+                <h3 className="mt-4 text-[15px] font-semibold leading-[1.35] text-[var(--d-ink)]">{c.title}</h3>
+                <p className="mt-2 text-[14px] leading-[1.6] d-muted">{c.desc}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-10 rounded-xl border border-[var(--d-line)] bg-[var(--d-soft)] p-6 sm:p-7">
+            <p className="text-[15px] font-medium leading-[1.65] text-[var(--d-ink)]">
+              Я не обещаю 100% точности — так не работает ни одна LLM. Я обещаю контролируемую
+              систему: ошибки ограничены, видны и исправимы.
+            </p>
+          </div>
+
+          <dl className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3">
+            {HALLUCINATION_METRICS.map((m) => (
+              <div key={m.label} className="d-card p-5">
+                <dd className="text-[clamp(26px,4vw,34px)] font-bold tabular-nums text-[var(--d-ink)]">{m.value}</dd>
+                <dt className="mt-2 text-[13px] leading-[1.5] d-muted">{m.label}</dt>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
