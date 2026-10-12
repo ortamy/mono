@@ -1,7 +1,8 @@
-import { ArrowRight, Award, BarChart3, Bot, CheckCircle, Database, FileJson, MessageCircle, PenTool, Rocket, Search, Send, Settings, Shield, ShieldCheck, Sparkles, Target, TrendingUp, UserCheck, XCircle, Zap } from 'lucide-react';
+import { ArrowRight, Award, BarChart3, Bot, Calculator, CheckCircle, Database, FileJson, MessageCircle, PenTool, Play, Rocket, Search, Send, Settings, Shield, ShieldCheck, Sparkles, Target, TrendingUp, UserCheck, XCircle, Zap } from 'lucide-react';
 import { AGENT_CASES } from '@/data/agent-cases';
 import AgentCaseCard from '@/components/agents/agent-case-card';
 import AgentContactForm from '@/components/agents/agent-contact-form';
+import AgentRoiCalculator from '@/components/agents/agent-roi-calculator';
 import AgentStackTeaser from '@/components/agents/agent-stack-teaser';
 
 /* ---------- Данные секций ---------- */
@@ -132,6 +133,34 @@ const AGENT_TYPES = [
   },
 ];
 
+/** Сравнение «найм оператора vs агент»: таблица под тарифами. */
+const HIRE_VS_AGENT = [
+  { label: 'Расходы в месяц', hire: '80 000–120 000 ₽ + налоги', agent: '50 000 ₽, окупается экономией' },
+  { label: 'Скорость ответа', hire: '5–15 минут в рабочее время', agent: '8 секунд, 24/7 без выходных' },
+  { label: 'Масштаб', hire: 'Один человек — один диалог', agent: 'Сотни диалогов параллельно' },
+  { label: 'Память о клиенте', hire: 'Забывает, уходит вместе с сотрудником', agent: 'Помнит всю историю в CRM' },
+  { label: 'Рост потока ×2', hire: 'Нанимать и обучать второго', agent: 'Тот же агент, ноль найма' },
+];
+
+/** Гарантия после тарифов: снимает риск чека 250–500К. */
+const GUARANTEES = [
+  {
+    icon: ShieldCheck,
+    title: 'Возврат 50% за 30 дней',
+    desc: 'Если агент не обрабатывает 40% обращений — возвращаю половину оплаты. Риск на мне, а не на вас.',
+  },
+  {
+    icon: Settings,
+    title: 'Первый месяц поддержки — бесплатно',
+    desc: 'Держу агента в форме: мониторю качество, обновляю базу знаний. Платите только со второго месяца.',
+  },
+  {
+    icon: UserCheck,
+    title: 'Данные и код — ваши',
+    desc: 'Уйти можно в любой момент: база знаний, сценарии и интеграции остаются у вас. Без заложников.',
+  },
+];
+
 /** Пять шагов внедрения. */
 const STEPS = [
   { num: '01', title: 'Сценарий', desc: 'Разбираем процесс и данные, выбираем метрику успеха агента.' },
@@ -165,17 +194,19 @@ const PACKAGES: Package[] = [
   },
   {
     title: 'Пилот',
-    price: 'от 60 000 ₽',
+    price: '60 000 ₽',
     term: '2 недели',
     desc: 'Один агент на узкий сценарий в тестовом контуре — до боевого потока.',
     points: ['Сборка агента', 'Одна интеграция', 'Тесты на ваших данных'],
+    savings: 'Экономия с первого месяца — от 40 000 ₽. Окупаемость — 1,5 месяца.',
   },
   {
     title: 'Агент под ключ',
-    price: 'от 150 000 ₽',
+    price: '150 000 ₽ + 50 000 ₽/мес',
     term: '3–4 недели',
     desc: 'Полный цикл: сценарии, интеграции, продакшен и дашборд качества.',
     points: ['База знаний и RAG', 'Интеграции с CRM и сайтом', 'Мониторинг и алерты'],
+    savings: 'Экономия — 80 000 ₽/мес. ROI за год — 350%.',
   },
   {
     title: 'Поддержка агента (ретейнер)',
@@ -250,13 +281,32 @@ const FAQ = [
   },
   {
     q: 'Сколько это стоит?',
-    a: 'Диагностика — 15 000 ₽, пилот — от 60 000 ₽, агент под ключ — от 150 000 ₽. Точная оценка — после первого созвона.',
+    a: 'Диагностика — 15 000 ₽, пилот — 60 000 ₽ (окупаемость 1,5 месяца), агент под ключ — 150 000 ₽ + 50 000 ₽/мес (экономия 80 000 ₽/мес, ROI за год — 350%). Точная оценка — после первого созвона.',
+  },
+  {
+    q: 'А что, если я захочу уйти от вас?',
+    a: 'Код, база знаний и данные — ваши. Передаю репозиторий, сценарии и доступы: уйти можно в любой момент, агент продолжит работать без меня.',
+  },
+  {
+    q: 'Сколько стоит поддержка после запуска?',
+    a: '50 000 ₽/мес: мониторю качество, обновляю базу знаний и добавляю 1–2 сценария в месяц. Окупается уже с 10 сэкономленных часов операторов.',
+  },
+  {
+    q: 'А если агент не справится?',
+    a: 'Возвращаю 50% оплаты в течение 30 дней, если агент не обрабатывает 40% обращений. Плюс первый месяц поддержки — бесплатно.',
   },
   {
     q: 'Что будет, если я не возьму поддержку?',
     a: 'Агент продолжит работать, но через 2–3 месяца начнёт ошибаться: база знаний устареет, модели обновятся, новые сценарии не будут обработаны. Перезапуск после простоя обойдётся дороже, чем год поддержки.',
   },
 ];
+
+/**
+ * Видео-демо скрыто, пока нет записи Loom.
+ * JSX блока не удалять: включить SHOW_VIDEO_DEMO = true, когда ролик готов.
+ * См. HANDOFF.md §11.
+ */
+const SHOW_VIDEO_DEMO = false;
 
 /* ---------- Страница ---------- */
 
@@ -271,25 +321,24 @@ export default function AgentsPage() {
         </span>
 
         <h1 className="mt-6 text-[clamp(32px,5.2vw,56px)] font-bold leading-[1.06] tracking-[-1.8px] text-[var(--d-ink)]">
-          Собираю AI-агентов,
-          <br />
-          <span className="d-faint">которые работают вместо рутины</span>
+          Ваши менеджеры тратят 40% времени на&nbsp;рутину. Я&nbsp;это выключаю.
         </h1>
 
         <p className="mt-6 max-w-[560px] text-[16px] leading-[1.65] d-muted">
-          Агенты поддержки, продаж, контента и аналитики на ваших данных: от прототипа
-          диалога до продакшена с мониторингом качества.
+          Для e-commerce, SaaS и сервисов с потоком 500+ обращений в месяц. 74% диалогов — без человека. Окупаемость — 2–3 месяца.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <a href="#work" className="d-btn d-btn-primary">
-            Смотреть кейсы <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+          <a href="#roi" className="d-btn d-btn-primary">
+            <Calculator size={15} strokeWidth={1.5} aria-hidden /> Посчитать экономию
           </a>
           <a href="#contact" className="d-btn d-btn-ghost">
-            <Send size={15} strokeWidth={1.5} aria-hidden /> Обсудить агента
+            <Send size={15} strokeWidth={1.5} aria-hidden /> Обсудить проект
           </a>
         </div>
       </section>
+
+      <AgentRoiCalculator />
 
       {/* У ВАС УЖЕ ЕСТЬ ЧАТ-БОТ? */}
       <section id="chatbot" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
@@ -488,6 +537,30 @@ export default function AgentsPage() {
       {/* СТЕК */}
       <AgentStackTeaser />
 
+      {/* ВИДЕО-ДЕМО: 60 секунд — как агент закрывает диалог без человека */}
+      {SHOW_VIDEO_DEMO ? (
+      <section aria-labelledby="demo-title" className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+          <Play size={19} strokeWidth={1.6} />
+        </span>
+        <h2 id="demo-title" className="mt-4 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
+          Смотрите, как агент работает
+        </h2>
+        <p className="mt-3 max-w-[560px] text-[14px] leading-[1.6] d-muted">
+          60 секунд: клиент пишет в чат — агент отвечает по базе знаний, оформляет заявку и передаёт оператору только сложное.
+        </p>
+        <div className="d-card mt-10 flex aspect-video flex-col items-center justify-center gap-3 p-8 text-center">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+            <Play size={22} strokeWidth={1.6} />
+          </span>
+          <p className="text-[15px] font-semibold text-[var(--d-ink)]">Видео-демо — 60 секунд</p>
+          <p className="max-w-[420px] text-[13px] leading-[1.6] d-muted">
+            Записываю через Loom: живой диалог агента поддержки — от первого сообщения до закрытой заявки. Видео появится здесь.
+          </p>
+        </div>
+      </section>
+      ) : null}
+
       {/* ТАРИФЫ */}
       <section id="pricing" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
         <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
@@ -531,6 +604,40 @@ export default function AgentsPage() {
               </article>
             ))}
           </div>
+
+          <div className="mt-10 overflow-hidden rounded-xl border border-[var(--d-line)]">
+            <div className="hidden border-b border-[var(--d-line)] bg-[var(--d-soft)] sm:grid sm:grid-cols-3">
+              <div className="px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">Критерий</div>
+              <div className="border-l border-[var(--d-line)] px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">Найм оператора</div>
+              <div className="border-l border-[var(--d-line)] px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">Агент</div>
+            </div>
+            {HIRE_VS_AGENT.map((row) => (
+              <div key={row.label} className="grid gap-0 border-b border-[var(--d-line)] last:border-b-0 sm:grid-cols-3">
+                <div className="px-5 py-4 text-[14px] font-semibold text-[var(--d-ink)]">{row.label}</div>
+                <div className="border-t border-[var(--d-line)] px-5 py-4 text-[14px] leading-[1.55] d-muted sm:border-l sm:border-t-0">{row.hire}</div>
+                <div className="border-t border-[var(--d-line)] px-5 py-4 text-[14px] font-semibold leading-[1.55] text-[var(--d-ink)] sm:border-l sm:border-t-0">{row.agent}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ГАРАНТИЯ — снимает риск чека 250–500К */}
+      <section aria-labelledby="guarantee-title" className="mx-auto max-w-[1100px] px-5 pb-20 sm:px-8 sm:pb-24">
+        <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Гарантия</p>
+        <h2 id="guarantee-title" className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
+          Риск — на мне, а не на вас
+        </h2>
+        <div className="mt-10 grid gap-5 sm:grid-cols-3">
+          {GUARANTEES.map((g) => (
+            <article key={g.title} className="d-card p-6">
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
+                <g.icon size={19} strokeWidth={1.6} />
+              </span>
+              <h3 className="mt-4 text-[16px] font-semibold text-[var(--d-ink)]">{g.title}</h3>
+              <p className="mt-2 text-[13px] leading-[1.6] d-muted">{g.desc}</p>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -616,12 +723,12 @@ export default function AgentsPage() {
 
       {/* FAQ */}
       <section id="faq" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
-        <div className="mx-auto max-w-[820px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
           <p className="text-[11px] uppercase tracking-[0.08em] d-faint">FAQ</p>
           <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
             Частые вопросы
           </h2>
-          <div className="mt-8 space-y-3">
+          <div className="mt-8 max-w-[800px] space-y-3">
             {FAQ.map((item) => (
               <details key={item.q} className="d-card group px-5 py-4">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-semibold text-[var(--d-ink)] [&::-webkit-details-marker]:hidden">

@@ -40,6 +40,28 @@ export default function AgentCaseCard({ item }: { item: AgentCase }) {
         </h3>
         <p className="mt-2 text-[14px] leading-[1.6] d-muted">{item.subtitle}</p>
 
+        <dl className="mt-4 space-y-1.5 border-t border-[var(--d-line)] pt-4 text-[13px] leading-[1.55]">
+          <div className="flex items-baseline justify-between gap-3">
+            <dt className="d-faint">Экономия</dt>
+            <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.savings}</dd>
+          </div>
+          <div className="flex items-baseline justify-between gap-3">
+            <dt className="d-faint">Окупаемость</dt>
+            <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
+          </div>
+        </dl>
+
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="rounded-lg bg-[var(--d-soft)] p-3">
+            <p className="text-[11px] uppercase tracking-[0.06em] d-faint">Раньше</p>
+            <p className="mt-1.5 text-[12px] leading-[1.55] d-muted">{item.before}</p>
+          </div>
+          <div className="rounded-lg bg-[var(--d-soft)] p-3">
+            <p className="text-[11px] uppercase tracking-[0.06em] d-faint">Сейчас</p>
+            <p className="mt-1.5 text-[12px] leading-[1.55] text-[var(--d-ink)]">{item.after}</p>
+          </div>
+        </div>
+
         <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-[var(--d-line)] pt-4">
           {item.metrics.slice(0, 2).map((m) => (
             <div key={m.label}>

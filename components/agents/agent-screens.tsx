@@ -658,7 +658,7 @@ function SalesBooking() {
               ]}
             />
           </div>
-          <AgentButton className="self-start">Отправить приглашение</AgentButton>
+          <AgentButton className="self-start"><Send className="h-[1.1cqw] w-[1.1cqw]" aria-hidden />Отправить приглашение</AgentButton>
         </AgentCard>
         <AgentCard className="flex flex-col gap-[1cqw]">
           <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
@@ -920,7 +920,7 @@ function ContentMetrics() {
             <p style={{ fontFamily: SANS, fontSize: '1.25cqw', color: AGENT_THEME.ink, lineHeight: 1.5, fontWeight: 500 }}>
               «Бельё „Лофт“: заголовок кликается на 46% — перенесите акцент в первые 40 символов на остальные карточки.»
             </p>
-            <AgentButton className="self-start">Применить к партии</AgentButton>
+            <AgentButton className="self-start"><Send className="h-[1.1cqw] w-[1.1cqw]" aria-hidden />Применить к партии</AgentButton>
             <div
               className="flex items-center justify-between gap-[0.6cqw] border-t pt-[1cqw]"
               style={{ borderColor: AGENT_THEME.hairline, fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}
@@ -1042,9 +1042,9 @@ function AnalystSku() {
       <ScreenHeader brand="Analyst" period="февраль 2026" action="Выгрузить" />
       <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1.3cqw] px-[2cqw] pb-[2cqw]">
         <div className="flex items-center gap-[0.8cqw]">
-          <AgentBadge variant="soft">Маржа</AgentBadge>
-          <AgentBadge variant="soft">Реклама</AgentBadge>
-          <AgentBadge variant="soft">Возвраты</AgentBadge>
+          <AgentBadge variant="warn">падение · −4,2%</AgentBadge>
+          <AgentBadge variant="success">рост · +2,4%</AgentBadge>
+          <AgentBadge variant="soft">реклама · ДРР 14%</AgentBadge>
         </div>
         {/* Карточки SKU делят остаток высоты: три строки по две позиции. */}
         <div className="grid min-h-0 flex-1 auto-rows-fr grid-cols-2 gap-[1.2cqw]">
@@ -1187,9 +1187,21 @@ function ResearchCrawler() {
       <ScreenHeader brand="MarketWatch" period="12 сайтов · каждый час" action="Логи" />
       <div className="mt-[1.6cqw] grid h-[calc(100%-7cqw)] grid-cols-[1.5fr_1fr] gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
         <TerminalPanel title="crawler · prod" status="live" rows={rows} />
-        <div className="flex flex-col gap-[1.6cqw]">
+        <div className="flex min-h-0 flex-col gap-[1.4cqw]">
           <StatBlock label="Сайтов" value="12" note="под наблюдением" />
           <StatBlock label="Ретраи" value="2/3" note="rate limit 429" />
+          <AgentCard className="flex flex-1 flex-col justify-between gap-[0.8cqw]">
+            <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
+              Обход 06:05
+            </div>
+            <div className="flex items-center gap-[0.8cqw]">
+              <AgentBadge variant="success">10 ok</AgentBadge>
+              <AgentBadge variant="warn">1 retry</AgentBadge>
+            </div>
+            <div className="tabular-nums" style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>
+              следующий обход · 07:00
+            </div>
+          </AgentCard>
         </div>
       </div>
     </Screen>

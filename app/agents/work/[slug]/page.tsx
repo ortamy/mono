@@ -28,6 +28,7 @@ const SCREEN_KIND_LABELS: Record<string, string> = {
   form: 'Форма',
   feed: 'Лента',
   funnel: 'Воронка',
+  article: 'Дайджест',
 };
 
 export const dynamicParams = false;
@@ -105,6 +106,26 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
               <div className="mt-1 text-[13px] d-muted">{m.label}</div>
             </div>
           ))}
+        </div>
+        <dl className="d-card mt-4 grid gap-4 p-5 sm:grid-cols-2 sm:p-6">
+          <div>
+            <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Экономия</dt>
+            <dd className="mt-1 text-[20px] font-bold tabular-nums text-[var(--d-ink)]">{item.savings}</dd>
+          </div>
+          <div>
+            <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Окупаемость</dt>
+            <dd className="mt-1 text-[20px] font-bold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
+          </div>
+        </dl>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="d-card p-5 sm:p-6">
+            <h2 className="text-[13px] uppercase tracking-[0.08em] d-faint">Раньше</h2>
+            <p className="mt-3 text-[14px] leading-[1.65] d-muted">{item.before}</p>
+          </div>
+          <div className="d-card p-5 sm:p-6">
+            <h2 className="text-[13px] uppercase tracking-[0.08em] d-faint">Сейчас</h2>
+            <p className="mt-3 text-[14px] leading-[1.65] text-[var(--d-ink)]">{item.after}</p>
+          </div>
         </div>
       </div>
 
