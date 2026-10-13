@@ -325,11 +325,11 @@ export default function AgentsPage() {
         </span>
 
         <h1 className="mt-6 text-[clamp(32px,5.2vw,56px)] font-bold leading-[1.06] tracking-[-1.8px] text-[var(--d-ink)]">
-          Ваши менеджеры тратят 40% времени на&nbsp;рутину. Я&nbsp;это выключаю.
+          Автоматизирую 70% обращений без&nbsp;оператора и&nbsp;сэкономлю вам 80&nbsp;000&nbsp;₽ в&nbsp;месяц.
         </h1>
 
         <p className="mt-6 max-w-[560px] text-[16px] leading-[1.65] d-muted">
-          Для e-commerce, SaaS и сервисов с потоком 500+ обращений в месяц. 74% диалогов — без человека. Окупаемость — 2–3 месяца.
+          AI-агент для e-commerce и SaaS с потоком 500+ обращений в месяц, который отвечает 24/7 по вашей базе знаний и окупается за 2–3 месяца.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
