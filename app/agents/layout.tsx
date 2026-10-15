@@ -4,9 +4,9 @@ import DesignShell from '@/components/design/design-shell';
 import { buildMetadata } from '@/lib/meta';
 
 /**
- * Оболочка /agents: та же, что у /design (DesignShell — две темы интерфейса,
- * header/footer портфолио), потому что услуга — продолжение дизайн-портфолио.
- * Общие стили темы переиспользуются из app/design/design.css.
+ * Оболочка /agents: та же тема, что у /design (DesignShell — две темы
+ * интерфейса), но шапка своя: якорная навигация по блокам лендинга,
+ * а не ссылки на портфолио. Стили темы — из app/design/design.css.
  *
  * Страница в sitemap с 10.10.2026 (см. app/sitemap.ts), поэтому метаданные
  * собираются обычным buildMetadata с canonical, а не absolute-заголовком.

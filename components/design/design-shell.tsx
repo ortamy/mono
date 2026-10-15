@@ -15,6 +15,7 @@
 'use client';
 
 import { useCallback, useState, useSyncExternalStore, type ReactNode } from 'react';
+import AgentsHeader from '@/components/agents/agents-header';
 import DesignHeader from './design-header';
 import DesignFooter from './design-footer';
 
@@ -57,7 +58,11 @@ export default function DesignShell({ children, section }: { children: ReactNode
 
   return (
     <div className="design-scope min-h-screen" data-theme={theme}>
-      <DesignHeader theme={theme} onToggleTheme={toggleTheme} section={section} />
+      {section === 'agents' ? (
+        <AgentsHeader theme={theme} onToggleTheme={toggleTheme} />
+      ) : (
+        <DesignHeader theme={theme} onToggleTheme={toggleTheme} section={section} />
+      )}
       <main id="main-content">{children}</main>
       <DesignFooter />
     </div>
