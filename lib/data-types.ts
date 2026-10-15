@@ -99,8 +99,7 @@ export interface FaqItem {
 /** Вариант hero-заголовка на /agents: ротируется по дню недели (getHeroVariant). */
 export interface AgentsHeroVariant {
   id: string;
-  title_regular: string;
-  title_accent: string;
+  title: string;
   subtitle: string;
 }
 

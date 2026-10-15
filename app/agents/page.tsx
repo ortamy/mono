@@ -26,6 +26,27 @@ function getHeroVariant(dayOfWeek?: number): AgentsHeroVariant {
   return HERO_VARIANTS[index];
 }
 
+/** Цифры и метрики в hero-заголовке: жирнее, tabular-nums, цвет --d-ink. */
+const TITLE_METRIC_SPLIT = /(\d[\d\s]*%|\d[\d\s]*₽\/мес|\d+\s+(?:часов|секунд(?:ы)?|недели))/;
+const TITLE_METRIC_FULL = /^(?:\d[\d\s]*%|\d[\d\s]*₽\/мес|\d+\s+(?:часов|секунд(?:ы)?|недели))$/;
+
+function renderTitleWithMetrics(title: string) {
+  return title.split(TITLE_METRIC_SPLIT).map((part, i) => {
+    if (!part) return null;
+    if (TITLE_METRIC_FULL.test(part)) {
+      return (
+        <span
+          key={i}
+          className="font-extrabold tabular-nums !text-[var(--d-ink)]"
+        >
+          {part}
+        </span>
+      );
+    }
+    return part;
+  });
+}
+
 /* ---------- Данные секций ---------- */
 
 /** Сводные метрики по кейсам. */
@@ -370,13 +391,11 @@ export default async function AgentsPage({ searchParams }: AgentsPageProps) {
           Открыт для проектов — октябрь 2026
         </span>
 
-        <h1 className="mt-6 max-w-[20ch] text-balance text-3xl font-bold leading-[1.15] tracking-[-1px] text-[var(--d-ink)] sm:max-w-none sm:text-4xl lg:text-5xl lg:leading-[1.06] lg:tracking-[-1.8px]">
-          {hero.title_regular}{' '}
-          {/* text-[var(--d-ink)] перекрывает глобальное правило `h1 span` из globals.css */}
-          <span className="font-extrabold text-[var(--d-ink)]">{hero.title_accent}</span>
+        <h1 className="mt-6 text-balance text-3xl font-bold leading-[1.15] tracking-[-1px] text-[var(--d-ink)] sm:text-4xl lg:text-5xl lg:leading-[1.06] lg:tracking-[-1.8px]">
+          {renderTitleWithMetrics(hero.title)}
         </h1>
 
-        <p className="mt-6 max-w-[560px] text-lg leading-[1.65] d-muted">
+        <p className="mt-6 max-w-[36rem] text-lg leading-[1.45] text-[var(--d-muted)] max-sm:text-[14.5px] max-sm:tracking-[-0.02em] sm:text-xl">
           {hero.subtitle}
         </p>
 
