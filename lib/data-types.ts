@@ -96,6 +96,14 @@ export interface FaqItem {
   a: string;
 }
 
+/** Вариант hero-заголовка на /agents: ротируется по дню недели (getHeroVariant). */
+export interface AgentsHeroVariant {
+  id: string;
+  title_regular: string;
+  title_accent: string;
+  subtitle: string;
+}
+
 export interface SiteConfig {
   meta: {
     site_url: string;
@@ -121,6 +129,8 @@ export interface SiteConfig {
     index: string;
     index_sub: string;
   };
+  /* Динамические hero-заголовки /agents: ротация по дню недели. */
+  agents_hero_variants: AgentsHeroVariant[];
   ai_services: AiServicesConfig;
   competencies: CompetenciesConfig;
   process: ProcessConfig;

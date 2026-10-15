@@ -21,6 +21,38 @@
     "index": "/ 00",
     "index_sub": "PRODUCT DESIGN · AI AUTOMATION"
   },
+  "agents_hero_variants": [
+    {
+      "id": "v1",
+      "title_regular": "Выключаю рутину.",
+      "title_accent": "Включаю рост.",
+      "subtitle": "Для e-commerce и SaaS с потоком 500+ обращений в месяц."
+    },
+    {
+      "id": "v2",
+      "title_regular": "Забираю 40% рутины",
+      "title_accent": "у менеджеров.",
+      "subtitle": "74% обращений — без человека. Окупаемость — 2-3 месяца."
+    },
+    {
+      "id": "v3",
+      "title_regular": "Автоматизирую поддержку.",
+      "title_accent": "Вы растёте.",
+      "subtitle": "AI-агент работает 24/7, отвечает за 8 секунд."
+    },
+    {
+      "id": "v4",
+      "title_regular": "Меньше рутины.",
+      "title_accent": "Больше денег.",
+      "subtitle": "Обрабатываю 74% обращений без оператора."
+    },
+    {
+      "id": "v5",
+      "title_regular": "Отвечаю клиентам",
+      "title_accent": "за 8 секунд — 24/7.",
+      "subtitle": "AI-агент по вашей базе знаний. Без галлюцинаций."
+    }
+  ],
   "ai_services": {
     "eyebrow": "/ ИИ-услуги",
     "heading_a": "ИИ делает рутину.",

@@ -4,6 +4,27 @@ import AgentCaseCard from '@/components/agents/agent-case-card';
 import AgentContactForm from '@/components/agents/agent-contact-form';
 import AgentRoiCalculator from '@/components/agents/agent-roi-calculator';
 import AgentStackTeaser from '@/components/agents/agent-stack-teaser';
+import { loadDataJSON } from '@/lib/content';
+import type { AgentsHeroVariant, SiteConfig } from '@/lib/data-types';
+import { connection } from 'next/server';
+
+/* ---------- Динамический hero /agents ---------- */
+
+const site = loadDataJSON<SiteConfig>('site.json');
+
+/** Варианты hero-заголовка /agents: 5 вариантов, ротация по дню недели. */
+const HERO_VARIANTS: AgentsHeroVariant[] = site.agents_hero_variants;
+
+/**
+ * Выбирает вариант hero по номеру дня недели (0 — воскресенье … 6 — суббота):
+ * `variants[dayOfWeek % variants.length]` — циклически, без границы длины массива.
+ * Без аргумента берёт текущий день недели на сервере.
+ */
+function getHeroVariant(dayOfWeek?: number): AgentsHeroVariant {
+  const day = dayOfWeek ?? new Date().getDay();
+  const index = ((day % HERO_VARIANTS.length) + HERO_VARIANTS.length) % HERO_VARIANTS.length;
+  return HERO_VARIANTS[index];
+}
 
 /* ---------- Данные секций ---------- */
 
@@ -314,7 +335,32 @@ const SHOW_VIDEO_DEMO = false;
 
 /* ---------- Страница ---------- */
 
-export default function AgentsPage() {
+interface AgentsPageProps {
+  /** Тестовый оверрайд: /agents?day=2 — эмуляция конкретного дня недели (0–6). */
+  searchParams?: Promise<{ day?: string | string[] }>;
+}
+
+export default async function AgentsPage({ searchParams }: AgentsPageProps) {
+  // В статическом экспорте (STATIC_EXPORT=true, GitHub Pages) страница рендерится
+  // статически на сборке: вариант hero — по дате сборки, а доступ к searchParams
+  // делает страницу динамической и роняет output: 'export'. В обычной серверной
+  // сборке (dev / next start) принудительно делаем рендер динамическим: вариант
+  // и `?day=` считаются на каждый запрос.
+  if (process.env.STATIC_EXPORT !== 'true') {
+    await connection();
+  }
+  // Тестовый оверрайд: /agents?day=2 — эмуляция конкретного дня недели (0–6).
+  let dayOverride: string | undefined;
+  if (process.env.STATIC_EXPORT !== 'true' && searchParams) {
+    const params = await searchParams.catch(() => null);
+    const raw = params?.day;
+    dayOverride = Array.isArray(raw) ? raw[0] : raw;
+  }
+  const hero =
+    dayOverride !== undefined && /^[0-6]$/.test(dayOverride)
+      ? getHeroVariant(Number(dayOverride))
+      : getHeroVariant();
+
   return (
     <>
       {/* HERO */}
@@ -324,12 +370,14 @@ export default function AgentsPage() {
           Открыт для проектов — октябрь 2026
         </span>
 
-        <h1 className="mt-6 max-w-[20ch] text-balance text-2xl font-bold leading-[1.15] tracking-[-1px] text-[var(--d-ink)] sm:max-w-none sm:text-3xl lg:text-5xl lg:leading-[1.06] lg:tracking-[-1.8px]">
-          Менеджеры тратят 40% времени на рутину
+        <h1 className="mt-6 max-w-[20ch] text-balance text-3xl font-bold leading-[1.15] tracking-[-1px] text-[var(--d-ink)] sm:max-w-none sm:text-4xl lg:text-5xl lg:leading-[1.06] lg:tracking-[-1.8px]">
+          {hero.title_regular}{' '}
+          {/* text-[var(--d-ink)] перекрывает глобальное правило `h1 span` из globals.css */}
+          <span className="font-extrabold text-[var(--d-ink)]">{hero.title_accent}</span>
         </h1>
 
-        <p className="mt-6 max-w-[560px] text-[16px] leading-[1.65] d-muted">
-          AI-агент для e-commerce и SaaS с потоком 500+ обращений в месяц, который отвечает 24/7 по вашей базе знаний и окупается за 2–3 месяца.
+        <p className="mt-6 max-w-[560px] text-lg leading-[1.65] d-muted">
+          {hero.subtitle}
         </p>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
