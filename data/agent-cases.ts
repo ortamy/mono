@@ -92,6 +92,64 @@ export interface AgentCase {
   palette: MockPalette;
   /** Пять узлов схемы: источники → LLM → инструменты → каналы → мониторинг. */
   architecture: { label: string; hint: string }[];
+  /** Данные уникального превью sales-agent-b2b. Только у этого кейса. */
+  salesPreview?: AgentSalesPreview;
+  /** Данные уникального превью marketplace-analyst. Только у этого кейса. */
+  analyticsPreview?: AgentAnalyticsPreview;
+}
+
+/** Этап воронки в превью sales-агента. */
+export interface AgentSalesFunnelStage {
+  label: string;
+  value: number;
+}
+
+/** Диалог в работе: аватар, имя, ICP, последняя фраза. */
+export interface AgentSalesDialogue {
+  initials: string;
+  name: string;
+  icp: string;
+  last: string;
+}
+
+/** Слот демо в календаре превью sales-агента. */
+export interface AgentSalesDemo {
+  time: string;
+  name: string;
+}
+
+/** Структурированные данные превью sales-agent-b2b. */
+export interface AgentSalesPreview {
+  funnel: AgentSalesFunnelStage[];
+  dialogues: AgentSalesDialogue[];
+  weekDays: string[];
+  /** true — в этот день недели есть демо (индекс совпадает с weekDays). */
+  demoDays: boolean[];
+  demos: AgentSalesDemo[];
+}
+
+/** KPI с контекстом прошлого периода. */
+export interface AgentAnalyticsKpi {
+  label: string;
+  value: string;
+  delta: string;
+  up: boolean;
+}
+
+/** Проблемный SKU в таблице превью аналитика. */
+export interface AgentAnalyticsSku {
+  code: string;
+  name: string;
+  margin: string;
+}
+
+/** Структурированные данные превью marketplace-analyst. */
+export interface AgentAnalyticsPreview {
+  question: string;
+  answer: string;
+  sources: string;
+  kpis: AgentAnalyticsKpi[];
+  skus: AgentAnalyticsSku[];
 }
 
 /** Кейсы AI-агентов: от поддержки магазина до конкурентной разведки. */
@@ -222,6 +280,26 @@ export const AGENT_CASES: AgentCase[] = [
     after: 'Агент отвечает за 40 секунд, квалифицирует по ICP и сам ставит демо в календарь. Менеджер видит только готовых.',
     beforeStat: '2–4 часа',
     afterStat: '40 сек',
+    salesPreview: {
+      funnel: [
+        { label: 'Заявка', value: 412 },
+        { label: 'Ответ', value: 398 },
+        { label: 'ICP', value: 174 },
+        { label: 'Демо', value: 96 },
+      ],
+      dialogues: [
+        { initials: 'АК', name: 'Анна К.', icp: '92', last: 'демо завтра 15:00' },
+        { initials: 'ИМ', name: 'Игорь М.', icp: '81', last: 'какая CRM у вас?' },
+        { initials: 'ЕС', name: 'Елена С.', icp: '74', last: 'слот на четверг' },
+      ],
+      weekDays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'],
+      demoDays: [false, true, false, true, true],
+      demos: [
+        { time: 'Вт 15:00', name: 'Север-Трейд' },
+        { time: 'Чт 11:30', name: 'Орион Логистик' },
+        { time: 'Пт 16:00', name: 'Альта Софт' },
+      ],
+    },
     screens: [
       {
         title: 'Квалификация входящего лида',
@@ -405,6 +483,21 @@ export const AGENT_CASES: AgentCase[] = [
     after: 'Ответ цифрами за минуту прямо в чате. Убыточные позиции подсвечены, утренняя сводка приходит до созвона.',
     beforeStat: '2–3 дня',
     afterStat: '1 мин',
+    analyticsPreview: {
+      question: 'Почему упали продажи SKU-4821?',
+      answer: 'Реклама стояла 4 дня: ДРР выросла до 14%.',
+      sources: 'WB API · Ozon API',
+      kpis: [
+        { label: 'Выручка', value: '4,1 млн ₽', delta: '+9% к прошлому периоду', up: true },
+        { label: 'ДРР SKU-4821', value: '14%', delta: '+6 п.п. к прошлому периоду', up: false },
+      ],
+      skus: [
+        { code: '4821', name: 'Крем SPF', margin: '−4,2%' },
+        { code: '4018', name: 'Коврик', margin: '−1,8%' },
+        { code: '3390', name: 'Лампа', margin: '−0,6%' },
+        { code: '0911', name: 'Кружка', margin: '−0,3%' },
+      ],
+    },
     screens: [
       {
         title: 'Вопрос к данным словами',

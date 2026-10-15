@@ -3,14 +3,21 @@
  *
  * Три визуальные схемы — чат, дашборд метрик и поток логов — собраны
  * параметризованными мини-макетами в previews/*, а здесь каждому кейсу
- * подставляется свой контент и домен. Ключи совпадают с AgentPreviewKey
- * из data/agent-cases.ts: реестр передаётся в общий CaseScreenshot с /design.
+ * подставляется свой контент и домен. У sales и analytics — отдельные
+ * архетипы (воронка+диалоги+демо и чат+KPI+SKU). Ключи совпадают с
+ * AgentPreviewKey из data/agent-cases.ts: реестр передаётся в общий
+ * CaseScreenshot с /design.
  */
 import type { PreviewEntry } from '@/components/design/case-screenshot';
+import { AGENT_CASES } from '@/data/agent-cases';
 import type { AgentPreviewKey } from '@/data/agent-cases';
 import ChatPreview from './previews/chat-preview';
-import MetricsPreview from './previews/metrics-preview';
 import LogsPreview from './previews/logs-preview';
+import SalesPreview from './previews/sales-preview';
+import AnalyticsPreview from './previews/analytics-preview';
+
+const salesPreviewData = AGENT_CASES.find((c) => c.slug === 'sales-agent-b2b')?.salesPreview;
+const analyticsPreviewData = AGENT_CASES.find((c) => c.slug === 'marketplace-analyst')?.analyticsPreview;
 
 /* Кейс «Агент поддержки»: светлый чат поддержки мебельного магазина. */
 const SupportChat = () => (
@@ -31,27 +38,8 @@ const SupportChat = () => (
   />
 );
 
-/* Кейс «Sales-агент»: тёмный дашборд воронки лидов. */
-const SalesDash = () => (
-  <MetricsPreview
-    tone="dark"
-    title="Воронка лидов"
-    period="Февраль 2026"
-    kpis={[
-      ['Лиды', '412'],
-      ['Квалиф.', '174'],
-      ['Демо', '96'],
-      ['Конверсия', '23%'],
-    ]}
-    chartLabel="Демо по неделям"
-    chartDelta="+18"
-    rows={[
-      ['Сайт', '52%'],
-      ['Telegram', '28%'],
-      ['Вебинар', '14%'],
-    ]}
-  />
-);
+/* Кейс «Sales-агент»: воронка, диалоги и календарь демо. */
+const SalesDash = () => (salesPreviewData ? <SalesPreview data={salesPreviewData} /> : null);
 
 /* Кейс «Контент-агент»: тёмный чат задания по генерации карточек. */
 const ContentChat = () => (
@@ -72,27 +60,8 @@ const ContentChat = () => (
   />
 );
 
-/* Кейс «Аналитик маркетплейса»: светлый дашборд продаж. */
-const AnalyticsDash = () => (
-  <MetricsPreview
-    tone="light"
-    title="Продажи маркетплейса"
-    period="Февраль 2026"
-    kpis={[
-      ['Выручка', '4,1 млн'],
-      ['Заказы', '8 240'],
-      ['Ср. чек', '498 ₽'],
-      ['Возвраты', '3,2%'],
-    ]}
-    chartLabel="Выручка по дням"
-    chartDelta="+9%"
-    rows={[
-      ['Органика', '38%'],
-      ['Реклама', '34%'],
-      ['Внешний трафик', '18%'],
-    ]}
-  />
-);
+/* Кейс «Аналитик маркетплейса»: чат, KPI с контекстом и проблемные SKU. */
+const AnalyticsDash = () => (analyticsPreviewData ? <AnalyticsPreview data={analyticsPreviewData} /> : null);
 
 /* Кейс «Research-агент»: тёмный поток сбора данных о конкурентах. */
 const ResearchLogs = () => (

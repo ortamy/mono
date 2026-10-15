@@ -1,9 +1,9 @@
 /**
  * Превью «дашборд метрик агента»: KPI-плитки, график и таблица значений.
  *
- * Параметризовано контентом: sales-агент, аналитик маркетплейса и
- * контент-агент используют одну схему с разными данными (см.
- * components/agents/agent-previews.tsx). Размеры в cqw — см. chat-preview.
+ * Параметризовано контентом. Sales и analytics используют отдельные
+ * архетипы (см. sales-preview.tsx и analytics-preview.tsx). Размеры в
+ * cqw — см. chat-preview.
  */
 import { DARK, LIGHT } from '@/components/design/previews/mono-tokens';
 
