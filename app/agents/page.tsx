@@ -318,14 +318,14 @@ export default function AgentsPage() {
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto max-w-[1100px] px-5 pb-16 pt-16 sm:px-8 sm:pb-24 sm:pt-24">
+      <section className="mx-auto max-w-[1100px] px-5 pb-10 pt-10 sm:px-8 sm:pb-16 sm:pt-16">
         <span className="inline-flex items-center gap-2 rounded-full border border-[var(--d-line)] px-3 py-1 text-[12px] d-muted">
           <span className="h-1.5 w-1.5 rounded-full bg-[var(--d-ink)]" aria-hidden />
           Открыт для проектов — октябрь 2026
         </span>
 
-        <h1 className="mt-6 text-[clamp(32px,5.2vw,56px)] font-bold leading-[1.06] tracking-[-1.8px] text-[var(--d-ink)]">
-          Автоматизирую 70% обращений без&nbsp;оператора и&nbsp;сэкономлю вам 80&nbsp;000&nbsp;₽ в&nbsp;месяц.
+        <h1 className="mt-6 max-w-[20ch] text-balance text-2xl font-bold leading-[1.15] tracking-[-1px] text-[var(--d-ink)] sm:max-w-none sm:text-3xl lg:text-5xl lg:leading-[1.06] lg:tracking-[-1.8px]">
+          Менеджеры тратят 40% времени на рутину
         </h1>
 
         <p className="mt-6 max-w-[560px] text-[16px] leading-[1.65] d-muted">
@@ -345,7 +345,7 @@ export default function AgentsPage() {
       <AgentRoiCalculator />
 
       {/* У ВАС УЖЕ ЕСТЬ ЧАТ-БОТ? */}
-      <section id="chatbot" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
+      <section id="chatbot" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-10 sm:px-8 sm:py-16">
         <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
           <Bot size={19} strokeWidth={1.6} />
         </span>
@@ -357,7 +357,7 @@ export default function AgentsPage() {
           проблемы. Агент решает их все.
         </p>
 
-        <div className="mt-10 overflow-hidden rounded-xl border border-[var(--d-line)]">
+        <div className="mt-8 space-y-4 sm:mt-10 sm:space-y-0 sm:overflow-hidden sm:rounded-xl sm:border sm:border-[var(--d-line)]">
           <div className="hidden border-b border-[var(--d-line)] bg-[var(--d-soft)] sm:grid sm:grid-cols-2">
             <div className="px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">
               Проблема с чат-ботом
@@ -369,15 +369,19 @@ export default function AgentsPage() {
           {CHATBOT_PROBLEMS.map((row) => (
             <div
               key={row.problem}
-              className="grid gap-0 border-b border-[var(--d-line)] last:border-b-0 sm:grid-cols-2"
+              className="grid gap-0 rounded-xl border border-[var(--d-line)] sm:grid-cols-2 sm:rounded-none sm:border-0 sm:border-b sm:last:border-b-0"
             >
               <div className="flex items-start gap-3 px-5 py-4">
                 <XCircle size={16} strokeWidth={1.6} className="mt-0.5 shrink-0 d-faint" aria-hidden />
-                <span className="text-[14px] leading-[1.55] d-muted">{row.problem}</span>
+                <span className="text-[14px] leading-[1.55] d-muted">
+                  <span className="font-semibold text-[var(--d-ink)] sm:hidden">Проблема: </span>
+                  {row.problem}
+                </span>
               </div>
               <div className="flex items-start gap-3 border-t border-[var(--d-line)] px-5 py-4 sm:border-l sm:border-t-0">
                 <CheckCircle size={16} strokeWidth={1.6} className="mt-0.5 shrink-0 text-[var(--d-ink)]" aria-hidden />
                 <span className="text-[14px] leading-[1.55] text-[var(--d-ink)]">
+                  <span className="font-semibold sm:hidden">Решение: </span>
                   <strong className="font-semibold">{row.title}</strong> — {row.desc}
                 </span>
               </div>
@@ -404,7 +408,7 @@ export default function AgentsPage() {
 
       {/* КОНТРОЛЬ ГАЛЛЮЦИНАЦИЙ — ключевое позиционирование */}
       <section id="anti-hallucination" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
-        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
           <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
             <ShieldCheck size={19} strokeWidth={1.6} />
           </span>
@@ -416,7 +420,7 @@ export default function AgentsPage() {
             плохим и хорошим агентом — в том, что делает разработчик, чтобы ограничить ошибки.
           </p>
 
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+          <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
             {HALLUCINATION_CONTROLS.map((c) => (
               <article key={c.title} className="d-card d-hover-line p-4 sm:p-6">
                 <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
@@ -428,14 +432,14 @@ export default function AgentsPage() {
             ))}
           </div>
 
-          <div className="mt-10 rounded-xl border border-[var(--d-line)] bg-[var(--d-soft)] p-6 sm:p-7">
+          <div className="mt-8 sm:mt-10 rounded-xl border border-[var(--d-line)] bg-[var(--d-soft)] p-6 sm:p-7">
             <p className="text-[15px] font-medium leading-[1.65] text-[var(--d-ink)]">
               Я не обещаю 100% точности — так не работает ни одна LLM. Я обещаю контролируемую
               систему: ошибки ограничены, видны и исправимы.
             </p>
           </div>
 
-          <dl className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3">
+          <dl className="mt-8 sm:mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3">
             {HALLUCINATION_METRICS.map((m) => (
               <div key={m.label} className="d-card p-5">
                 <dd className="text-[clamp(26px,4vw,34px)] font-bold tabular-nums text-[var(--d-ink)]">{m.value}</dd>
@@ -448,16 +452,16 @@ export default function AgentsPage() {
 
       {/* МЕТРИКИ */}
       <section className="d-surface border-y border-[var(--d-line)]">
-        <div className="mx-auto max-w-[1100px] px-5 py-16 sm:px-8 sm:py-20">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
           <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Метрики</p>
           <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
             Что дают агенты в цифрах
           </h2>
-          <dl className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
+          <dl className="mt-8 grid grid-cols-2 gap-5 sm:mt-10 sm:grid-cols-3 lg:grid-cols-5">
             {METRICS.map((m) => (
               <div key={m.label} className="d-card p-5">
                 <dt className="text-[11px] uppercase tracking-[0.05em] d-faint">{m.label}</dt>
-                <dd className="mt-2 text-[clamp(26px,4vw,34px)] font-bold tabular-nums text-[var(--d-ink)]">{m.value}</dd>
+                <dd className="mt-2 text-3xl font-bold tabular-nums text-[var(--d-ink)] sm:text-4xl">{m.value}</dd>
               </div>
             ))}
           </dl>
@@ -466,7 +470,7 @@ export default function AgentsPage() {
       </section>
 
       {/* ТИПЫ АГЕНТОВ */}
-      <section id="types" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
+      <section id="types" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-10 sm:px-8 sm:py-16">
         <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Возможности</p>
         <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Каких агентов я собираю
@@ -476,7 +480,7 @@ export default function AgentsPage() {
           и расширяться: следующий агент подключается к уже собранной базе знаний.
         </p>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 sm:mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {AGENT_TYPES.map((t) => (
             <article key={t.title} className="d-card d-hover-line p-6 sm:p-7">
               <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
@@ -499,7 +503,7 @@ export default function AgentsPage() {
 
       {/* КЕЙСЫ */}
       <section id="work" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
-        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Кейсы</p>
@@ -513,7 +517,7 @@ export default function AgentsPage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 sm:mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {AGENT_CASES.map((item) => (
               <AgentCaseCard key={item.slug} item={item} />
             ))}
@@ -522,12 +526,12 @@ export default function AgentsPage() {
       </section>
 
       {/* ПРОЦЕСС */}
-      <section id="process" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
+      <section id="process" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-10 sm:px-8 sm:py-16">
         <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Процесс</p>
         <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Как проходит внедрение
         </h2>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-8 sm:mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {STEPS.map((s) => (
             <div key={s.num} className="d-card p-5">
               <div className="text-[13px] font-semibold tabular-nums d-faint">{s.num}</div>
@@ -543,7 +547,7 @@ export default function AgentsPage() {
 
       {/* ВИДЕО-ДЕМО: 60 секунд — как агент закрывает диалог без человека */}
       {SHOW_VIDEO_DEMO ? (
-      <section aria-labelledby="demo-title" className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+      <section aria-labelledby="demo-title" className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
         <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
           <Play size={19} strokeWidth={1.6} />
         </span>
@@ -553,7 +557,7 @@ export default function AgentsPage() {
         <p className="mt-3 max-w-[560px] text-[14px] leading-[1.6] d-muted">
           60 секунд: клиент пишет в чат — агент отвечает по базе знаний, оформляет заявку и передаёт оператору только сложное.
         </p>
-        <div className="d-card mt-10 flex aspect-video flex-col items-center justify-center gap-3 p-8 text-center">
+        <div className="d-card mt-8 sm:mt-10 flex aspect-video flex-col items-center justify-center gap-3 p-8 text-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
             <Play size={22} strokeWidth={1.6} />
           </span>
@@ -567,7 +571,7 @@ export default function AgentsPage() {
 
       {/* ТАРИФЫ */}
       <section id="pricing" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
-        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
           <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Тарифы</p>
           <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
             Сколько стоит внедрение
@@ -577,7 +581,7 @@ export default function AgentsPage() {
             проверить эффект: если метрика не двигается, останавливаемся.
           </p>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+          <div className="mt-8 sm:mt-10 grid gap-5 sm:grid-cols-2">
             {PACKAGES.map((pkg) => (
               <article key={pkg.title} className="d-card d-hover-line flex flex-col p-6 sm:p-7">
                 <div className="flex items-baseline justify-between gap-3">
@@ -609,7 +613,7 @@ export default function AgentsPage() {
             ))}
           </div>
 
-          <div className="mt-10 overflow-hidden rounded-xl border border-[var(--d-line)]">
+          <div className="mt-8 sm:mt-10 overflow-hidden rounded-xl border border-[var(--d-line)]">
             <div className="hidden border-b border-[var(--d-line)] bg-[var(--d-soft)] sm:grid sm:grid-cols-3">
               <div className="px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">Критерий</div>
               <div className="border-l border-[var(--d-line)] px-5 py-3 text-[11px] uppercase tracking-[0.08em] d-faint">Найм оператора</div>
@@ -627,12 +631,12 @@ export default function AgentsPage() {
       </section>
 
       {/* ГАРАНТИЯ — снимает риск чека 250–500К */}
-      <section aria-labelledby="guarantee-title" className="mx-auto max-w-[1100px] px-5 pb-20 sm:px-8 sm:pb-24">
+      <section aria-labelledby="guarantee-title" className="mx-auto max-w-[1100px] px-5 pb-10 sm:px-8 sm:pb-16">
         <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Гарантия</p>
         <h2 id="guarantee-title" className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Риск — на мне, а не на вас
         </h2>
-        <div className="mt-10 grid gap-5 sm:grid-cols-3">
+        <div className="mt-8 sm:mt-10 grid gap-5 sm:grid-cols-3">
           {GUARANTEES.map((g) => (
             <article key={g.title} className="d-card p-6">
               <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
@@ -646,7 +650,7 @@ export default function AgentsPage() {
       </section>
 
       {/* ПОСЛЕ ЗАПУСКА */}
-      <section id="lifecycle" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24">
+      <section id="lifecycle" className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-10 sm:px-8 sm:py-16">
         <p className="text-[11px] uppercase tracking-[0.08em] d-faint">После запуска</p>
         <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Что происходит после запуска
@@ -655,7 +659,7 @@ export default function AgentsPage() {
           AI-агент — это не сайт. Он живёт, обучается и развивается.
         </p>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 sm:mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {LIFECYCLE.map((s) => (
             <article key={s.period} className="d-card p-5">
               <div className="flex items-center justify-between gap-3">
@@ -685,7 +689,7 @@ export default function AgentsPage() {
 
       {/* КОМУ ПОДХОДИТ */}
       <section id="fit" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
-        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
           <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Кому подходит</p>
           <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
             Когда агент уместен, а когда — нет
@@ -695,7 +699,7 @@ export default function AgentsPage() {
             результат и где браться не стоит.
           </p>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+          <div className="mt-8 sm:mt-10 grid gap-5 lg:grid-cols-2">
             <div className="d-card p-6 sm:p-7">
               <div className="flex items-center gap-2">
                 <Sparkles size={18} strokeWidth={1.6} className="text-[var(--d-ink)]" aria-hidden />
@@ -731,7 +735,7 @@ export default function AgentsPage() {
 
       {/* FAQ */}
       <section id="faq" className="d-surface scroll-mt-20 border-y border-[var(--d-line)]">
-        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
           <p className="text-[11px] uppercase tracking-[0.08em] d-faint">FAQ</p>
           <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
             Частые вопросы
@@ -751,7 +755,7 @@ export default function AgentsPage() {
       </section>
 
       {/* ОБО МНЕ */}
-      <section id="about" className="mx-auto max-w-[800px] scroll-mt-20 px-5 py-20 text-center sm:px-8 sm:py-24">
+      <section id="about" className="mx-auto max-w-[800px] scroll-mt-20 px-5 py-10 text-center sm:px-8 sm:py-16">
         <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Обо мне</p>
         <h2 className="mt-3 text-[clamp(26px,4vw,32px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Собираю агентов, которые закрывают рутину
@@ -778,7 +782,7 @@ export default function AgentsPage() {
 
       {/* КОНТАКТЫ */}
       <section id="contact" className="scroll-mt-20 border-t border-[var(--d-line)]">
-        <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
           <div className="grid gap-10 lg:grid-cols-2">
             <div>
               <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Заявка</p>

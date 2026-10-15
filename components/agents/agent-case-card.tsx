@@ -36,17 +36,17 @@ export default function AgentCaseCard({ item }: { item: AgentCase }) {
           />
         </div>
 
-        <h3 className="mt-2 text-[17px] font-semibold tracking-[-0.3px] text-[var(--d-ink)]">
+        <h3 className="mt-2 text-xl font-semibold tracking-[-0.3px] text-[var(--d-ink)]">
           {item.title}
         </h3>
         <p className="mt-2 text-[14px] leading-[1.6] d-muted">{item.subtitle}</p>
 
         <dl className="mt-4 space-y-1.5 border-t border-[var(--d-line)] pt-4 text-[13px] leading-[1.55]">
-          <div className="flex items-baseline justify-between gap-3">
+          <div className="flex items-baseline justify-between gap-3 whitespace-nowrap">
             <dt className="d-faint">Экономия</dt>
             <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.savings}</dd>
           </div>
-          <div className="flex items-baseline justify-between gap-3">
+          <div className="flex items-baseline justify-between gap-3 whitespace-nowrap">
             <dt className="d-faint">Окупаемость</dt>
             <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
           </div>

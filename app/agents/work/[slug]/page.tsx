@@ -85,7 +85,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
           </span>
         </div>
 
-        <h1 className="mt-4 max-w-[760px] text-[clamp(28px,5vw,44px)] font-bold leading-[1.1] tracking-[-1.5px] text-[var(--d-ink)]">
+        <h1 className="mt-4 max-w-[760px] text-balance text-2xl font-bold leading-[1.15] tracking-[-1px] text-[var(--d-ink)] sm:text-3xl lg:text-5xl lg:leading-[1.1] lg:tracking-[-1.5px]">
           {item.title}
         </h1>
         <p className="mt-4 max-w-[620px] text-[16px] leading-[1.65] d-muted">{item.subtitle}</p>
@@ -135,7 +135,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
         </section>
       </div>
       {/* Экраны — hi-fi макеты из AGENT_SCREENS, не CaseMock. */}
-      <section className="mx-auto max-w-[1100px] px-5 py-12 sm:px-8">
+      <section className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
         <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Экраны агента</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {item.screens.map((screen, i) => {
@@ -165,7 +165,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
 
       {/* Навигация + CTA */}
       <section className="d-surface border-t border-[var(--d-line)]">
-        <div className="mx-auto flex max-w-[1100px] flex-col gap-5 px-5 py-12 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="mx-auto flex max-w-[1100px] flex-col gap-5 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-16">
           <div>
             <p className="text-[12px] d-faint">Следующий кейс</p>
             <Link

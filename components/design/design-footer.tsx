@@ -24,8 +24,8 @@ const COLUMNS = [
 export default function DesignFooter() {
   return (
     <footer className="d-surface w-full border-t border-[var(--d-line)]">
-      <div className="mx-auto max-w-[1100px] px-5 py-14 sm:px-8 sm:py-16">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10">
           <div>
             <p className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]">
               <Logo mutedClassName="d-faint" />
@@ -42,11 +42,11 @@ export default function DesignFooter() {
                 {col.links.map((l) => (
                   <li key={l.label}>
                     {'external' in l && l.external ? (
-                      <a href={l.href} target="_blank" rel="noreferrer" className="text-[14px] d-muted transition-colors hover:text-[var(--d-ink)]">
+                      <a href={l.href} target="_blank" rel="noreferrer" className="text-base d-muted transition-colors hover:text-[var(--d-ink)]">
                         {l.label}
                       </a>
                     ) : (
-                      <a href={'href' in l ? l.href : '#'} className="text-[14px] d-muted transition-colors hover:text-[var(--d-ink)]">
+                      <a href={'href' in l ? l.href : '#'} className="text-base d-muted transition-colors hover:text-[var(--d-ink)]">
                         {l.label}
                       </a>
                     )}

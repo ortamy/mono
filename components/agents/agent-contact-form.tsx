@@ -81,43 +81,43 @@ export default function AgentContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="d-card p-6 sm:p-8">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 space-y-0 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label htmlFor="ag-name" className="d-label">Имя</label>
+          <label htmlFor="ag-name" className="d-label text-sm font-medium">Имя</label>
           <input
             id="ag-name" name="name" type="text" required value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Как к вам обращаться"
-            className="d-input"
+            className="d-input h-12 py-4 text-base"
           />
         </div>
 
         <div>
-          <label htmlFor="ag-phone" className="d-label">Телефон</label>
+          <label htmlFor="ag-phone" className="d-label text-sm font-medium">Телефон</label>
           <input
             id="ag-phone" name="phone" type="tel" required value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+7…"
-            className="d-input"
+            className="d-input h-12 py-4 text-base"
           />
         </div>
 
         <div>
-          <label htmlFor="ag-telegram" className="d-label">Telegram</label>
+          <label htmlFor="ag-telegram" className="d-label text-sm font-medium">Telegram</label>
           <input
             id="ag-telegram" name="telegram" type="text" value={telegram}
             onChange={(e) => setTelegram(e.target.value)}
             placeholder="@username"
-            className="d-input"
+            className="d-input h-12 py-4 text-base"
           />
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="ag-turnover" className="d-label">Оборот или команда</label>
+          <label htmlFor="ag-turnover" className="d-label text-sm font-medium">Оборот или команда</label>
           <select
             id="ag-turnover" name="turnover" required value={turnover}
             onChange={(e) => setTurnover(e.target.value)}
-            className="d-input"
+            className="d-input h-12 py-4 text-base"
           >
             <option value="">Выберите диапазон</option>
             {TURNOVER_BANDS.map((band) => <option key={band.value} value={band.value}>{band.label}</option>)}
@@ -128,12 +128,12 @@ export default function AgentContactForm() {
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="ag-task" className="d-label">Какой агент нужен</label>
+          <label htmlFor="ag-task" className="d-label text-sm font-medium">Какой агент нужен</label>
           <textarea
             id="ag-task" name="task" value={task}
             onChange={(e) => setTask(e.target.value)}
             placeholder="Например: агент поддержки для магазина, отвечает в Telegram и на сайте"
-            className="d-input"
+            className="d-input py-4 text-base"
           />
         </div>
       </div>

@@ -34,7 +34,7 @@ export default function AgentRoiCalculator() {
 
   return (
     <section id="roi" aria-labelledby="roi-title" className="d-surface scroll-mt-20 border-b border-[var(--d-line)]">
-      <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
         <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--d-line)] text-[var(--d-ink)]" aria-hidden>
           <Calculator size={19} strokeWidth={1.6} />
         </span>
@@ -44,40 +44,41 @@ export default function AgentRoiCalculator() {
         <p className="mt-3 max-w-[560px] text-[14px] leading-[1.6] d-muted">
           Посчитайте за 20 секунд. Агент забирает 74% диалогов — остальное уходит оператору с полным контекстом.
         </p>
-        <div className="mt-10 grid gap-5 lg:grid-cols-2">
-          <div className="d-card p-6 sm:p-7">
+        <div className="mt-8 grid gap-5 sm:mt-10 lg:grid-cols-2">
+          <div className="d-card space-y-4 p-6 sm:p-7">
             <div>
               <div className="flex items-baseline justify-between gap-3">
-                <label htmlFor="roi-requests" className="d-label">Обращений в месяц</label>
+                <label htmlFor="roi-requests" className="d-label text-sm font-medium">Обращений в месяц</label>
                 <span className="text-[15px] font-bold tabular-nums text-[var(--d-ink)]" aria-live="polite">
                   {requests.toLocaleString('ru-RU')}
                 </span>
               </div>
-              <input id="roi-requests" type="range" min={100} max={5000} step={50} value={requests} onChange={(e) => setRequests(Number(e.target.value))} className="mt-3 w-full" />
+              <input id="roi-requests" type="range" min={100} max={5000} step={50} value={requests} onChange={(e) => setRequests(Number(e.target.value))} className="mt-3 h-12 w-full" />
               <div className="mt-1 flex justify-between text-[12px] d-faint tabular-nums"><span>100</span><span>5 000</span></div>
             </div>
-            <div className="mt-6">
-              <label htmlFor="roi-minutes" className="d-label">Среднее время на ответ, мин (5–30)</label>
-              <input id="roi-minutes" type="number" min={5} max={30} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="d-input" />
+            <div>
+              <label htmlFor="roi-minutes" className="d-label text-sm font-medium">Среднее время на ответ, мин (5–30)</label>
+              <input id="roi-minutes" type="number" min={5} max={30} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="d-input h-12 w-full py-4 text-base" />
             </div>
-            <div className="mt-4">
-              <label htmlFor="roi-rate" className="d-label">Ставка оператора, ₽/час (500–3 000)</label>
-              <input id="roi-rate" type="number" min={500} max={3000} step={50} value={rate} onChange={(e) => setRate(Number(e.target.value))} className="d-input" />
+            <div>
+              <label htmlFor="roi-rate" className="d-label text-sm font-medium">Ставка оператора, ₽/час (500–3 000)</label>
+              <input id="roi-rate" type="number" min={500} max={3000} step={50} value={rate} onChange={(e) => setRate(Number(e.target.value))} className="d-input h-12 w-full py-4 text-base" />
             </div>
           </div>
           <div className="d-card flex flex-col p-6 sm:p-7" aria-live="polite">
-            <dl className="space-y-4">
+            <p className="text-sm font-medium text-[var(--d-ink)]">На основе ваших данных:</p>
+            <dl className="mt-4 space-y-4">
               <div className="border-b border-[var(--d-line)] pb-4">
                 <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Вы теряете</dt>
-                <dd className="mt-1 text-[clamp(26px,4vw,34px)] font-bold tabular-nums text-[var(--d-ink)]">{formatRub(loss)}/мес</dd>
+                <dd className="mt-1 text-3xl font-bold tabular-nums text-[var(--d-ink)] sm:text-4xl">{formatRub(loss)}/мес</dd>
               </div>
               <div className="border-b border-[var(--d-line)] pb-4">
                 <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">С агентом сэкономите</dt>
-                <dd className="mt-1 text-[clamp(26px,4vw,34px)] font-bold tabular-nums text-[var(--d-ink)]">{formatRub(savings)}/мес</dd>
+                <dd className="mt-1 text-3xl font-bold tabular-nums text-[var(--d-ink)] sm:text-4xl">{formatRub(savings)}/мес</dd>
               </div>
               <div>
                 <dt className="text-[11px] uppercase tracking-[0.06em] d-faint">Окупаемость проекта</dt>
-                <dd className="mt-1 text-[clamp(26px,4vw,34px)] font-bold tabular-nums text-[var(--d-ink)]">{formatPayback(payback)}</dd>
+                <dd className="mt-1 text-3xl font-bold tabular-nums text-[var(--d-ink)] sm:text-4xl">{formatPayback(payback)}</dd>
               </div>
             </dl>
             <p className="mt-4 text-[12px] leading-[1.55] d-faint">Расчёт ориентировочный: 74% диалогов без человека, проект — 150 000 ₽. Точную цифру фиксируем после диагностики.</p>

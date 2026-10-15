@@ -6,7 +6,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Menu, Moon, Sun, X } from 'lucide-react';
+import { Menu, Moon, Send, Sun, X } from 'lucide-react';
 import type { DesignTheme } from './design-shell';
 import Logo from '@/components/logo';
 
@@ -49,12 +49,15 @@ export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
           >
             {theme === 'light' ? <Moon size={16} strokeWidth={1.5} /> : <Sun size={16} strokeWidth={1.5} />}
           </button>
-          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary h-9 whitespace-nowrap px-4 text-[13px]">
-            Написать
+          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary h-auto whitespace-nowrap px-3 py-2 text-sm md:h-9 md:px-4 md:text-[13px]">
+            <Send size={14} strokeWidth={1.5} className="md:hidden" aria-hidden /> Написать
           </a>
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
+          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary h-auto whitespace-nowrap px-3 py-2 text-sm">
+            <Send size={14} strokeWidth={1.5} aria-hidden /> Написать
+          </a>
           <button type="button" onClick={onToggleTheme} className="d-icon-btn" aria-label={theme === 'light' ? 'Включить чёрную тему' : 'Включить белую тему'}>
             {theme === 'light' ? <Moon size={16} strokeWidth={1.5} /> : <Sun size={16} strokeWidth={1.5} />}
           </button>

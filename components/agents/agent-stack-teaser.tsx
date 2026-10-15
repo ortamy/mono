@@ -15,7 +15,7 @@ export default function AgentStackTeaser() {
   return (
     <section
       id="stack"
-      className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-20 sm:px-8 sm:py-24"
+      className="mx-auto max-w-[1100px] scroll-mt-20 px-5 py-10 sm:px-8 sm:py-16"
     >
       <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Стек</p>
       <h2 className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
@@ -26,7 +26,7 @@ export default function AgentStackTeaser() {
         self-hosted, без вендор-лока.
       </p>
 
-      <div className="mt-10 grid grid-cols-2 gap-5 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-5 sm:mt-10 lg:grid-cols-4">
         {STACK_GROUPS.map((group) => (
           <div key={group.title} className="d-card p-5">
             <h3 className="text-[13px] uppercase tracking-[0.08em] d-faint">
