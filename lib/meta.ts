@@ -11,7 +11,7 @@ import { pageUrl, assetUrl } from '@/lib/site';
 export const OG_IMAGE = process.env.NEXT_PUBLIC_OG_IMAGE || '/api/og/';
 
 /** Подпись OG-картинки: одна на весь сайт, для соцсетей и скринридеров. */
-export const OG_ALT = 'mono. — продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS';
+export const OG_ALT = 'mono. — AI-агенты для e-commerce и SaaS: RAG, поддержка, продажи, контент';
 
 export interface PageMeta {
   title: string;

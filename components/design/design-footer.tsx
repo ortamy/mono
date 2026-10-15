@@ -1,8 +1,9 @@
-/** Подвал портфолио: контакты, разделы, ссылка на основной сайт mono. */
+/** Подвал портфолио и лендинга агентов: контакты, разделы, ссылка на основной сайт. */
 import Link from 'next/link';
 import Logo from '@/components/logo';
+import type { DesignChromeVariant } from './design-header';
 
-const COLUMNS = [
+const DESIGN_COLUMNS = [
   {
     title: 'Разделы',
     links: [
@@ -21,21 +22,45 @@ const COLUMNS = [
   },
 ];
 
-export default function DesignFooter() {
+const AGENTS_COLUMNS = [
+  {
+    title: 'Разделы',
+    links: [
+      { label: 'Возможности', href: '/agents/#chatbot' },
+      { label: 'Кейсы', href: '/agents/#work' },
+      { label: 'Тарифы', href: '/agents/#pricing' },
+      { label: 'Заявка', href: '/agents/#contact' },
+      { label: 'Политика', href: '/privacy' },
+    ],
+  },
+  {
+    title: 'Связь',
+    links: [
+      { label: 'Telegram @ortamy', href: 'https://t.me/ortamy', external: true },
+      { label: 'hamaschiah@proton.me', href: 'mailto:hamaschiah@proton.me', external: true },
+    ],
+  },
+];
+
+export default function DesignFooter({ variant = 'design' }: { variant?: DesignChromeVariant }) {
+  const isAgents = variant === 'agents';
+  const columns = isAgents ? AGENTS_COLUMNS : DESIGN_COLUMNS;
   return (
     <footer className="d-surface mx-0 w-full max-w-none border-t border-[var(--d-line)] overflow-hidden">
       <div className="mx-auto w-full max-w-[1100px] px-4 py-8 sm:px-8 sm:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10">
           <div>
             <p className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]">
-              <Logo mutedClassName="d-faint" />
+              <Logo section={isAgents ? 'agents' : undefined} mutedClassName="d-faint" />
             </p>
             <p className="mt-3 max-w-[300px] text-[13px] leading-[1.6] d-muted">
-              UX/UI-дизайнер: сайты, приложения и интерфейсы. Figma, AI-инструменты, дизайн-системы.
+            {isAgents
+              ? 'AI-агенты для e-commerce и SaaS: RAG, поддержка, продажи и контент.'
+              : 'UX/UI-дизайнер: сайты, приложения и интерфейсы. Figma, AI-инструменты, дизайн-системы.'}
             </p>
           </div>
 
-          {COLUMNS.map((col) => (
+          {columns.map((col) => (
             <div key={col.title}>
               <p className="text-[11px] uppercase tracking-[0.08em] d-faint">{col.title}</p>
               <ul className="mt-4 space-y-2.5">
@@ -58,9 +83,10 @@ export default function DesignFooter() {
         </div>
 
         <div className="mt-8 flex flex-col gap-2 border-t border-[var(--d-line)] pt-4 text-[12px] d-faint sm:flex-row sm:items-center sm:justify-between sm:pt-8">
-          <span>© {new Date().getFullYear()} UX/UI дизайнер. Все права защищены.</span>
+          <span>© {new Date().getFullYear()} {isAgents ? 'mono.' : 'UX/UI дизайнер'}. Все права защищены.</span>
           <div className="flex items-center gap-5">
             <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="transition-colors hover:text-[var(--d-ink)]">Telegram</a>
+            {isAgents ? <Link href="/privacy" className="transition-colors hover:text-[var(--d-ink)]">Политика</Link> : null}
             <Link href="/" className="transition-colors hover:text-[var(--d-ink)]">Сайт mono</Link>
           </div>
         </div>

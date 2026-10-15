@@ -56,15 +56,17 @@ export default function DesignShell({ children, section }: { children: ReactNode
     setOverride(next);
   }, [theme]);
 
+  const chromeVariant = section === 'agents' || section === 'stack' ? 'agents' : 'design';
+
   return (
     <div className="design-scope min-h-screen" data-theme={theme}>
       {section === 'agents' ? (
         <AgentsHeader theme={theme} onToggleTheme={toggleTheme} />
       ) : (
-        <DesignHeader theme={theme} onToggleTheme={toggleTheme} section={section} />
+        <DesignHeader theme={theme} onToggleTheme={toggleTheme} section={section} variant={chromeVariant} />
       )}
       <main id="main-content">{children}</main>
-      <DesignFooter />
+      <DesignFooter variant={chromeVariant} />
     </div>
   );
 }

@@ -38,7 +38,7 @@ export async function GET() {
         }}
       >
         <div style={{ display: 'flex', fontSize: 28, color: '#737373', marginBottom: 16 }}>
-          mono · кастомные интернет-магазины
+          mono · AI-агенты
         </div>
 
         <div
@@ -51,11 +51,11 @@ export async function GET() {
             marginBottom: 24,
           }}
         >
-          Забирайте 100% выручки
+          AI-агенты для бизнеса
         </div>
 
         <div style={{ display: 'flex', fontSize: 32, color: '#404040' }}>
-          Свой магазин за 21 день. Без комиссий WB и Ozon.
+          RAG-агенты, автоматизация поддержки, продаж, контента
         </div>
 
         <div
@@ -66,7 +66,7 @@ export async function GET() {
             color: '#737373',
           }}
         >
-          0% комиссий · 21 день запуск · ИИ внутри · под ключ
+          Диагностика 15 000 ₽ · пилот 60 000 ₽ · под ключ 150 000 ₽
         </div>
       </div>
     ),

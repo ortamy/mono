@@ -10,32 +10,50 @@ import { Menu, Moon, Send, Sun, X } from 'lucide-react';
 import type { DesignTheme } from './design-shell';
 import Logo from '@/components/logo';
 
-const LINKS = [
+const DESIGN_LINKS = [
   { label: 'Работы', href: '/design/#work' },
   { label: 'Услуги', href: '/design/#services' },
   { label: 'Обо мне', href: '/design/#about' },
   { label: 'Контакты', href: '/design/#contact' },
 ];
 
+const AGENTS_LINKS = [
+  { label: 'Возможности', href: '/agents/#chatbot' },
+  { label: 'Кейсы', href: '/agents/#work' },
+  { label: 'Тарифы', href: '/agents/#pricing' },
+  { label: 'FAQ', href: '/agents/#faq' },
+  { label: 'Заявка', href: '/agents/#contact' },
+];
+
+export type DesignChromeVariant = 'design' | 'agents';
+
 interface Props {
   theme: DesignTheme;
   onToggleTheme: () => void;
   /** Раздел страницы для логотипа «mono. / раздел»: portfolio, agents, stack. */
   section: string;
+  /** На /agents и /stack логотип ведёт на лендинг агентов, не на портфолио. */
+  variant?: DesignChromeVariant;
 }
 
-export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
+export default function DesignHeader({ theme, onToggleTheme, section, variant = 'design' }: Props) {
   const [open, setOpen] = useState(false);
+  const isAgents = variant === 'agents';
+  const links = isAgents ? AGENTS_LINKS : DESIGN_LINKS;
+  const logoHref = isAgents ? '/agents/' : '/design/';
+  const logoAria = isAgents
+    ? `mono. / ${section} — на лендинг агентов`
+    : `mono. / ${section} — на главную портфолио`;
 
   return (
     <header className="d-card sticky top-0 z-50 rounded-none border-x-0 border-t-0">
       <div className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-5 sm:px-8">
-        <Link href="/design/" className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]" aria-label={`mono. / ${section} — на главную портфолио`}>
+        <Link href={logoHref} className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]" aria-label={logoAria}>
           <Logo section={section} mutedClassName="d-faint" />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Разделы">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <a key={l.href} href={l.href} className="text-[13px] d-muted transition-colors hover:text-[var(--d-ink)]">
               {l.label}
             </a>
@@ -78,7 +96,7 @@ export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
         aria-label="Мобильное меню"
       >
         <div className="mx-auto flex max-w-[1100px] flex-col px-5 py-3 sm:px-8">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="border-b border-[var(--d-line)] py-3 text-[15px] text-[var(--d-ink)]">
               {l.label}
             </a>

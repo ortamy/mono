@@ -46,6 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/brand/`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${siteUrl}/about/`, lastModified, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${siteUrl}/contact/`, lastModified, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${siteUrl}/privacy/`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
     // Страницы кейсов AI-агентов (/agents/work/*): решение от 10.10.2026 —
     // кейсы индексируем. Приоритет ниже самого раздела /agents: это отдельные
     // проекты, а не точки входа. Список берётся из AGENT_CASES, чтобы новый

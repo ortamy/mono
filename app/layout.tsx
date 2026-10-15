@@ -49,23 +49,23 @@ export const metadata: Metadata = {
  * Экранируем «<» при сериализации: иначе значение с тегом в данных (например,
  * в описании) способно закрыть тег script и сломать страницу.
  *
- * Позиционирование — продуктовый дизайн + ИИ-автоматизация для e-commerce и
- * SaaS. Границы цен соответствуют тарифам из data/site.json (UX-аудит от
- * 15 000 ₽, «Продукт под ключ» от 180 000 ₽).
+ * Позиционирование — AI-агенты для e-commerce и SaaS: RAG, поддержка,
+ * продажи и контент. Границы цен соответствуют тарифам /agents
+ * (диагностика 15 000 ₽, агент под ключ 150 000 ₽).
  */
 const structuredData = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Продуктовый дизайн и ИИ-автоматизация для e-commerce и SaaS',
+  name: 'AI-агенты для e-commerce и SaaS',
   provider: { '@type': 'Organization', name: 'mono', url: siteUrl },
-  description: 'Проектирование интерфейсов, которые приносят прибыль, и автоматизация рутины с помощью ИИ',
+  description: 'RAG-агенты и автоматизация поддержки, продаж и контента для e-commerce и SaaS',
   areaServed: 'RU',
-  serviceType: 'Продуктовый дизайн и ИИ-автоматизация',
+  serviceType: 'Сборка AI-агентов',
   offers: {
     '@type': 'AggregateOffer',
     priceCurrency: 'RUB',
     lowPrice: '15000',
-    highPrice: '180000',
+    highPrice: '150000',
     offerCount: '3',
   },
 }).replace(/</g, '\\u003c');

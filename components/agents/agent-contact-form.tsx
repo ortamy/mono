@@ -5,10 +5,15 @@
  * нужен. Отличие — поле source: 'agents'. По нему роут помечает воронку и не
  * подставляет в уведомление «потенциальную экономию маркетплейса», которая к
  * агентам не относится.
+ *
+ * На статическом хостинге (GitHub Pages, output: 'export') /api/lead нет:
+ * fetch падает, и форма показывает кнопку «Написать в Telegram» с уже
+ * собранным текстом заявки — лид не теряется.
  */
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { TURNOVER_BANDS } from '@/lib/turnover';
 import { GOALS, trackGoal } from '@/lib/metrika';
 
@@ -23,6 +28,7 @@ export default function AgentContactForm() {
   const [telegram, setTelegram] = useState('');
   const [turnover, setTurnover] = useState('');
   const [task, setTask] = useState('');
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>('idle');
   const [errorText, setErrorText] = useState('');
 
@@ -30,13 +36,20 @@ export default function AgentContactForm() {
     [
       'Заявка на AI-агента (/agents)',
       `Имя: ${name || '—'}`,
-      `Контакт: ${phone || telegram || '—'}`,
+      `Телефон: ${phone || '—'}`,
+      `Telegram: ${telegram || '—'}`,
+      `Оборот: ${turnover || '—'}`,
       `Задача: ${task || '—'}`,
     ].join('\n'),
   )}`;
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!consent) {
+      setStatus('idle');
+      setErrorText('Отметьте согласие на обработку персональных данных.');
+      return;
+    }
     setStatus('sending');
     setErrorText('');
 
@@ -53,7 +66,7 @@ export default function AgentContactForm() {
       const result = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
       if (!response.ok || !result?.ok) {
         setStatus('error');
-        setErrorText(result?.error ?? 'Ошибка. Попробуйте ещё раз или напишите в Telegram.');
+        setErrorText(result?.error ?? 'Не удалось отправить заявку. Напишите в Telegram — текст уже заполнен.');
         return;
       }
       setStatus('sent');
@@ -62,7 +75,7 @@ export default function AgentContactForm() {
       trackGoal(GOALS.leadSubmit, { source: 'agents' });
     } catch {
       setStatus('error');
-      setErrorText('Ошибка. Попробуйте ещё раз или напишите в Telegram.');
+      setErrorText('Не удалось отправить заявку. Напишите в Telegram — текст уже заполнен.');
     }
   }
 
@@ -103,7 +116,7 @@ export default function AgentContactForm() {
         </div>
 
         <div>
-          <label htmlFor="ag-telegram" className="d-label text-sm font-medium">Telegram</label>
+          <label htmlFor="ag-telegram" className="d-label text-sm font-medium">Telegram (опц.)</label>
           <input
             id="ag-telegram" name="telegram" type="text" value={telegram}
             onChange={(e) => setTelegram(e.target.value)}
@@ -130,12 +143,28 @@ export default function AgentContactForm() {
         <div className="sm:col-span-2">
           <label htmlFor="ag-task" className="d-label text-sm font-medium">Какой агент нужен</label>
           <textarea
-            id="ag-task" name="task" value={task}
+            id="ag-task" name="message" value={task}
             onChange={(e) => setTask(e.target.value)}
             placeholder="Например: агент поддержки для магазина, отвечает в Telegram и на сайте"
             className="d-input py-4 text-base"
           />
         </div>
+      </div>
+
+      <div className="mt-4 flex items-start gap-2.5">
+        <input
+          id="ag-consent"
+          name="consent"
+          type="checkbox"
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+          required
+          className="mt-1 h-4 w-4 shrink-0 accent-[var(--d-ink)]"
+        />
+        <label htmlFor="ag-consent" className="text-[13px] leading-[1.55] d-muted">
+          Я согласен на обработку персональных данных согласно{' '}
+          <Link href="/privacy" className="text-[var(--d-ink)] underline underline-offset-2">политике</Link>
+        </label>
       </div>
 
       <button
@@ -146,13 +175,22 @@ export default function AgentContactForm() {
         {status === 'sending' ? 'Отправляем…' : 'Оставить заявку'}
       </button>
 
+      {errorText && status !== 'error' && (
+        <p className="mt-3 text-[13px] leading-[1.5] d-muted" role="alert">{errorText}</p>
+      )}
+
       {status === 'error' && (
-        <p className="mt-3 text-[12px] leading-[1.5] d-muted" role="alert">
-          {errorText}{' '}
-          <a href={fallbackUrl} target="_blank" rel="noreferrer" className="whitespace-nowrap text-[var(--d-ink)] underline underline-offset-2">
-            Написать
+        <div className="mt-4" role="alert">
+          <p className="text-[13px] leading-[1.5] d-muted">{errorText}</p>
+          <a
+            href={fallbackUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="d-btn d-btn-ghost mt-3 h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold"
+          >
+            Написать в Telegram
           </a>
-        </p>
+        </div>
       )}
     </form>
   );

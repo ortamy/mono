@@ -128,7 +128,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
           <AgentStackRow stack={item.stack} />
         </section>
         <section className="border-b border-[var(--d-line)] py-5">
-          <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Архитектура агента</h2>
+          <h2 className="text-[16px] font-semibold tracking-[-0.2px] text-[var(--d-ink)] sm:text-[17px]">Архитектура агента</h2>
           <div className="mt-3">
             <AgentArchitecture nodes={item.architecture} />
           </div>
@@ -136,7 +136,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
       </div>
       {/* Экраны — hi-fi макеты из AGENT_SCREENS, не CaseMock. */}
       <section className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
-        <h2 className="text-[12px] font-semibold uppercase tracking-[0.08em] d-faint">Экраны агента</h2>
+        <h2 className="text-[16px] font-semibold tracking-[-0.2px] text-[var(--d-ink)] sm:text-[17px]">Экраны агента</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {item.screens.map((screen, i) => {
             const ScreenView = AGENT_SCREENS[item.preview][i];
