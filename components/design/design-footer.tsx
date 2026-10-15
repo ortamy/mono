@@ -23,8 +23,8 @@ const COLUMNS = [
 
 export default function DesignFooter() {
   return (
-    <footer className="d-surface w-full border-t border-[var(--d-line)]">
-      <div className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
+    <footer className="d-surface w-full border-t border-[var(--d-line)] overflow-hidden">
+      <div className="mx-auto max-w-full px-4 py-8 sm:px-8 sm:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10">
           <div>
             <p className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]">
@@ -40,13 +40,13 @@ export default function DesignFooter() {
               <p className="text-[11px] uppercase tracking-[0.08em] d-faint">{col.title}</p>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
-                  <li key={l.label}>
+                  <li key={l.label} className="break-words">
                     {'external' in l && l.external ? (
-                      <a href={l.href} target="_blank" rel="noreferrer" className="text-base d-muted transition-colors hover:text-[var(--d-ink)]">
+                      <a href={l.href} target="_blank" rel="noreferrer" className="text-sm sm:text-base d-muted transition-colors hover:text-[var(--d-ink)] break-words">
                         {l.label}
                       </a>
                     ) : (
-                      <a href={'href' in l ? l.href : '#'} className="text-base d-muted transition-colors hover:text-[var(--d-ink)]">
+                      <a href={'href' in l ? l.href : '#'} className="text-sm sm:text-base d-muted transition-colors hover:text-[var(--d-ink)] break-words">
                         {l.label}
                       </a>
                     )}
@@ -57,7 +57,7 @@ export default function DesignFooter() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-[var(--d-line)] pt-6 text-[12px] d-faint sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex flex-col gap-2 border-t border-[var(--d-line)] pt-4 text-[12px] d-faint sm:flex-row sm:items-center sm:justify-between sm:pt-8">
           <span>© {new Date().getFullYear()} UX/UI дизайнер. Все права защищены.</span>
           <div className="flex items-center gap-5">
             <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="transition-colors hover:text-[var(--d-ink)]">Telegram</a>
