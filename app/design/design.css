@@ -22,6 +22,26 @@
   color: var(--d-ink);
 }
 
+/* Глобальный `footer { max-width:1176px; margin:auto }` и на мобилке
+   `footer { margin:0 20px }` из globals.css ломают ширину подвала портфолио:
+   контент смещается влево, справа обрезается. Сбрасываем только внутри
+   оболочки /design /agents /stack. */
+.design-scope footer {
+  max-width: none;
+  margin: 0;
+  display: block;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  justify-content: unset;
+  border-top: 1px solid var(--d-line);
+}
+
+.design-scope footer .logo {
+  color: inherit;
+  font-size: inherit;
+}
+
 /* Светлая тема: корень портфолио и любой изолированный светлый мокап. */
 .design-scope,
 [data-theme='light'] {
@@ -134,6 +154,27 @@ textarea.d-input {
 }
 
 .d-icon-btn:hover { background: var(--d-soft); }
+
+/* Компактный ряд в шапке: кнопка «Написать» и иконки одной высоты 40px.
+   Утилиты Tailwind (h-10/w-10/px-4) иначе проигрывают .d-btn/.d-icon-btn,
+   потому что design.css грузится после globals.css. */
+.d-btn.h-10 {
+  height: 40px;
+}
+.d-btn.px-4 {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.d-btn.py-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.d-icon-btn.h-10 {
+  height: 40px;
+}
+.d-icon-btn.w-10 {
+  width: 40px;
+}
 
 /* Тулбар «браузера» над макетами экранов на странице кейса. */
 .d-screen-bar {

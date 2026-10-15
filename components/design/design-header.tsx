@@ -55,10 +55,10 @@ export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
-          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary h-auto whitespace-nowrap px-3 py-2 text-sm">
+          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary h-10 whitespace-nowrap px-4 py-0 text-sm">
             <Send size={14} strokeWidth={1.5} aria-hidden /> Написать
           </a>
-          <button type="button" onClick={onToggleTheme} className="d-icon-btn" aria-label={theme === 'light' ? 'Включить чёрную тему' : 'Включить белую тему'}>
+          <button type="button" onClick={onToggleTheme} className="d-icon-btn h-10 w-10" aria-label={theme === 'light' ? 'Включить чёрную тему' : 'Включить белую тему'}>
             {theme === 'light' ? <Moon size={16} strokeWidth={1.5} /> : <Sun size={16} strokeWidth={1.5} />}
           </button>
           <button
@@ -66,7 +66,7 @@ export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
-            className="d-icon-btn"
+            className="d-icon-btn h-10 w-10"
           >
             {open ? <X size={16} strokeWidth={1.5} /> : <Menu size={16} strokeWidth={1.5} />}
           </button>

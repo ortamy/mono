@@ -23,8 +23,8 @@ const COLUMNS = [
 
 export default function DesignFooter() {
   return (
-    <footer className="d-surface w-full border-t border-[var(--d-line)] overflow-hidden">
-      <div className="mx-auto max-w-full px-4 py-8 sm:px-8 sm:py-16">
+    <footer className="d-surface mx-0 w-full max-w-none border-t border-[var(--d-line)] overflow-hidden">
+      <div className="mx-auto w-full max-w-[1100px] px-4 py-8 sm:px-8 sm:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10">
           <div>
             <p className="whitespace-nowrap text-[17px] font-semibold tracking-[-0.6px] text-[var(--d-ink)]">
