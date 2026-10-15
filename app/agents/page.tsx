@@ -1,4 +1,4 @@
-import { ArrowRight, Award, BarChart3, Bot, Calculator, CheckCircle, Database, FileJson, MessageCircle, PenTool, Play, Rocket, Search, Send, Settings, Shield, ShieldCheck, Sparkles, Target, TrendingUp, UserCheck, XCircle, Zap } from 'lucide-react';
+import { ArrowRight, Award, BarChart3, Bot, Calculator, CheckCircle, Database, FileJson, Mail, MessageCircle, PenTool, Play, Rocket, Search, Send, Settings, Shield, ShieldCheck, Sparkles, Target, TrendingUp, UserCheck, XCircle, Zap } from 'lucide-react';
 import { AGENT_CASES } from '@/data/agent-cases';
 import AgentCaseCard from '@/components/agents/agent-case-card';
 import AgentContactForm from '@/components/agents/agent-contact-form';
@@ -842,11 +842,11 @@ export default async function AgentsPage({ searchParams }: AgentsPageProps) {
                 пилота. Можно написать напрямую в Telegram — там быстрее.
               </p>
               <div className="mt-6 flex flex-col gap-3">
-                <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-ghost h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+                <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-ghost flex h-14 min-h-[56px] w-full items-center gap-2 whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
                   <Send size={16} strokeWidth={1.5} aria-hidden /> Написать
                 </a>
-                <a href="mailto:hamaschiah@proton.me" className="text-[14px] d-muted transition-colors hover:text-[var(--d-ink)]">
-                  hamaschiah@proton.me
+                <a href="mailto:hamaschiah@proton.me" className="d-btn d-btn-ghost flex h-14 min-h-[56px] w-full items-center gap-2 whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+                  <Mail size={16} strokeWidth={1.5} aria-hidden /> hamaschiah@proton.me
                 </a>
               </div>
             </div>
