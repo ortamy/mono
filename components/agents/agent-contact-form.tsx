@@ -141,16 +141,16 @@ export default function AgentContactForm() {
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="d-btn d-btn-primary mt-5 w-full disabled:opacity-60"
+        className="d-btn d-btn-primary mt-5 h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold disabled:opacity-60"
       >
-        {status === 'sending' ? 'Отправляем…' : 'Обсудить агента'}
+        {status === 'sending' ? 'Отправляем…' : 'Оставить заявку'}
       </button>
 
       {status === 'error' && (
         <p className="mt-3 text-[12px] leading-[1.5] d-muted" role="alert">
           {errorText}{' '}
-          <a href={fallbackUrl} target="_blank" rel="noreferrer" className="text-[var(--d-ink)] underline underline-offset-2">
-            Написать в Telegram
+          <a href={fallbackUrl} target="_blank" rel="noreferrer" className="whitespace-nowrap text-[var(--d-ink)] underline underline-offset-2">
+            Написать
           </a>
         </p>
       )}

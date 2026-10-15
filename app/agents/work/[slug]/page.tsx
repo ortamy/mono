@@ -175,9 +175,9 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
               <NextIcon size={17} strokeWidth={1.6} aria-hidden /> {next.title}
             </Link>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <a href="/agents/#contact" className="d-btn d-btn-primary">
-              <Send size={15} strokeWidth={1.5} aria-hidden /> Обсудить агента
+          <div className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+            <a href="/agents/#contact" className="d-btn d-btn-primary h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+              <Send size={16} strokeWidth={1.5} aria-hidden /> Обсудить проект
             </a>
           </div>
         </div>

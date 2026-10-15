@@ -273,17 +273,17 @@ export default function StackPage() {
             На диагностике разберём процесс и подберём минимальный набор инструментов
             под ваши данные и бюджет.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/agents/#contact" className="d-btn d-btn-primary">
-              Обсудить агента <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link href="/agents/#contact" className="d-btn d-btn-primary h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+              Обсудить проект <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
             </Link>
             <a
               href="https://t.me/ortamy"
               target="_blank"
               rel="noreferrer"
-              className="d-btn d-btn-ghost"
+              className="d-btn d-btn-ghost h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]"
             >
-              <Send size={15} strokeWidth={1.5} aria-hidden /> @ortamy
+              <Send size={16} strokeWidth={1.5} aria-hidden /> Написать
             </a>
           </div>
         </div>

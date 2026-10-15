@@ -81,7 +81,7 @@ export default function AgentRoiCalculator() {
               </div>
             </dl>
             <p className="mt-4 text-[12px] leading-[1.55] d-faint">Расчёт ориентировочный: 74% диалогов без человека, проект — 150 000 ₽. Точную цифру фиксируем после диагностики.</p>
-            <a href="#contact" className="d-btn d-btn-primary mt-6 w-full">Получить расчёт и план экономии <ArrowRight size={16} strokeWidth={1.5} aria-hidden /></a>
+            <a href="#contact" className="d-btn d-btn-primary mt-6 h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold">Получить расчёт <ArrowRight size={16} strokeWidth={1.5} aria-hidden /></a>
           </div>
         </div>
       </div>

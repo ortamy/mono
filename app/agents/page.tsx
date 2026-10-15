@@ -332,12 +332,12 @@ export default function AgentsPage() {
           AI-агент для e-commerce и SaaS с потоком 500+ обращений в месяц, который отвечает 24/7 по вашей базе знаний и окупается за 2–3 месяца.
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <a href="#roi" className="d-btn d-btn-primary">
-            <Calculator size={15} strokeWidth={1.5} aria-hidden /> Посчитать экономию
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a href="#roi" className="d-btn d-btn-primary h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+            <Calculator size={16} strokeWidth={1.5} aria-hidden /> Посчитать экономию
           </a>
-          <a href="#contact" className="d-btn d-btn-ghost">
-            <Send size={15} strokeWidth={1.5} aria-hidden /> Обсудить проект
+          <a href="#contact" className="d-btn d-btn-ghost h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+            <Send size={16} strokeWidth={1.5} aria-hidden /> Обсудить
           </a>
         </div>
       </section>
@@ -390,9 +390,9 @@ export default function AgentsPage() {
           и превращает его в работающий инструмент.
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <a href="#contact" className="d-btn d-btn-primary">
-            Показать, что умеет агент на вашем кейсе
+        <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <a href="#contact" className="d-btn d-btn-primary h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+            Показать демо
             <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
           </a>
           <p className="max-w-[420px] text-[13px] d-faint">
@@ -790,8 +790,8 @@ export default function AgentsPage() {
                 пилота. Можно написать напрямую в Telegram — там быстрее.
               </p>
               <div className="mt-6 flex flex-col gap-3">
-                <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-ghost w-full sm:w-auto">
-                  <Send size={15} strokeWidth={1.5} aria-hidden /> @ortamy
+                <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-ghost h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+                  <Send size={16} strokeWidth={1.5} aria-hidden /> Написать
                 </a>
                 <a href="mailto:hamaschiah@proton.me" className="text-[14px] d-muted transition-colors hover:text-[var(--d-ink)]">
                   hamaschiah@proton.me

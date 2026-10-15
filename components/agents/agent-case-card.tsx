@@ -62,6 +62,13 @@ export default function AgentCaseCard({ item }: { item: AgentCase }) {
             </div>
           ))}
         </div>
+
+        <a
+          href="#contact"
+          className="pointer-events-auto relative z-[2] mt-4 inline-flex w-full items-center justify-center whitespace-nowrap rounded-[8px] border border-[var(--d-line)] py-3 text-sm font-medium text-[var(--d-ink)] transition-colors hover:bg-[var(--d-soft)]"
+        >
+          Обсудить
+        </a>
       </div>
     </article>
   );

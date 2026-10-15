@@ -47,9 +47,9 @@ export default function AgentStackTeaser() {
         ))}
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2">
-        <Link href="/stack" className="d-btn d-btn-ghost">
-          Смотреть полный стек <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+      <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <Link href="/stack" className="d-btn d-btn-ghost h-14 min-h-[56px] w-full whitespace-nowrap px-8 py-4 text-base font-semibold sm:w-auto sm:min-w-[240px]">
+          Смотреть стек <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
         </Link>
         <p className="text-[13px] d-faint">
           С описанием, зачем каждый инструмент и когда он нужен.

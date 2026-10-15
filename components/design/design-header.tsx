@@ -49,8 +49,8 @@ export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
           >
             {theme === 'light' ? <Moon size={16} strokeWidth={1.5} /> : <Sun size={16} strokeWidth={1.5} />}
           </button>
-          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary h-9 px-4 text-[13px]">
-            Написать в Telegram
+          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary h-9 whitespace-nowrap px-4 text-[13px]">
+            Написать
           </a>
         </nav>
 
@@ -80,8 +80,8 @@ export default function DesignHeader({ theme, onToggleTheme, section }: Props) {
               {l.label}
             </a>
           ))}
-          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary mt-4 w-full">
-            Написать в Telegram
+          <a href="https://t.me/ortamy" target="_blank" rel="noreferrer" className="d-btn d-btn-primary mt-4 w-full whitespace-nowrap">
+            Написать
           </a>
         </div>
       </nav>
