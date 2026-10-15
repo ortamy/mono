@@ -679,7 +679,7 @@ export default async function AgentsPage({ searchParams }: AgentsPageProps) {
       </section>
 
       {/* ГАРАНТИЯ — снимает риск чека 250–500К */}
-      <section aria-labelledby="guarantee-title" className="mx-auto max-w-[1100px] px-5 pb-10 sm:px-8 sm:pb-16">
+      <section aria-labelledby="guarantee-title" className="mx-auto max-w-[1100px] px-5 pb-10 pt-10 sm:px-8 sm:pb-16 sm:pt-16">
         <p className="text-[11px] uppercase tracking-[0.08em] d-faint">Гарантия</p>
         <h2 id="guarantee-title" className="mt-3 text-[clamp(26px,4vw,36px)] font-bold tracking-[-1px] text-[var(--d-ink)]">
           Риск — на мне, а не на вас
