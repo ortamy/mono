@@ -309,46 +309,76 @@ function SupportLogs() {
     { kind: 'ok', time: '14:03', text: 'ответ отправлен · 8 сек', meta: 'ok' },
     { kind: 'log', time: '14:05', text: 'подбор ткани: букле vs велюр · ответ по базе знаний' },
     { kind: 'err', time: '14:06', text: 'скидка вне политики → оператору', meta: 'handoff' },
+    { kind: 'ok', time: '14:07', text: 'ответ отправлен · 5 сек · оценка 5', meta: 'ok' },
+    { kind: 'log', time: '14:08', text: 'опрос: «спасибо, всё понятно» · без оператора' },
   ];
   const recent = [
     { name: 'Ольга Ковалёва', duration: '8 мин', status: 'решён', ok: true },
     { name: 'Игорь Морозов', duration: '3 мин', status: 'решён', ok: true },
     { name: 'Марина Лебедева', duration: '14 мин', status: 'эскалирован', ok: false },
     { name: 'Пётр Соколов', duration: '2 мин', status: 'решён', ok: true },
+    { name: 'Анна П.', duration: '2 мин', status: 'решён', ok: true },
+    { name: 'Сергей М.', duration: '5 мин', status: 'эскалирован', ok: false },
+    { name: 'Елена К.', duration: '1 мин', status: 'решён', ok: true },
+    { name: 'Дмитрий В.', duration: '8 мин', status: 'решён', ok: true },
   ];
   return (
     <Screen>
       <ScreenHeader brand="Мебель-Дом" period="февраль 2026" action="Экспорт" />
       <div className="mt-[1.6cqw] grid h-[calc(100%-7cqw)] grid-cols-[1.5fr_1fr] gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
-        <TerminalPanel title="support-agent · prod" status="live" rows={rows} />
-        <div className="flex min-h-0 flex-col gap-[1.4cqw]">
-          <StatBlock label="Первый ответ" value="8 сек" delta="−82%" note="медиана за неделю" />
-          <StatBlock label="Без оператора" value="74%" delta="+31 п.п." note="из всех диалогов" />
+        {/* Левая колонка: терминал на всю высоту + статистика логов без пустой области. */}
+        <div className="flex h-full min-h-0 flex-col gap-[0.9cqw]">
+          <TerminalPanel title="support-agent · prod" status="live" rows={rows} className="flex min-h-0 flex-1 flex-col justify-center" />
+          <div
+            className="flex shrink-0 items-center justify-between gap-[0.8cqw] rounded-[0.5cqw] px-[1cqw] py-[0.65cqw] tabular-nums"
+            style={{ background: AGENT_THEME.soft, fontFamily: MONO, fontSize: '1.05cqw', color: AGENT_THEME.charcoal }}
+          >
+            <span>Всего: 248 · Решено: 184 · Эскалировано: 52 · В работе: 12</span>
+            <span style={{ color: AGENT_THEME.success }}>ошибки: 3 — исправлены</span>
+          </div>
+        </div>
+        {/* Правая колонка: один мягкий блок без border — метрики и диалоги вместе. */}
+        <div
+          className="flex h-full min-h-0 flex-col gap-[0.8cqw] rounded-[0.6cqw] p-[1cqw]"
+          style={{ background: AGENT_THEME.soft }}
+        >
+          <div className="grid shrink-0 grid-cols-2 gap-[0.8cqw]">
+            <StatBlock label="Первый ответ" value="8 сек" delta="−82%" note="медиана за неделю" />
+            <StatBlock label="Без оператора" value="74%" delta="+31 п.п." note="из всех диалогов" />
+          </div>
           {/* Последние диалоги: аватар, длительность и статус — правый столбец без пустоты. */}
-          <AgentCard className="flex min-h-0 flex-1 flex-col gap-[0.5cqw] overflow-hidden">
+          <AgentCard className="flex h-full min-h-0 flex-1 flex-col gap-[0.35cqw] overflow-hidden">
             <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
-              Последние диалоги
+              Последние диалоги · 8
             </div>
             {recent.map(({ name, duration, status, ok }, i) => (
               <div
                 key={name}
-                className="flex items-center gap-[0.7cqw] py-[0.55cqw]"
+                className="flex items-center gap-[0.6cqw] py-[0.38cqw]"
                 style={i > 0 ? { borderTop: `1px solid ${AGENT_THEME.hairline}` } : undefined}
               >
-                <AgentAvatar name={name} size="1.9cqw" />
-                <span className="min-w-0 flex-1 truncate" style={{ fontFamily: SANS, fontSize: '1.1cqw', color: AGENT_THEME.charcoal }}>
+                <AgentAvatar name={name} size="1.6cqw" />
+                <span className="min-w-0 flex-1 truncate" style={{ fontFamily: SANS, fontSize: '1.05cqw', color: AGENT_THEME.charcoal }}>
                   {name}
                 </span>
-                <span className="flex shrink-0 items-center gap-[0.3cqw] tabular-nums" style={{ fontFamily: MONO, fontSize: '0.95cqw', color: AGENT_THEME.slate }}>
-                  <Clock className="h-[0.9cqw] w-[0.9cqw]" aria-hidden />
+                <span className="flex shrink-0 items-center gap-[0.3cqw] tabular-nums" style={{ fontFamily: MONO, fontSize: '1.05cqw', color: AGENT_THEME.slate }}>
+                  <Clock className="h-[0.85cqw] w-[0.85cqw]" aria-hidden />
                   {duration}
                 </span>
                 <AgentBadge variant={ok ? 'success' : 'warn'}>
-                  {ok ? null : <AlertTriangle className="h-[0.9cqw] w-[0.9cqw]" aria-hidden />}
+                  {ok ? null : <AlertTriangle className="h-[0.85cqw] w-[0.85cqw]" aria-hidden />}
                   {status}
                 </AgentBadge>
               </div>
             ))}
+            <div
+              className="mt-auto flex shrink-0 items-center justify-between gap-[0.6cqw] pt-[0.5cqw] tabular-nums"
+              style={{ borderTop: `1px solid ${AGENT_THEME.hairline}`, fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}
+            >
+              <span>Открыть все диалоги</span>
+              <span>Экспорт логов</span>
+              <span>Настроить эскалацию</span>
+            </div>
           </AgentCard>
         </div>
       </div>
@@ -363,46 +393,91 @@ function SupportLogs() {
 
 /** Дашборд качества: метрики, темы обращений, отзыв клиента. */
 function SupportDashboard() {
+  const topics: [string, string, number][] = [
+    ['Статус заказа', '41%', 41],
+    ['Доставка', '24%', 24],
+    ['Возврат', '18%', 18],
+    ['Наличие ткани', '9%', 9],
+    ['Оплата', '6%', 6],
+    ['Гарантия', '4%', 4],
+    ['Монтаж', '2%', 2],
+  ];
+  const kpis = [
+    { label: 'Первый ответ', value: '8 сек', change: '−82% · медиана за неделю' },
+    { label: 'Оценка диалогов', value: '4,7', change: '2 480 отзывов · WhatsApp и сайт' },
+    { label: 'Без оператора', value: '74%', change: '+31 п.п. · 184 из 248 диалогов' },
+  ];
   return (
     <Screen>
       <ScreenHeader brand="Мебель-Дом" period="февраль 2026" />
       {/* Колонка контента растянута на всю высоту кадра: метрики сверху, панели — на остаток. */}
-      <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
-        <div className="grid grid-cols-3 gap-[1.2cqw]">
-          <StatBlock label="Первый ответ" value="8 сек" delta="−82%" />
-          <StatBlock label="Оценка диалогов" value="4,7" note="2 480 отзывов" />
-          <StatBlock label="Без оператора" value="74%" delta="+31 п.п." />
-        </div>
-        <div className="grid min-h-0 flex-1 grid-cols-[1.35fr_1fr_1fr] gap-[1.4cqw]">
-          <QualityChart />
-          <Bars
-            title="Топ тем обращений"
-            items={[
-              ['Статус заказа', '41%', 41],
-              ['Доставка', '24%', 24],
-              ['Возврат', '18%', 18],
-              ['Наличие ткани', '9%', 9],
-            ]}
-          />
-          <AgentCard className="flex flex-col justify-between gap-[1cqw]">
-            <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
-              Отзыв клиента
-            </div>
-            <div className="flex items-center gap-[0.8cqw]">
-              <AgentAvatar name="Ольга Ковалёва" size="2.2cqw" />
-              <div>
-                <div style={{ fontFamily: SANS, fontSize: '1.15cqw', fontWeight: 600 }}>Ольга Ковалёва</div>
-                <AgentStars filled={5} />
+      <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1cqw] px-[2cqw] pb-[2cqw]">
+        {/* KPI одной высоты: значение фиксированной строкой, изменение — мелко под ним. */}
+        <div className="grid shrink-0 grid-cols-3 gap-[1.2cqw]">
+          {kpis.map(({ label, value, change }) => (
+            <div key={label} className="rounded-[0.6cqw] border p-[1cqw]" style={{ borderColor: AGENT_THEME.hairline, background: AGENT_THEME.paper }}>
+              <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
+                {label}
+              </div>
+              <div className="mt-[0.3cqw] h-[2.9cqw] leading-[2.9cqw] tabular-nums" style={{ fontFamily: SANS, fontSize: '2.6cqw', fontWeight: 600, color: AGENT_THEME.ink, letterSpacing: '-0.03em' }}>
+                {value}
+              </div>
+              <div className="mt-[0.3cqw] truncate tabular-nums" style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>
+                {change}
               </div>
             </div>
-            <p style={{ fontFamily: SANS, fontSize: '1.2cqw', color: AGENT_THEME.charcoal, lineHeight: 1.5 }}>
-              «Ответили за секунды и показали, где заказ. Оператор не понадобился.»
-            </p>
-            <div className="flex items-center justify-between gap-[0.6cqw]" style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>
-              <span>заказ №1842</span>
-              <span>WhatsApp · 12:40</span>
+          ))}
+        </div>
+        <div className="grid h-full min-h-0 flex-1 grid-cols-[1.35fr_1fr_1fr] gap-[1.2cqw]">
+          {/* График на всю высоту колонки — без пустоты справа. */}
+          <div className="flex h-full min-h-0 flex-col">
+            <QualityChart />
+          </div>
+          <AgentCard className="flex h-full min-h-0 flex-col gap-[0.55cqw] overflow-hidden">
+            <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
+              Топ тем · 7
             </div>
+            {topics.map(([label, value, w], i) => (
+              <div key={label} className="flex flex-col gap-[0.3cqw] py-[0.3cqw]" style={i > 0 ? { borderTop: `1px solid ${AGENT_THEME.hairline}` } : undefined}>
+                <div className="flex items-center justify-between" style={{ fontSize: '1.1cqw' }}>
+                  <span className="truncate" style={{ fontFamily: SANS, color: AGENT_THEME.charcoal }}>{label}</span>
+                  <span className="shrink-0 tabular-nums" style={{ fontFamily: MONO, color: AGENT_THEME.ink, fontWeight: 500 }}>
+                    {value}
+                  </span>
+                </div>
+                <div className="h-[0.5cqw] w-full rounded-full" style={{ background: AGENT_THEME.soft }}>
+                  <div className="h-full rounded-full" style={{ width: `${(w / 41) * 100}%`, background: AGENT_THEME.ink }} />
+                </div>
+              </div>
+            ))}
           </AgentCard>
+          <div className="flex h-full min-h-0 flex-col gap-[0.8cqw]">
+            <AgentCard className="flex h-full min-h-0 flex-1 flex-col justify-between gap-[0.7cqw] overflow-hidden">
+              <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
+                Отзыв клиента
+              </div>
+              <div className="flex items-center gap-[0.8cqw]">
+                <AgentAvatar name="Ольга Ковалёва" size="2cqw" />
+                <div className="min-w-0">
+                  <div className="truncate" style={{ fontFamily: SANS, fontSize: '1.1cqw', fontWeight: 600 }}>Ольга Ковалёва, покупатель</div>
+                  <AgentStars filled={5} size="0.95cqw" />
+                </div>
+              </div>
+              <p style={{ fontFamily: SANS, fontSize: '1.12cqw', color: AGENT_THEME.charcoal, lineHeight: 1.5 }}>
+                «Заказала диван в WhatsApp — ответили за секунды и показали, где заказ. Оператор вообще не понадобился, фото ткани прислали сразу.»
+              </p>
+              <div className="flex items-center justify-between gap-[0.6cqw] tabular-nums" style={{ fontFamily: MONO, fontSize: '0.95cqw', color: AGENT_THEME.slate }}>
+                <span>заказ №1842</span>
+                <span>WhatsApp · 12:40</span>
+              </div>
+            </AgentCard>
+            <div
+              className="shrink-0 rounded-[0.5cqw] px-[1cqw] py-[0.6cqw] tabular-nums"
+              style={{ background: AGENT_THEME.soft, fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.charcoal }}
+            >
+              Обновлено 12:40 · 7 дней · 248 диалогов · 4.7 рейтинг
+            </div>
+          </div>
         </div>
       </div>
     </Screen>
@@ -1111,28 +1186,32 @@ function AnalystFunnel() {
   return (
     <Screen>
       <ScreenHeader brand="Analyst" period="SKU-4821" action="Выгрузить" />
-      <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
-        <AgentCard className="flex min-h-0 flex-1 flex-col gap-[1cqw]">
+      <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[0.8cqw] px-[2cqw] pb-[2cqw]">
+        {/* Одна карточка на всю высоту экрана (как «SKU под вниманием» слева):
+            воронка тянется на остаток (flex-1), метрики лежат вплотную внизу —
+            пустот между блоками нет. */}
+        <AgentCard className="flex h-full min-h-0 flex-col gap-[1cqw]">
           <div className="shrink-0" style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
             Воронка карточки
           </div>
-          {/* Этапы делят остаток высоты карточки поровну: без раздутых зазоров. */}
-          <div className="flex min-h-0 flex-1 flex-col">
-            {stages.map(([label, value, n]) => (
-              <div key={label} className="flex min-w-0 flex-1 items-center gap-[1cqw]">
+          {/* Плашки — 60–70% ширины блока, сужаются к низу (100 → 80 → 60 → 40):
+              сразу видно, где теряются заказы. */}
+          <div className="flex min-h-0 flex-1 flex-col gap-[0.9cqw]">
+            {stages.map(([label, value], i) => (
+              <div key={label} className="flex min-w-0 flex-1 items-center gap-[2.5cqw]">
                 <span className="w-[8cqw] shrink-0" style={{ fontFamily: SANS, fontSize: '1.2cqw', color: AGENT_THEME.charcoal }}>
                   {label}
                 </span>
-                <div className="h-[4.4cqw] min-w-0 flex-1 rounded-[0.4cqw]" style={{ background: AGENT_THEME.soft }}>
-                  <div className="h-full rounded-[0.4cqw]" style={{ width: `${Math.max((n / 1200) * 100, 14)}%`, background: AGENT_THEME.ink }} />
+                <div className="flex min-w-0 flex-1 items-center gap-[1.5cqw]">
+                  <div className="h-[3.2cqw] shrink-0 rounded-[0.4cqw]" style={{ background: AGENT_THEME.ink, width: `${[75, 60, 45, 30][i]}%` }} />
+                  {/* Значение — в своей колонке справа от плашки: один столбец на все этапы. */}
+                  <span
+                    className="w-[7cqw] shrink-0 text-right tabular-nums"
+                    style={{ fontFamily: MONO, fontSize: '1.05cqw', fontWeight: 500, color: AGENT_THEME.ink }}
+                  >
+                    {value}
+                  </span>
                 </div>
-                {/* Значение у правого края строки — правая часть не пустует. */}
-                <span
-                  className="w-[7cqw] shrink-0 text-right tabular-nums"
-                  style={{ fontFamily: MONO, fontSize: '1.05cqw', fontWeight: 500, color: AGENT_THEME.ink }}
-                >
-                  {value}
-                </span>
               </div>
             ))}
           </div>
@@ -1143,12 +1222,15 @@ function AnalystFunnel() {
             <span>конверсия показ → заказ</span>
             <span className="tabular-nums">0,34% · цель 0,40%</span>
           </div>
+          {/* Метрики одним блоком без border — вплотную к воронке, внизу карточки. */}
+          <div className="shrink-0 rounded-md bg-[var(--d-soft)] p-3">
+            <div className="grid grid-cols-3 gap-3">
+              <StatBlock label="CTR" value="4,1%" delta="+0,6 п.п." />
+              <StatBlock label="CR корзины" value="13,2%" note="клик → корзина" />
+              <StatBlock label="Выкуп" value="63%" note="−4 п.п. к январю" />
+            </div>
+          </div>
         </AgentCard>
-        <div className="grid grid-cols-3 gap-[1.2cqw]">
-          <StatBlock label="CTR" value="4,1%" delta="+0,6 п.п." />
-          <StatBlock label="CR корзины" value="13,2%" note="клик → корзина" />
-          <StatBlock label="Выкуп" value="63%" note="−4 п.п. к январю" />
-        </div>
       </div>
     </Screen>
   );
