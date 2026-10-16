@@ -141,7 +141,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
           {item.screens.map((screen, i) => {
             const ScreenView = AGENT_SCREENS[item.preview][i];
             return (
-              <figure key={screen.title} className="d-card overflow-hidden">
+              <figure key={screen.title} className="d-card overflow-hidden flex flex-col h-full">
                 <div className="d-screen-bar" aria-hidden>
                   <span className="d-screen-dot" />
                   <span className="d-screen-dot" />
@@ -150,7 +150,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
                 <div className="relative aspect-[16/10] [container-type:inline-size]">
                   {ScreenView ? <ScreenView /> : null}
                 </div>
-                <figcaption className="px-4 py-3">
+                <figcaption className="px-4 py-3 mt-auto flex-shrink-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center rounded-full bg-[var(--d-soft)] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--d-ink)]">{SCREEN_KIND_LABELS[screen.kind] ?? screen.kind}</span>
                     <span className="block text-[14px] font-semibold text-[var(--d-ink)]">{screen.title}</span>
