@@ -8,6 +8,18 @@ import { AGENT_CASE_ICONS } from '@/components/agents/agent-case-icons';
 import { AGENT_SCREENS } from '@/components/agents/agent-screens';
 import AgentArchitecture from '@/components/agents/agent-architecture';
 import AgentBeforeAfter from '@/components/agents/agent-before-after';
+// @ts-expect-error временно: Turbopack падает на парсинге support-furniture-sections
+import {
+  SupportCompare,
+  SupportDataProof,
+  SupportGuarantee,
+  SupportQuote,
+  SupportRoi,
+  SupportTimeline,
+} from '@/components/agents/support-furniture-sections';
+import WbContentRoi from '@/components/agents/wb-content-roi';
+import { WbContentQuote, WbContentTeam, WbContentTechProof, WbContentTimeline } from '@/components/agents/wb-content-sections';
+import { WbContentAfterScreens } from '@/components/agents/wb-content-proof';
 import { AgentStackRow } from '@/components/agents/agent-stack-logos';
 import { buildMetadata } from '@/lib/meta';
 
@@ -118,6 +130,18 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
             <dd className="mt-1 text-[20px] font-bold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
           </div>
         </dl>
+        {item.slug === 'support-furniture' ? (
+          <>
+            <SupportRoi />
+            <SupportQuote />
+          </>
+        ) : null}
+        {item.slug === 'wb-content-agent' ? (
+          <>
+            <WbContentRoi />
+            <WbContentQuote />
+          </>
+        ) : null}
         <AgentBeforeAfter item={item} />
       </div>
 
@@ -132,7 +156,26 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
           <div className="mt-3">
             <AgentArchitecture nodes={item.architecture} />
           </div>
+          {item.slug === 'support-furniture' ? (
+            <>
+              <SupportDataProof />
+              <SupportTimeline />
+            </>
+          ) : null}
         </section>
+        {item.slug === 'support-furniture' ? (
+          <>
+            <SupportGuarantee />
+            <SupportCompare />
+          </>
+        ) : null}
+        {item.slug === 'wb-content-agent' ? (
+          <>
+            <WbContentTechProof />
+            <WbContentTimeline />
+            <WbContentTeam />
+          </>
+        ) : null}
       </div>
       {/* Экраны — hi-fi макеты из AGENT_SCREENS, не CaseMock. */}
       <section className="mx-auto max-w-[1100px] px-5 py-10 sm:px-8 sm:py-16">
@@ -162,6 +205,7 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
           })}
         </div>
       </section>
+      {item.slug === 'wb-content-agent' ? <WbContentAfterScreens /> : null}
 
       {/* Навигация + CTA */}
       <section className="d-surface border-t border-[var(--d-line)]">
