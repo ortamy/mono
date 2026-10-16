@@ -640,15 +640,14 @@ function SalesBooking() {
   return (
     <Screen>
       <ScreenHeader brand="LeadBot" period="Google Calendar" action="Создать встречу" />
-      {/* Обе колонки растянуты на высоту кадра: слева карточка встречи, справа слоты дня. */}
-      <div className="mt-[1.6cqw] grid h-[calc(100%-7cqw)] grid-cols-2 gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
+      {/* Карточки без фиксированной высоты — контент определяет自己的 высоту, пустоты внутри не остаются. */}
+      <div className="mt-[1.6cqw] grid grid-cols-2 gap-[1.2cqw] px-[2cqw] pb-[2cqw]">
         <AgentCard className="flex flex-col gap-[1cqw]">
           <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
             Встреча
           </div>
-          <div className="mt-[0.6cqw] flex min-h-0 flex-1 flex-col">
+          <div className="mt-[0.6cqw] flex flex-col">
             <Rows
-              className="h-full"
               items={[
                 ['Лида', 'Анна Ковалёва'],
                 ['Компания', 'Север-Трейд'],
@@ -664,7 +663,7 @@ function SalesBooking() {
           <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
             Свободные слоты · завтра
           </div>
-          <div className="mt-[0.6cqw] flex min-h-0 flex-1 flex-col justify-between gap-[0.8cqw]">
+          <div className="mt-[0.6cqw] flex flex-col gap-[0.6cqw]">
             {slots.map((slot) => {
               const active = slot === '15:00';
               return (
@@ -703,14 +702,14 @@ function SalesDashboard() {
   return (
     <Screen>
       <ScreenHeader brand="LeadBot" period="февраль 2026" />
-      <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
-        <div className="grid grid-cols-4 gap-[1.1cqw]">
+      <div className="mt-[1.6cqw] flex flex-col gap-[1.2cqw] px-[2cqw] pb-[2cqw]">
+        <div className="grid grid-cols-4 gap-[0.9cqw]">
           <StatBlock label="Лиды" value="412" delta="+34%" />
           <StatBlock label="Демо" value="96" delta="×3" />
           <StatBlock label="Конверсия" value="23%" delta="+9 п.п." />
           <StatBlock label="Время SDR" value="−40%" note="сэкономлено" />
         </div>
-        <div className="grid min-h-0 flex-1 grid-cols-[1fr_1fr] gap-[1.4cqw]">
+        <div className="grid grid-cols-[1fr_1fr] gap-[0.9cqw]">
           <Bars
             title="Источники лидов"
             items={[
@@ -720,7 +719,7 @@ function SalesDashboard() {
               ['Партнёры', '6%', 6],
             ]}
           />
-          <AgentCard className="flex flex-col justify-between gap-[0.8cqw]">
+          <AgentCard className="flex flex-col gap-[0.6cqw]">
             <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
               Топ-сделка месяца
             </div>
@@ -1067,29 +1066,31 @@ function AnalystSku() {
         {/* Карточки SKU делят остаток высоты: три строки по две позиции. */}
         <div className="grid min-h-0 flex-1 auto-rows-fr grid-cols-2 gap-[1.2cqw]">
           {sku.map(([title, delta, down, w, sales, reason]) => (
-            <AgentCard key={title} className="flex items-center justify-between gap-[1.4cqw]">
-              <div className="flex min-w-0 items-center gap-[1cqw]">
-                <span style={{ fontFamily: SANS, fontSize: '1.25cqw', fontWeight: 600 }}>{title}</span>
-                <AgentBadge variant={down ? 'soft' : 'success'}>{down ? 'падение' : 'рост'}</AgentBadge>
-              </div>
-              <div className="flex shrink-0 items-center gap-[1.4cqw]">
+            /* Три строки на всю высоту карточки: подпись → полоса → метрики,
+               чтобы не было пустоты и наложений в узких колонках. */
+            <AgentCard key={title} className="flex min-h-0 flex-col justify-between">
+              <div className="flex items-center justify-between gap-[0.8cqw]">
+                <div className="flex min-w-0 items-center gap-[0.6cqw]">
+                  <span className="min-w-0 truncate" style={{ fontFamily: SANS, fontSize: '1.2cqw', fontWeight: 600 }}>{title}</span>
+                  <AgentBadge variant={down ? 'soft' : 'success'}>{down ? 'падение' : 'рост'}</AgentBadge>
+                </div>
                 <span
-                  className="tabular-nums"
-                  style={{ fontFamily: MONO, fontSize: '1.7cqw', fontWeight: 600, color: down ? AGENT_THEME.ember : AGENT_THEME.success }}
+                  className="shrink-0 tabular-nums"
+                  style={{ fontFamily: MONO, fontSize: '1.4cqw', fontWeight: 600, color: down ? AGENT_THEME.ember : AGENT_THEME.success }}
                 >
                   {delta}
                 </span>
-                <div className="w-[14cqw]">
-                  <div className="h-[0.9cqw] rounded-[0.4cqw]" style={{ background: AGENT_THEME.soft }}>
-                    <div className="h-full rounded-[0.4cqw]" style={{ width: `${w}%`, background: down ? AGENT_THEME.ember : AGENT_THEME.success }} />
-                  </div>
-                  <div className="mt-[0.4cqw]" style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}>
-                    маржа за месяц
-                  </div>
-                </div>
-                <span className="tabular-nums" style={{ fontFamily: MONO, fontSize: '1.05cqw', color: AGENT_THEME.slate }}>
-                  {sales} · {reason}
-                </span>
+              </div>
+              {/* Полоса маржи на всю ширину карточки — одинакова у всех шести. */}
+              <div className="h-[0.9cqw] w-full rounded-[0.4cqw]" style={{ background: AGENT_THEME.soft }}>
+                <div className="h-full rounded-[0.4cqw]" style={{ width: `${w}%`, background: down ? AGENT_THEME.ember : AGENT_THEME.success }} />
+              </div>
+              <div
+                className="flex items-center justify-between gap-[0.6cqw]"
+                style={{ fontFamily: MONO, fontSize: '1cqw', color: AGENT_THEME.slate }}
+              >
+                <span className="shrink-0">маржа за месяц</span>
+                <span className="min-w-0 truncate tabular-nums">{sales} · {reason}</span>
               </div>
             </AgentCard>
           ))}
@@ -1111,26 +1112,32 @@ function AnalystFunnel() {
     <Screen>
       <ScreenHeader brand="Analyst" period="SKU-4821" action="Выгрузить" />
       <div className="mt-[1.6cqw] flex h-[calc(100%-7cqw)] flex-col gap-[1.4cqw] px-[2cqw] pb-[2cqw]">
-        <AgentCard className="flex min-h-0 flex-1 flex-col justify-between gap-[1.3cqw]">
-          <div style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
+        <AgentCard className="flex min-h-0 flex-1 flex-col gap-[1cqw]">
+          <div className="shrink-0" style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
             Воронка карточки
           </div>
-          {stages.map(([label, value, n]) => (
-            <div key={label} className="flex items-center gap-[1cqw]">
-              <span className="w-[9cqw] shrink-0" style={{ fontFamily: SANS, fontSize: '1.2cqw', color: AGENT_THEME.charcoal }}>
-                {label}
-              </span>
-              <div className="h-[2.6cqw] flex-1 rounded-[0.4cqw]" style={{ background: AGENT_THEME.soft }}>
-                <div className="flex h-full items-center justify-end rounded-[0.4cqw] px-[0.8cqw]" style={{ width: `${Math.max((n / 1200) * 100, 14)}%`, background: AGENT_THEME.ink }}>
-                  <span className="tabular-nums" style={{ fontFamily: MONO, fontSize: '1.05cqw', color: '#fff', fontWeight: 500 }}>
-                    {value}
-                  </span>
+          {/* Этапы делят остаток высоты карточки поровну: без раздутых зазоров. */}
+          <div className="flex min-h-0 flex-1 flex-col">
+            {stages.map(([label, value, n]) => (
+              <div key={label} className="flex min-w-0 flex-1 items-center gap-[1cqw]">
+                <span className="w-[8cqw] shrink-0" style={{ fontFamily: SANS, fontSize: '1.2cqw', color: AGENT_THEME.charcoal }}>
+                  {label}
+                </span>
+                <div className="h-[4.4cqw] min-w-0 flex-1 rounded-[0.4cqw]" style={{ background: AGENT_THEME.soft }}>
+                  <div className="h-full rounded-[0.4cqw]" style={{ width: `${Math.max((n / 1200) * 100, 14)}%`, background: AGENT_THEME.ink }} />
                 </div>
+                {/* Значение у правого края строки — правая часть не пустует. */}
+                <span
+                  className="w-[7cqw] shrink-0 text-right tabular-nums"
+                  style={{ fontFamily: MONO, fontSize: '1.05cqw', fontWeight: 500, color: AGENT_THEME.ink }}
+                >
+                  {value}
+                </span>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
           <div
-            className="flex items-center justify-between gap-[0.6cqw] border-t pt-[1.1cqw]"
+            className="flex shrink-0 items-center justify-between gap-[0.6cqw] border-t pt-[1.1cqw]"
             style={{ borderColor: AGENT_THEME.hairline, fontFamily: MONO, fontSize: '1.05cqw', color: AGENT_THEME.slate }}
           >
             <span>конверсия показ → заказ</span>
