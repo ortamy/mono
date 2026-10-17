@@ -19,6 +19,15 @@ import {
 import WbContentRoi from '@/components/agents/wb-content-roi';
 import { WbContentQuote, WbContentTeam, WbContentTechProof, WbContentTimeline } from '@/components/agents/wb-content-sections';
 import { WbContentAfterScreens } from '@/components/agents/wb-content-proof';
+import CompetitiveResearchRoi from '@/components/agents/competitive-research-roi';
+import {
+  CompetitiveResearchCompare,
+  CompetitiveResearchGuarantee,
+  CompetitiveResearchQuote,
+  CompetitiveResearchTeam,
+  CompetitiveResearchTechProof,
+  CompetitiveResearchTimeline,
+} from '@/components/agents/competitive-research-sections';
 import { AgentStackRow } from '@/components/agents/agent-stack-logos';
 import { buildMetadata } from '@/lib/meta';
 
@@ -141,6 +150,12 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
             <WbContentQuote />
           </>
         ) : null}
+        {item.slug === 'competitive-research' ? (
+          <>
+            <CompetitiveResearchRoi />
+            <CompetitiveResearchQuote />
+          </>
+        ) : null}
         <AgentBeforeAfter item={item} />
       </div>
 
@@ -175,6 +190,15 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
             <WbContentTechProof />
             <WbContentTimeline />
             <WbContentTeam />
+          </>
+        ) : null}
+        {item.slug === 'competitive-research' ? (
+          <>
+            <CompetitiveResearchTechProof />
+            <CompetitiveResearchTimeline />
+            <CompetitiveResearchTeam />
+            <CompetitiveResearchGuarantee />
+            <CompetitiveResearchCompare />
           </>
         ) : null}
       </div>
