@@ -587,7 +587,7 @@ export default async function AgentsPage({ searchParams }: AgentsPageProps) {
             </p>
           </div>
 
-          <div className="mt-8 sm:mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid items-stretch gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
             {AGENT_CASES.map((item) => (
               <AgentCaseCard key={item.slug} item={item} />
             ))}

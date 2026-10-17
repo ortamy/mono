@@ -10,7 +10,7 @@ export default function AgentCaseCard({ item }: { item: AgentCase }) {
   const Icon = AGENT_CASE_ICONS[item.preview];
 
   return (
-    <article className="d-card d-hover-line group relative overflow-hidden">
+    <article className="d-card d-hover-line group relative flex h-full flex-col overflow-hidden">
       {/* Растянутая ссылка на кейс: клик по карточке открывает детали. */}
       <Link
         href={`/agents/work/${item.slug}/`}
@@ -23,52 +23,56 @@ export default function AgentCaseCard({ item }: { item: AgentCase }) {
         <AgentCaseScreenshot item={item} />
       </div>
 
-      <div className="pointer-events-none relative z-[1] p-5 sm:p-6">
-        <div className="flex items-center justify-between gap-3">
-          <span className="flex items-center gap-2 text-[11px] uppercase tracking-[0.08em] d-faint">
-            <Icon size={13} strokeWidth={1.6} aria-hidden /> {item.agentType}
-          </span>
-          <ArrowUpRight
-            size={16}
-            strokeWidth={1.5}
-            className="d-faint transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--d-ink)]"
-            aria-hidden
-          />
-        </div>
-
-        <h3 className="mt-2 text-xl font-semibold tracking-[-0.3px] text-[var(--d-ink)]">
-          {item.title}
-        </h3>
-        <p className="mt-2 text-[14px] leading-[1.6] d-muted">{item.subtitle}</p>
-
-        <dl className="mt-4 space-y-1.5 border-t border-[var(--d-line)] pt-4 text-[13px] leading-[1.55]">
-          <div className="flex items-baseline justify-between gap-3 whitespace-nowrap">
-            <dt className="d-faint">Экономия</dt>
-            <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.savings}</dd>
+      <div className="pointer-events-none relative z-[1] flex flex-1 flex-col p-5 sm:p-6">
+        <div className="flex-1">
+          <div className="flex items-center justify-between gap-3">
+            <span className="flex items-center gap-2 text-[11px] uppercase tracking-[0.08em] d-faint">
+              <Icon size={13} strokeWidth={1.6} aria-hidden /> {item.agentType}
+            </span>
+            <ArrowUpRight
+              size={16}
+              strokeWidth={1.5}
+              className="d-faint transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--d-ink)]"
+              aria-hidden
+            />
           </div>
-          <div className="flex items-baseline justify-between gap-3 whitespace-nowrap">
-            <dt className="d-faint">Окупаемость</dt>
-            <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
-          </div>
-        </dl>
 
-        <AgentBeforeAfter item={item} compact />
+          <h3 className="mt-2 text-xl font-semibold tracking-[-0.3px] text-[var(--d-ink)]">
+            {item.title}
+          </h3>
+          <p className="mt-2 text-[14px] leading-[1.6] d-muted">{item.subtitle}</p>
 
-        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-[var(--d-line)] pt-4">
-          {item.metrics.slice(0, 2).map((m) => (
-            <div key={m.label}>
-              <div className="text-[15px] font-semibold text-[var(--d-ink)] tabular-nums">{m.value}</div>
-              <div className="text-[11px] d-faint">{m.label}</div>
+          <dl className="mt-4 space-y-1.5 border-t border-[var(--d-line)] pt-4 text-[13px] leading-[1.55]">
+            <div className="flex items-baseline justify-between gap-3 whitespace-nowrap">
+              <dt className="d-faint">Экономия</dt>
+              <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.savings}</dd>
             </div>
-          ))}
+            <div className="flex items-baseline justify-between gap-3 whitespace-nowrap">
+              <dt className="d-faint">Окупаемость</dt>
+              <dd className="font-semibold tabular-nums text-[var(--d-ink)]">{item.payback}</dd>
+            </div>
+          </dl>
+
+          <AgentBeforeAfter item={item} compact />
+
+          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-[var(--d-line)] pt-4">
+            {item.metrics.slice(0, 2).map((m) => (
+              <div key={m.label}>
+                <div className="text-[15px] font-semibold text-[var(--d-ink)] tabular-nums">{m.value}</div>
+                <div className="text-[11px] d-faint">{m.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <a
-          href="#contact"
-          className="pointer-events-auto relative z-[2] mt-4 inline-flex w-full items-center justify-center whitespace-nowrap rounded-[8px] border border-[var(--d-line)] py-3 text-sm font-medium text-[var(--d-ink)] transition-colors hover:bg-[var(--d-soft)]"
-        >
-          Обсудить
-        </a>
+        <div className="mt-auto pt-4">
+          <a
+            href="#contact"
+            className="pointer-events-auto relative z-[2] inline-flex w-full items-center justify-center whitespace-nowrap rounded-[8px] border border-[var(--d-line)] py-3 text-sm font-medium text-[var(--d-ink)] transition-colors hover:bg-[var(--d-soft)]"
+          >
+            Обсудить
+          </a>
+        </div>
       </div>
     </article>
   );
