@@ -98,6 +98,28 @@ export interface AgentCase {
   analyticsPreview?: AgentAnalyticsPreview;
 }
 
+/** Сообщение в чате превью аналитика. */
+export interface AgentAnalyticsMessage {
+  /** 'user' — вопрос, 'agent' — ответ. */
+  from: 'user' | 'agent';
+  text: string;
+  time: string;
+}
+
+/** Источник данных в правой колонке чата. */
+export interface AgentAnalyticsSource {
+  name: string;
+  cabinet: string;
+  updated: string;
+  status: string;
+}
+
+/** Канал продаж в дашборде. */
+export interface AgentAnalyticsChannel {
+  name: string;
+  value: string;
+}
+
 /** Этап воронки в превью sales-агента. */
 export interface AgentSalesFunnelStage {
   label: string;
@@ -150,6 +172,16 @@ export interface AgentAnalyticsPreview {
   sources: string;
   kpis: AgentAnalyticsKpi[];
   skus: AgentAnalyticsSku[];
+  /** Диалоговые сообщения со временем. */
+  messages: AgentAnalyticsMessage[];
+  /** Источники для правой колонки «Источники». */
+  sourceList: AgentAnalyticsSource[];
+  /** Каналы продаж для дашборда. */
+  channels: AgentAnalyticsChannel[];
+  /** Строки блока «Ответ агента». */
+  agentResponse: string[];
+  /** Блок контекста запроса под чатом. */
+  contextBlock: string;
 }
 
 /** Кейсы AI-агентов: от поддержки магазина до конкурентной разведки. */
@@ -488,8 +520,10 @@ export const AGENT_CASES: AgentCase[] = [
       answer: 'Реклама стояла 4 дня: ДРР выросла до 14%.',
       sources: 'WB API · Ozon API',
       kpis: [
-        { label: 'Выручка', value: '4,1 млн ₽', delta: '+9% к прошлому периоду', up: true },
-        { label: 'ДРР SKU-4821', value: '14%', delta: '+6 п.п. к прошлому периоду', up: false },
+        { label: 'Выручка', value: '4,1 млн ₽', delta: '+9%', up: true },
+        { label: 'Заказы', value: '8 240', delta: '+6%', up: true },
+        { label: 'Средний чек', value: '498 ₽', delta: '−0,8 п.п.', up: false },
+        { label: 'ROI', value: '3,2%', delta: '', up: false },
       ],
       skus: [
         { code: '4821', name: 'Крем SPF', margin: '−4,2%' },
@@ -497,6 +531,38 @@ export const AGENT_CASES: AgentCase[] = [
         { code: '3390', name: 'Лампа', margin: '−0,6%' },
         { code: '0911', name: 'Кружка', margin: '−0,3%' },
       ],
+      messages: [
+        { from: 'user', text: 'Почему упали продажи SKU-4821?', time: '18:04' },
+        { from: 'agent', text: 'Реклама стояла 4 дня: ДРР выросла до 14%.', time: '18:05' },
+        { from: 'user', text: 'Что с органикой?', time: '18:06' },
+        { from: 'agent', text: 'Органика +2% за неделю, растёт', time: '18:07' },
+        { from: 'user', text: 'А реклама?', time: '18:08' },
+        { from: 'agent', text: 'ДРР 14%, выше нормы на 4 п.п.', time: '18:09' },
+        { from: 'user', text: 'Какие SKU в минусе?', time: '18:10' },
+        { from: 'agent', text: 'SKU 4821 Крем SPF: −4.2%, SKU 3390 Лампа: −0.6%', time: '18:11' },
+      ],
+      sourceList: [
+        { name: 'WB API', cabinet: 'кабинет 1', updated: '07:15', status: 'активно' },
+        { name: 'Ozon API', cabinet: 'кабинет 2', updated: '07:15', status: 'активно' },
+        { name: '1С', cabinet: 'товары', updated: '06:40', status: 'активно' },
+        { name: 'Google Sheets', cabinet: 'отчёты', updated: 'вчера', status: 'архив' },
+      ],
+      channels: [
+        { name: 'Органика', value: '38%' },
+        { name: 'Реклама', value: '34%' },
+        { name: 'Внешний трафик', value: '18%' },
+        { name: 'Скидки', value: '10%' },
+        { name: 'Прямые заходы', value: '6%' },
+        { name: 'Email', value: '3%' },
+        { name: 'Партнёры', value: '1%' },
+      ],
+      agentResponse: [
+        'Реклама SKU-4821 стоила 4 дня без корректировки',
+        'ДРР вырос с 8% до 14%',
+        'Органика держится, теряется платный трафик',
+        'Рекомендация: снизить ставку на 20% или обновить креатив',
+      ],
+      contextBlock: 'Источники: WB API, Ozon API, 1С. Период: 12–16 фев. ROI окно: 30 дней',
     },
     screens: [
       {
