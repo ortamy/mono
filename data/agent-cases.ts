@@ -90,7 +90,7 @@ export interface AgentCase {
   preview: AgentPreviewKey;
   /** Палитра макетов экранов кейса. */
   palette: MockPalette;
-  /** Пять узлов схемы: источники → LLM → инструменты → каналы → мониторинг. */
+  /** Узлы схемы слева направо. В RAG-кейсах между инструментами и LLM стоит Jev. */
   architecture: { label: string; hint: string }[];
   /** Данные уникального превью sales-agent-b2b. Только у этого кейса. */
   salesPreview?: AgentSalesPreview;
@@ -195,13 +195,15 @@ export const AGENT_CASES: AgentCase[] = [
     stack: [
       { title: 'LLM', items: ['GPT-4o'] },
       { title: 'Оркестрация', items: ['RAG + pgvector', 'PostgreSQL', 'API магазина'] },
+      { title: 'Контроль качества', items: ['Jev (Rerank + Gate)'] },
     ],
     preview: 'support',
     palette: P_LIGHT,
     architecture: [
       { label: 'Источники данных', hint: '1С · база знаний' },
-      { label: 'LLM', hint: 'GPT-4o' },
       { label: 'Инструменты', hint: 'RAG · API магазина' },
+      { label: 'Jev', hint: 'Rerank · Gate' },
+      { label: 'LLM', hint: 'GPT-4o' },
       { label: 'Каналы', hint: 'сайт · WhatsApp · TG' },
       { label: 'Мониторинг', hint: 'уверенность · эскалации' },
     ],
@@ -405,13 +407,15 @@ export const AGENT_CASES: AgentCase[] = [
     stack: [
       { title: 'LLM', items: ['GPT-4o'] },
       { title: 'Интеграции', items: ['WB API', 'Telegram Bot', 'Redis', 'S3-хранилище'] },
+      { title: 'Контроль качества', items: ['Jev (Rerank + Gate)'] },
     ],
     preview: 'content',
     palette: P_LIGHT,
     architecture: [
       { label: 'Источники данных', hint: 'ТЗ · спецификации' },
-      { label: 'LLM', hint: 'GPT-4o' },
       { label: 'Инструменты', hint: 'WB API · Redis' },
+      { label: 'Jev', hint: 'Rerank · Gate' },
+      { label: 'LLM', hint: 'GPT-4o' },
       { label: 'Каналы', hint: 'Telegram · WB' },
       { label: 'Мониторинг', hint: 'CTR · охваты' },
     ],
@@ -494,13 +498,15 @@ export const AGENT_CASES: AgentCase[] = [
     stack: [
       { title: 'LLM', items: ['GPT-4o'] },
       { title: 'Интеграции', items: ['Text-to-SQL', 'PostgreSQL', 'WB API', 'Ozon API'] },
+      { title: 'Контроль качества', items: ['Jev (Rerank + Gate)'] },
     ],
     preview: 'analytics',
     palette: P_DARK,
     architecture: [
       { label: 'Источники данных', hint: 'WB API · Ozon API' },
-      { label: 'LLM', hint: 'GPT-4o' },
       { label: 'Инструменты', hint: 'Text-to-SQL' },
+      { label: 'Jev', hint: 'Rerank · Gate' },
+      { label: 'LLM', hint: 'GPT-4o' },
       { label: 'Каналы', hint: 'чат · Telegram' },
       { label: 'Мониторинг', hint: 'выгрузки · ROI' },
     ],

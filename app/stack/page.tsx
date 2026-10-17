@@ -38,6 +38,11 @@ const FIT_MATRIX = [
     why: 'Линейный сценарий: прототип собирается за вечер, продакшен — за недели, без своего бэкенда.',
   },
   {
+    situation: 'Нужен бот без галлюцинаций',
+    stack: 'RAG + Reranker + Gate (Jev-архитектура)',
+    why: 'Сначала точные куски из базы, потом фильтр: если уверенности нет — «Не знаю» или передача оператору, а не выдумка.',
+  },
+  {
     situation: 'Многошаговый агент с ветвлениями и памятью',
     stack: 'LangGraph + Claude + Qdrant',
     why: 'Ветки, циклы и human-in-the-loop требуют явного графа состояний, а не одного вызова модели.',
@@ -125,7 +130,11 @@ export default function StackPage() {
         <div className="mx-auto max-w-[1100px] px-5 py-20 sm:px-8 sm:py-24">
           <div className="grid gap-5 sm:grid-cols-2">
             {STACK_GROUPS.map((group) => (
-              <article key={group.title} className="d-card d-hover-line p-6 sm:p-7">
+              <article
+                key={group.title}
+                id={group.title.startsWith('RAG') ? 'rag' : undefined}
+                className="d-card d-hover-line p-6 sm:p-7"
+              >
                 <h2 className="text-[17px] font-semibold text-[var(--d-ink)]">{group.title}</h2>
                 <p className="mt-2 text-[14px] leading-[1.6] d-muted">{group.blurb}</p>
                 <ul className="mt-5 space-y-3 border-t border-[var(--d-line)] pt-5">

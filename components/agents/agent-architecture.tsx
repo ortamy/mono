@@ -1,15 +1,13 @@
 /**
- * Архитектурная схема агента: Источники данных → LLM → Инструменты →
- * Каналы → Мониторинг. HTML-диаграмма (не bitmap): резкая на любом DPI,
+ * Архитектурная схема агента. HTML-диаграмма (не bitmap): резкая на любом DPI,
  * на узком экране складывается в колонку.
  *
- * У каждого слоя свой цвет и иконка (lucide): источники — серый, ядро LLM —
- * violet, инструменты — синий, каналы — нейтральный, мониторинг — зелёный.
- * Подписи-примеры («1С · база знаний», «GPT-4o») приходят данными кейса.
- * Фон и текст — через переменные темы (--d-*), поэтому схема не остаётся
- * белой в тёмной теме страницы.
+ * Узлы и подписи приходят данными кейса. Слой (иконка и цвет) выбирается
+ * по названию: источники — серый, инструменты — синий, Jev (контроль
+ * качества) — teal, ядро LLM — violet, каналы — нейтральный, мониторинг —
+ * зелёный. Фон и текст — через переменные темы (--d-*).
  */
-import { Activity, Cpu, Database, Send, Wrench, type LucideIcon } from 'lucide-react';
+import { Activity, Cpu, Database, Send, Shield, Wrench, type LucideIcon } from 'lucide-react';
 
 export interface ArchitectureNode {
   label: string;
@@ -18,7 +16,7 @@ export interface ArchitectureNode {
 }
 
 export interface ArchitectureFlow {
-  /** Пять узлов слева направо. */
+  /** Узлы слева направо. В RAG-кейсах между инструментами и LLM стоит Jev. */
   nodes: ArchitectureNode[];
 }
 
@@ -29,16 +27,24 @@ interface Layer {
   tint: string;
 }
 
-/** Порядок слоёв совпадает с STEPS и с architecture[] из data/agent-cases.ts. */
-const LAYERS: Layer[] = [
-  { icon: Database, accent: '#8B8B93', tint: 'rgba(139,139,147,0.10)' }, // источники — серый
-  { icon: Cpu, accent: '#7C3AED', tint: 'rgba(124,58,237,0.14)' }, // LLM — violet
-  { icon: Wrench, accent: '#2563EB', tint: 'rgba(37,99,235,0.10)' }, // инструменты — синий
-  { icon: Send, accent: '#52525B', tint: 'rgba(82,82,91,0.10)' }, // каналы — нейтральный
-  { icon: Activity, accent: '#297A3A', tint: 'rgba(41,122,58,0.12)' }, // мониторинг — зелёный
-];
+const LAYER_SOURCE: Layer = { icon: Database, accent: '#8B8B93', tint: 'rgba(139,139,147,0.10)' };
+const LAYER_LLM: Layer = { icon: Cpu, accent: '#7C3AED', tint: 'rgba(124,58,237,0.14)' };
+const LAYER_TOOLS: Layer = { icon: Wrench, accent: '#2563EB', tint: 'rgba(37,99,235,0.10)' };
+const LAYER_JEV: Layer = { icon: Shield, accent: '#0F766E', tint: 'rgba(15,118,110,0.14)' };
+const LAYER_CHANNELS: Layer = { icon: Send, accent: '#52525B', tint: 'rgba(82,82,91,0.10)' };
+const LAYER_MONITOR: Layer = { icon: Activity, accent: '#297A3A', tint: 'rgba(41,122,58,0.12)' };
 
-const STEPS = ['Источники данных', 'LLM', 'Инструменты', 'Каналы', 'Мониторинг'];
+/** Слой по названию узла, а не по индексу: число шагов в кейсах разное. */
+function layerFor(label: string): Layer {
+  const key = label.toLowerCase();
+  if (key.includes('источник')) return LAYER_SOURCE;
+  if (key.includes('jev') || key.includes('rerank') || key.includes('gate')) return LAYER_JEV;
+  if (key === 'llm' || key.startsWith('llm')) return LAYER_LLM;
+  if (key.includes('инструмент') || key.includes('поиск')) return LAYER_TOOLS;
+  if (key.includes('канал')) return LAYER_CHANNELS;
+  if (key.includes('монитор')) return LAYER_MONITOR;
+  return LAYER_TOOLS;
+}
 
 const MONO = "'Geist Mono','JetBrains Mono',ui-monospace,monospace";
 const SANS = "'Geist','Inter',Arial,sans-serif";
@@ -48,11 +54,11 @@ function FlowArrow() {
   const stroke = { stroke: 'var(--d-ink)', strokeOpacity: 0.6, strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   return (
     <span className="self-center shrink-0 motion-safe:animate-pulse" aria-hidden>
-      <svg width="22" height="12" viewBox="0 0 22 12" fill="none" className="hidden md:block">
+      <svg width="18" height="12" viewBox="0 0 22 12" fill="none" className="hidden md:block">
         <path d="M1.5 6h14.5" {...stroke} />
         <path d="M12 2.2L19.5 6 12 9.8" fill="none" {...stroke} />
       </svg>
-      <svg width="12" height="22" viewBox="0 0 12 22" fill="none" className="md:hidden">
+      <svg width="12" height="18" viewBox="0 0 12 22" fill="none" className="md:hidden">
         <path d="M6 1.5v14.5" {...stroke} />
         <path d="M2.2 12L6 19.5 9.8 12" fill="none" {...stroke} />
       </svg>
@@ -61,34 +67,40 @@ function FlowArrow() {
 }
 
 export default function AgentArchitecture({ nodes }: ArchitectureFlow) {
-  const items = nodes.slice(0, 5);
+  const compact = nodes.length > 5;
   return (
     <div className="d-card p-4 sm:p-5">
-      <ol className="flex flex-col gap-2 md:flex-row md:items-stretch md:gap-2">
-        {items.map((node, i) => {
-          const layer = LAYERS[i];
+      <ol className="flex flex-col gap-2 md:flex-row md:items-stretch md:gap-1.5">
+        {nodes.map((node, i) => {
+          const layer = layerFor(node.label);
           const Icon = layer.icon;
-          const isCore = i === 1;
+          const isCore = /^llm\b/i.test(node.label);
+          const isGate = /jev|rerank|gate/i.test(node.label);
           return (
-            <li key={STEPS[i]} className="flex flex-1 flex-col items-stretch gap-2 md:flex-row md:items-center">
+            <li key={`${node.label}-${i}`} className="flex flex-1 flex-col items-stretch gap-2 md:flex-row md:items-center">
               <div
-                className="flex min-h-[84px] w-full flex-1 flex-col items-center justify-center gap-1.5 rounded-[6px] px-3 py-3 text-center"
+                className={`flex w-full flex-1 flex-col items-center justify-center gap-1.5 rounded-[6px] text-center ${
+                  compact ? 'min-h-[76px] px-2 py-2.5' : 'min-h-[84px] px-3 py-3'
+                }`}
                 style={{
                   background: layer.tint,
-                  boxShadow: `0 0 0 ${isCore ? '1.5px' : '1px'} ${layer.accent}${isCore ? '' : '66'}`,
+                  boxShadow: `0 0 0 ${isCore || isGate ? '1.5px' : '1px'} ${layer.accent}${isCore || isGate ? '' : '66'}`,
                 }}
               >
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center justify-center gap-1.5">
                   <Icon size={14} strokeWidth={1.8} style={{ color: layer.accent }} aria-hidden />
-                  <span className="text-[13px] font-semibold tracking-[-0.02em]" style={{ fontFamily: SANS, color: 'var(--d-ink)' }}>
-                    {STEPS[i]}
+                  <span
+                    className={`text-center font-semibold tracking-[-0.02em] ${compact ? 'text-[12px] leading-[1.25]' : 'text-[13px]'}`}
+                    style={{ fontFamily: SANS, color: 'var(--d-ink)' }}
+                  >
+                    {node.label}
                   </span>
                 </span>
                 <span className="text-[11px] leading-[1.35]" style={{ fontFamily: MONO, color: 'var(--d-faint)' }}>
                   {node.hint}
                 </span>
               </div>
-              {i < items.length - 1 ? <FlowArrow /> : null}
+              {i < nodes.length - 1 ? <FlowArrow /> : null}
             </li>
           );
         })}

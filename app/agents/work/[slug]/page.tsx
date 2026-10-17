@@ -8,7 +8,6 @@ import { AGENT_CASE_ICONS } from '@/components/agents/agent-case-icons';
 import { AGENT_SCREENS } from '@/components/agents/agent-screens';
 import AgentArchitecture from '@/components/agents/agent-architecture';
 import AgentBeforeAfter from '@/components/agents/agent-before-after';
-// @ts-expect-error временно: Turbopack падает на парсинге support-furniture-sections
 import {
   SupportCompare,
   SupportDataProof,
@@ -152,9 +151,11 @@ export default async function AgentCasePage({ params }: { params: Promise<{ slug
           <AgentStackRow stack={item.stack} />
         </section>
         <section className="border-b border-[var(--d-line)] py-5">
-          <h2 className="text-[16px] font-semibold tracking-[-0.2px] text-[var(--d-ink)] sm:text-[17px]">Архитектура агента</h2>
-          <div className="mt-3">
-            <AgentArchitecture nodes={item.architecture} />
+          <div id="architecture" className="scroll-mt-20">
+            <h2 className="text-[16px] font-semibold tracking-[-0.2px] text-[var(--d-ink)] sm:text-[17px]">Архитектура агента</h2>
+            <div className="mt-3">
+              <AgentArchitecture nodes={item.architecture} />
+            </div>
           </div>
           {item.slug === 'support-furniture' ? (
             <>

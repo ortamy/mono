@@ -4,6 +4,7 @@ import AgentCaseCard from '@/components/agents/agent-case-card';
 import AgentContactForm from '@/components/agents/agent-contact-form';
 import AgentRoiCalculator from '@/components/agents/agent-roi-calculator';
 import AgentStackTeaser from '@/components/agents/agent-stack-teaser';
+import JevRagCompare from '@/components/agents/jev-rag-compare';
 import { loadDataJSON } from '@/lib/content';
 import type { AgentsHeroVariant, SiteConfig } from '@/lib/data-types';
 import { connection } from 'next/server';
@@ -87,12 +88,12 @@ const CHATBOT_PROBLEMS = [
   },
 ];
 
-/** Уровни контроля галлюцинаций LLM: четыре карточки. */
+/** Уровни контроля галлюцинаций LLM: RAG с Jev, формат, содержание, человек. */
 const HALLUCINATION_CONTROLS = [
   {
     icon: Database,
-    title: 'RAG — источник правды',
-    desc: 'Агент не «вспоминает» ответ — он ищет его в ваших документах. Если данных нет, он не выдумывает, а честно говорит: «Не знаю».',
+    title: 'RAG + Jev (Контроль качества)',
+    desc: 'Двухуровневая система: Reranker находит самые точные куски текста, а Semantic Gate отсекает мусор. Бот не выдумывает ответы.',
   },
   {
     icon: FileJson,
@@ -315,7 +316,7 @@ const FAQ = [
   },
   {
     q: 'А что, если агент ошибётся и скажет клиенту неверное?',
-    a: 'Галлюцинации ограничены четырьмя уровнями контроля. RAG — агент ищет ответ в ваших документах и, если данных нет, честно говорит «не знаю», а не выдумывает. Structured Output — ответ возвращается строго по заданной схеме: не сошёлся формат — запрос падает с ошибкой, а не доходит до клиента. Guardrails — перед показом ответ валидируется: запрещённые темы и неверные цифры блокируются. Human-in-the-loop — для критичных сценариев агент готовит черновик, а финальное решение принимает человек. Я не обещаю 100% точности — так не работает ни одна LLM. Я обещаю контролируемую систему: ошибки ограничены, видны на дашборде и исправимы.',
+    a: 'Галлюцинации ограничены четырьмя уровнями контроля. RAG + Jev — агент ищет ответ в ваших документах, reranker выбирает самые точные куски, а gate отсекает мусор: если данных нет, бот честно говорит «не знаю», а не выдумывает. Structured Output — ответ возвращается строго по заданной схеме: не сошёлся формат — запрос падает с ошибкой, а не доходит до клиента. Guardrails — перед показом ответ валидируется: запрещённые темы и неверные цифры блокируются. Human-in-the-loop — для критичных сценариев агент готовит черновик, а финальное решение принимает человек. Я не обещаю 100% точности — так не работает ни одна LLM. Я обещаю контролируемую систему: ошибки ограничены, видны на дашборде и исправимы.',
   },
   {
     q: 'Нужен ли свой разработчик?',
@@ -498,6 +499,8 @@ export default async function AgentsPage({ searchParams }: AgentsPageProps) {
               </article>
             ))}
           </div>
+
+          <JevRagCompare />
 
           <div className="mt-8 sm:mt-10 rounded-xl border border-[var(--d-line)] bg-[var(--d-soft)] p-6 sm:p-7">
             <p className="text-[15px] font-medium leading-[1.65] text-[var(--d-ink)]">

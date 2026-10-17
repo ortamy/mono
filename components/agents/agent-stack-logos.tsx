@@ -220,6 +220,23 @@ const LangfuseMark: Mark = () => (
   </svg>
 );
 
+/** Reranker — шкала отбора: сверху точные куски. */
+const RerankMark: Mark = () => (
+  <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+    <path d="M5 7h14" />
+    <path d="M7 12h10" opacity="0.7" />
+    <path d="M9 17h6" opacity="0.45" />
+  </g>
+);
+
+/** Semantic Gate — щит: мусор не проходит к клиенту. */
+const GateMark: Mark = () => (
+  <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+    <path d="M12 3.5l7 3v5.2c0 4.2-2.8 7.2-7 8.8-4.2-1.6-7-4.6-7-8.8V6.5l7-3z" />
+    <path d="M9 12.2l2.1 2.1 4-4" strokeLinecap="round" />
+  </g>
+);
+
 /** Порядок важен: более специфичные ключи выше. Реестр матчит первую подстроку,
  * встреченную в названии технологии из data/agent-cases.ts. */
 const MARKS: { test: RegExp; mark: Mark; name: string }[] = [
@@ -233,6 +250,9 @@ const MARKS: { test: RegExp; mark: Mark; name: string }[] = [
   { test: /weaviate/i, mark: WeaviateMark, name: 'Weaviate' },
   { test: /langsmith/i, mark: LangSmithMark, name: 'LangSmith' },
   { test: /langfuse/i, mark: LangfuseMark, name: 'Langfuse' },
+  { test: /jev/i, mark: RerankMark, name: 'Jev' },
+  { test: /rerank/i, mark: RerankMark, name: 'Reranker' },
+  { test: /semantic gate|gate/i, mark: GateMark, name: 'Semantic Gate' },
   { test: /openai|gpt|text-to-sql/i, mark: OpenAIMark, name: 'OpenAI' },
   { test: /claude|anthropic/i, mark: AnthropicMark, name: 'Anthropic' },
   { test: /n8n/i, mark: N8nMark, name: 'n8n' },
