@@ -1194,8 +1194,7 @@ function AnalystFunnel() {
           <div className="shrink-0" style={{ fontFamily: MONO, fontSize: '1cqw', letterSpacing: '0.1em', textTransform: 'uppercase', color: AGENT_THEME.slate }}>
             Воронка карточки
           </div>
-          {/* Плашки — 60–70% ширины блока, сужаются к низу (100 → 80 → 60 → 40):
-              сразу видно, где теряются заказы. */}
+          {/* Плашки сужаются к низу (75 → 60 → 45 → 30%): сразу видно, где теряются заказы. */}
           <div className="flex min-h-0 flex-1 flex-col gap-[0.9cqw]">
             {stages.map(([label, value], i) => (
               <div key={label} className="flex min-w-0 flex-1 items-center gap-[2.5cqw]">
